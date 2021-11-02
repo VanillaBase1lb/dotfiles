@@ -1,5 +1,7 @@
 # dotfiles
 
+For when and if my hard disk dies and I can get back my config files without logging into anything
+
 omz folder - /usr/share/oh-my-zsh/
 
 omz plugins folder - /usr/share/oh-my-zsh/custom/plugins
