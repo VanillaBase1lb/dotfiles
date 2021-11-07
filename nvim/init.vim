@@ -13,11 +13,12 @@ Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'phaazon/hop.nvim'
 Plug 'preservim/nerdtree'
 Plug 'yuezk/vim-js'
+Plug 'jiangmiao/auto-pairs'
+Plug 'Mofiqul/vscode.nvim'
 call plug#end()
 
 lua require('config')
 
-colorscheme peachpuff
 set number
 set scrolloff=999
 set autoindent
@@ -31,6 +32,7 @@ set hidden
 set nowrap
 set splitbelow
 set expandtab
+let g:vscode_style="dark"
 let g:NERDTreeChDirMode=2
 let g:mapleader=" "
 let g:maplocalleader=","
@@ -38,12 +40,15 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 filetype plugin indent on
+colorscheme vscode
 
 inoremap kj <esc>
 noremap <leader>s :HopChar1<cr>
 noremap <leader>t :NERDTreeToggle<cr>
-nnoremap <leader>q :bd<cr>
-nnoremap <leader>Q :bd!<cr>
+nnoremap <leader>qb :bd<cr>
+nnoremap <leader>qB :bd!<cr>
+nnoremap <leader>qq :q<cr>
+nnoremap <leader>qQ :qa!<cr>
 nnoremap <leader>w :w<cr>
 nnoremap <silent> <leader> :WhichKey ' '<cr>
 nnoremap <silent> <localleader> :WhichKey ','<cr>
