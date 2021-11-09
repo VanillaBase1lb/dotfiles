@@ -17,3 +17,4 @@ zsh-syntax-highlighting
 
 zsh-vi-mode (modified)
 
+neovim plugin manager - packer
