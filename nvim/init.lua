@@ -8,6 +8,7 @@ vim.wo.wrap = false
 
 vim.o.mouse = 'a'
 vim.o.completeopt = 'menu,menuone,noselect'
+vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.undofile = true
 
@@ -41,6 +42,8 @@ vim.api.nvim_set_keymap('n', '<leader>fg', "<cmd>lua require('telescope.builtin'
 vim.api.nvim_set_keymap('n', '<leader>fb', "<cmd>lua require('telescope.builtin').buffers()<cr>", { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>fh', "<cmd>lua require('telescope.builtin').help_tags()<cr>", { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>S', "<cmd>lua require('spectre').open()<cr>", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-E>", "<Plug>luasnip-next-choice", {})
+vim.api.nvim_set_keymap("s", "<C-E>", "<Plug>luasnip-next-choice", {})
 
 require ('packer').startup(function ()
     use 'wbthomason/packer.nvim'
@@ -52,7 +55,6 @@ require ('packer').startup(function ()
     use 'hrsh7th/cmp-cmdline'
     use 'nvim-treesitter/nvim-treesitter'
     use 'L3MON4D3/LuaSnip'
-    use 'hrsh7th/nvim-cmp'
     use 'kyazdani42/nvim-web-devicons'
     use 'nvim-lualine/lualine.nvim'
     use 'terrortylor/nvim-comment'
@@ -389,9 +391,13 @@ require ('nvim_comment').setup {
     hook = nil
 }
 
--- LuaSnip
+-- LuaSnip declaration
 
 local luasnip = require 'luasnip'
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
 
 -- Setup nvim-cmp.
 -- add nvim-autopair mapping for <cr>
@@ -413,20 +419,19 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.close(),
-        -- ['<CR>'] = cmp.mapping.confirm {
-        --     behavior = cmp.ConfirmBehavior.Replace,
-        --     select = true,
-        -- },
-        ['<Tab>'] = function(fallback)
+        ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             elseif luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
+            elseif has_words_before() then
+                cmp.complete()
             else
                 fallback()
             end
-        end,
-        ['<S-Tab>'] = function(fallback)
+        end, { "i", "s" }),
+
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             elseif luasnip.jumpable(-1) then
@@ -434,7 +439,7 @@ cmp.setup({
             else
                 fallback()
             end
-        end,
+        end, { "i", "s" }),
     },
     sources = cmp.config.sources({
         { name = 'nvim_lsp' },
