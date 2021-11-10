@@ -24,12 +24,16 @@ vim.api.nvim_set_keymap('i', 'kj', '<esc>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<tab>', ':bn<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<s-tab>', ':bp<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>t', ':NERDTreeToggle<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>qw', ':w<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>qq', ':q<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>qQ', ':qa!<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>qb', ':bd<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>qB', ':bd!<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-right>', ':vertical resize +1<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-left>', ':vertical resize -1<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-down>', ':resize +1<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-up>', ':resize -1<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>sc', "<cmd>lua require'hop'.hint_char1({})<cr>", {})
-vim.api.nvim_set_keymap('n', '<leader>sw', "<cmd>lua require'hop'.hint_words({})<cr>", {})
+vim.api.nvim_set_keymap('n', '<leader>s', "<cmd>lua require'hop'.hint_char1({})<cr>", {})
 vim.api.nvim_set_keymap('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})
 vim.api.nvim_set_keymap('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>", {})
 vim.api.nvim_set_keymap('n', '<leader>ff', "<cmd>lua require('telescope.builtin').find_files()<cr>", { noremap = true })
@@ -305,7 +309,7 @@ local on_attach = function(client, bufnr)
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
     -- Mappings.
-    local opts = { noremap=true, silent=true }
+    local opts = { noremap=true, silent=false }
 
     -- See `:help vim.lsp.*` for documentation on any of the below functions
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
@@ -320,7 +324,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>cn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '<leader>ce', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
     -- buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     -- buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     -- buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
@@ -332,27 +336,41 @@ end
 local caps = vim.lsp.protocol.make_client_capabilities()
 caps = require('cmp_nvim_lsp').update_capabilities(caps)
 
--- Language servers
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
 
-nvim_lsp['tsserver'].setup {
-    capabilities = caps
-}
+local servers = { 'tsserver', 'clangd', 'html', 'jsonls', 'jedi_language_server' }
+for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup {
+        on_attach = on_attach,
+        capabilities = caps,
+        flags = {
+            debounce_text_changes = 150,
+        }
+    }
+end
 
-nvim_lsp['clangd'].setup {
-    capabilities = caps
-}
-
-nvim_lsp['html'].setup {
-    capabilities = caps
-}
-
-nvim_lsp['jsonls'].setup {
-    capabilities= caps
-}
-
-nvim_lsp['jedi_language_server'].setup {
-    capabilities = caps
-}
+-- -- Language servers
+-- 
+-- nvim_lsp['tsserver'].setup {
+--     capabilities = caps
+-- }
+-- 
+-- nvim_lsp['clangd'].setup {
+--     capabilities = caps
+-- }
+-- 
+-- nvim_lsp['html'].setup {
+--     capabilities = caps
+-- }
+-- 
+-- nvim_lsp['jsonls'].setup {
+--     capabilities= caps
+-- }
+-- 
+-- nvim_lsp['jedi_language_server'].setup {
+--     capabilities = caps
+-- }
 
 -- nvim-comment
 
