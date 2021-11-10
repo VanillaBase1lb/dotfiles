@@ -7,6 +7,7 @@ vim.wo.scrolloff = 999
 vim.wo.wrap = false
 
 vim.o.mouse = 'a'
+vim.o.hidden = true
 vim.o.completeopt = 'menu,menuone,noselect'
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -66,6 +67,8 @@ require ('packer').startup(function ()
     use 'nvim-telescope/telescope.nvim'
     use 'windwp/nvim-spectre'
     use 'windwp/nvim-autopairs'
+    use 'iamcco/markdown-preview.nvim'
+    use 'tpope/vim-fugitive'
 end)
 
 -- Modules
