@@ -22,7 +22,8 @@ vim.api.nvim_set_keymap('n', '<c-j>', '<c-w>j', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-k>', '<c-w>k', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-h>', '<c-w>h', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-l>', '<c-w>l', { noremap = true })
-vim.api.nvim_set_keymap('i', 'kj', '<esc>', { noremap = true })
+-- vim.api.nvim_set_keymap('i', 'kj', '<esc>', { noremap = true })
+-- swap Esc and Caps Lock
 vim.api.nvim_set_keymap('n', '<tab>', ':bn<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<s-tab>', ':bp<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>t', ':NERDTreeToggle<cr>', { noremap = true })
@@ -449,6 +450,7 @@ cmp.setup({
         { name = 'luasnip' }, -- For luasnip users.
     }, {
         { name = 'buffer' },
+        { name = 'path' }
     })
 })
 
