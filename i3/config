@@ -214,5 +214,5 @@ exec_always feh --bg-scale /imp/downloads/wallpaper.jpg
 exec_always compton -f
 focus_wrapping no # do not wrap navigation
 # move through workspaces
-bindsym $mod+o workspace next
-bindsym $mod+i workspace prev
+bindsym $mod+i workspace next
+bindsym $mod+o workspace prev
