@@ -5,6 +5,7 @@ vim.bo.softtabstop = 4
 vim.wo.number = true
 vim.wo.scrolloff = 999
 vim.wo.wrap = false
+vim.wo.cursorline = true
 
 vim.o.mouse = 'a'
 vim.o.hidden = true
@@ -62,7 +63,8 @@ require ('packer').startup(function ()
     use 'L3MON4D3/LuaSnip'
     use 'kyazdani42/nvim-web-devicons'
     use 'nvim-lualine/lualine.nvim'
-    use 'terrortylor/nvim-comment'
+    -- use 'terrortylor/nvim-comment'
+    use 'numToStr/Comment.nvim'
     use 'Mofiqul/vscode.nvim'
     use 'preservim/nerdtree'
     use 'phaazon/hop.nvim'
@@ -73,9 +75,12 @@ require ('packer').startup(function ()
     use 'windwp/nvim-autopairs'
     use 'iamcco/markdown-preview.nvim'
     use 'tpope/vim-fugitive'
+    use 'williamboman/nvim-lsp-installer'
+    use 'kevinhwang91/nvim-bqf'
 end)
 
 -- Modules
+
 
 -- nvim-autopairs
 
@@ -309,13 +314,16 @@ require('nvim-treesitter.configs').setup {
 
 -- nvim-lspconfig https://github.com/neovim/nvim-lspconfig
 
-nvim_lsp = require('lspconfig')
+-- local nvim_lsp = require('lspconfig')
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    -- Enable completion triggered by <c-x><c-o>
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings.
     local opts = { noremap=true, silent=false }
@@ -333,9 +341,9 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader>cn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
     buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
     buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    buf_set_keymap('n', '<leader>ce', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<leader>ce', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<leader>cq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
     buf_set_keymap('n', '<leader>cf', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
@@ -345,58 +353,50 @@ end
 local caps = vim.lsp.protocol.make_client_capabilities()
 caps = require('cmp_nvim_lsp').update_capabilities(caps)
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
+-- Lsp installer
 
-local servers = { 'tsserver', 'clangd', 'html', 'jsonls', 'jedi_language_server' }
-for _, lsp in ipairs(servers) do
-    nvim_lsp[lsp].setup {
+local lsp_installer = require("nvim-lsp-installer")
+
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+    -- local opts = {}
+
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    -- server:setup(opts)
+    server:setup{
         on_attach = on_attach,
         capabilities = caps,
         flags = {
             debounce_text_changes = 150,
         }
     }
-end
+end)
 
--- -- Language servers
--- 
--- nvim_lsp['tsserver'].setup {
---     capabilities = caps
--- }
--- 
--- nvim_lsp['clangd'].setup {
---     capabilities = caps
--- }
--- 
--- nvim_lsp['html'].setup {
---     capabilities = caps
--- }
--- 
--- nvim_lsp['jsonls'].setup {
---     capabilities= caps
--- }
--- 
--- nvim_lsp['jedi_language_server'].setup {
---     capabilities = caps
--- }
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
 
--- nvim-comment
+-- local servers = { 'tsserver', 'clangd', 'html', 'jsonls', 'jedi_language_server' }
+-- for _, lsp in ipairs(servers) do
+--     nvim_lsp[lsp].setup {
+--         on_attach = on_attach,
+--         capabilities = caps,
+--         flags = {
+--             debounce_text_changes = 150,
+--         }
+--     }
+-- end
 
-require ('nvim_comment').setup {
-    -- Linters prefer comment and line to have a space in between markers
-    marker_padding = true,
-    -- should comment out empty or whitespace only lines
-    comment_empty = true,
-    -- Should key mappings be created
-    create_mappings = true,
-    -- Normal mode mapping left hand side
-    line_mapping = "gcc",
-    -- Visual/Operator mapping left hand side
-    operator_mapping = "gc",
-    -- Hook function to call before commenting takes place
-    hook = nil
-}
+-- Comment.nvim
+
+
+require('Comment').setup()
 
 -- LuaSnip declaration
 
