@@ -3,7 +3,8 @@ vim.bo.shiftwidth = 4
 vim.bo.softtabstop = 4
 
 vim.wo.number = true
-vim.wo.scrolloff = 999
+-- vim.wo.relativenumber = true
+vim.wo.scrolloff = 7
 vim.wo.wrap = false
 vim.wo.cursorline = true
 
@@ -20,7 +21,7 @@ vim.o.softtabstop = 4
 vim.g.mapleader = ' '
 vim.g.vscode_style="dark"
 
-vim.cmd[[colorscheme vscode]]
+vim.cmd[[colorscheme gruvbox-material]]
 
 vim.api.nvim_set_keymap('n', '<c-j>', '<c-w>j', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-k>', '<c-w>k', { noremap = true })
@@ -63,7 +64,6 @@ require ('packer').startup(function ()
     use 'L3MON4D3/LuaSnip'
     use 'kyazdani42/nvim-web-devicons'
     use 'nvim-lualine/lualine.nvim'
-    -- use 'terrortylor/nvim-comment'
     use 'numToStr/Comment.nvim'
     use 'Mofiqul/vscode.nvim'
     use 'preservim/nerdtree'
@@ -77,6 +77,8 @@ require ('packer').startup(function ()
     use 'tpope/vim-fugitive'
     use 'williamboman/nvim-lsp-installer'
     use 'kevinhwang91/nvim-bqf'
+    use 'tpope/vim-surround'
+    use 'sainnhe/gruvbox-material'
 end)
 
 -- Modules
@@ -249,13 +251,14 @@ require 'hop'.setup {}
 require 'lualine'.setup {
     tabline = {
         lualine_a = {'buffers'},
-        lualine_b = {'branch'},
+        lualine_b = {},
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},
         lualine_z = {'tabs'}
-    },
-    options = { theme = 'vscode' }
+    }
+    -- },
+    -- options = { theme = 'vscode' }
 }
 
 -- Treesitter configuration
