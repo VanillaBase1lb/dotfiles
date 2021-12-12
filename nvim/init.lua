@@ -17,11 +17,12 @@ vim.o.undofile = true
 vim.o.expandtab = true
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
+vim.o.signcolumn = 'yes'
 
 vim.g.mapleader = ' '
 vim.g.vscode_style="dark"
 
-vim.cmd[[colorscheme gruvbox-material]]
+vim.cmd[[colorscheme vscode]]
 
 vim.api.nvim_set_keymap('n', '<c-j>', '<c-w>j', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-k>', '<c-w>k', { noremap = true })
@@ -29,12 +30,13 @@ vim.api.nvim_set_keymap('n', '<c-h>', '<c-w>h', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-l>', '<c-w>l', { noremap = true })
 -- vim.api.nvim_set_keymap('i', 'kj', '<esc>', { noremap = true })
 -- swap Esc and Caps Lock
-vim.api.nvim_set_keymap('n', '<a-h>', '2zh', { noremap = false })
-vim.api.nvim_set_keymap('n', '<a-j>', '2<c-e>', { noremap = false })
-vim.api.nvim_set_keymap('n', '<a-k>', '2<c-y>', { noremap = false })
-vim.api.nvim_set_keymap('n', '<a-l>', '2zl', { noremap = false })
-vim.api.nvim_set_keymap('n', '<a-o>', ':bn<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<a-i>', ':bp<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<a-h>', '5zh', { noremap = false })
+vim.api.nvim_set_keymap('', '<a-j>', '<c-d>', { noremap = false })
+vim.api.nvim_set_keymap('', '<a-k>', '<c-u>', { noremap = false })
+vim.api.nvim_set_keymap('', '<a-l>', '5zl', { noremap = false })
+vim.api.nvim_set_keymap('', '<a-o>', ':bn<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '<a-i>', ':bp<cr>', { noremap = true })
+vim.api.nvim_set_keymap('', '<a-n>', ':noh<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>t', ':NERDTreeToggle<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>qw', ':w<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>qq', ':q<cr>', { noremap = true })
@@ -80,7 +82,6 @@ require ('packer').startup(function ()
     use 'williamboman/nvim-lsp-installer'
     use 'kevinhwang91/nvim-bqf'
     use 'tpope/vim-surround'
-    use 'sainnhe/gruvbox-material'
 end)
 
 -- Modules
