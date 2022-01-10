@@ -45,7 +45,7 @@
     "update.mode": "none",
     "extensions.autoUpdate": false,
     "window.zoomLevel": 1,
-    "workbench.activityBar.visible": false,
     "window.menuBarVisibility": "toggle",
-    "keyboard.dispatch": "keyCode"
+    "keyboard.dispatch": "keyCode",
+    "workbench.activityBar.visible": false
 }
