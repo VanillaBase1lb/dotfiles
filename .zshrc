@@ -1,16 +1,14 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export EDITOR=/usr/bin/nvim
-export VISUAL=/usr/bin/nvim
 
 # Path to your oh-my-zsh installation.
-export ZSH=/usr/share/oh-my-zsh
+export ZSH="$HOME/.config/zsh/oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="simple" # set by `omz`
+ZSH_THEME="cloud" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -72,10 +70,10 @@ ZSH_THEME="simple" # set by `omz`
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    zsh-vi-mode
+plugins=(
+git
+zsh-autosuggestions
+zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -105,3 +103,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
