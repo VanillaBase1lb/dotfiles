@@ -1,0 +1,50 @@
+{
+    "workbench.list.automaticKeyboardNavigation": false,
+    "vim.autoindent": false,
+    "vim.enableNeovim": true,
+    "vim.foldfix": true,
+    "vim.highlightedyank.enable": true,
+    "vim.hlsearch": true,
+    "vim.leader": " ",
+    "vim.matchpairs": "(:),{:},[:],<:>",
+    "vim.neovimPath": "/usr/bin/nvim",
+    "vim.neovimUseConfigFile": true,
+    "vim.showMarksInGutter": true,
+    "vim.easymotion": true,
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["Y"],
+            "after": ["y", "$"]
+        }
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": ["f"],
+            "after": ["leader", "leader", "s"]
+        },
+        {
+            "before": ["<leader>", "f"],
+            "after": ["leader", "leader", "leader", "j"]
+        }
+    ],
+    "vim.easymotionJumpToAnywhereRegex": "[$&+:=?@#|<>^*()%!\\{\\}_-]",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "editor.acceptSuggestionOnEnter": "off",
+    "telemetry.telemetryLevel": "off",
+    "vscode-neovim.useCtrlKeysForInsertMode": false,
+    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+    "vscode-neovim.mouseSelectionStartVisualMode": true,
+    "vscode-neovim.textDecorationsAtTop": true,
+    "vscode-neovim.logOutputToConsole": true,
+    "websearch.ac_engine": "Google",
+    "websearch.default_engine": "Google",
+    "explorer.compactFolders": false,
+    "workbench.enableExperiments": false,
+    "workbench.settings.enableNaturalLanguageSearch": false,
+    "update.mode": "none",
+    "extensions.autoUpdate": false,
+    "window.zoomLevel": 1,
+    "workbench.activityBar.visible": false,
+    "window.menuBarVisibility": "toggle"
+}
