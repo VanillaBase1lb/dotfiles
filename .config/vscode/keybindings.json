@@ -115,9 +115,8 @@
         "when": "filesExplorerFocus && !inputFocus"
     },
     {
-        "key": "ctrl+e",
-        "command": "workbench.action.focusActiveEditorGroup",
-        "when": "terminalFocus"
+        "key": "ctrl+q",
+        "command": "workbench.action.focusActiveEditorGroup"
     },
     {
         "key": "ctrl+t",
@@ -702,5 +701,13 @@
         "key": "ctrl+w",
         "command": "-workbench.action.terminal.killEditor",
         "when": "terminalEditorFocus && terminalFocus && terminalHasBeenCreated && resourceScheme == 'vscode-terminal' || terminalEditorFocus && terminalFocus && terminalProcessSupported && resourceScheme == 'vscode-terminal'"
+    },
+    {
+        "key": "ctrl+e",
+        "command": "-workbench.action.quickOpen"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
     },
 ]
