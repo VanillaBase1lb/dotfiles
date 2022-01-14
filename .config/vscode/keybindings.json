@@ -21,7 +21,7 @@
         }
     },
     {
-        "key": "ctrl+e",
+        "key": "alt+e",
         "command": "workbench.view.explorer"
     },
     {
@@ -115,11 +115,11 @@
         "when": "filesExplorerFocus && !inputFocus"
     },
     {
-        "key": "ctrl+q",
+        "key": "alt+q",
         "command": "workbench.action.focusActiveEditorGroup"
     },
     {
-        "key": "ctrl+t",
+        "key": "alt+t",
         "command": "workbench.action.togglePanel"
     },
     {
@@ -556,7 +556,7 @@
         "command": "-workbench.action.files.revealActiveFileInWindows"
     },
     {
-        "key": "alt+q",
+        "key": "ctrl+q",
         "command": "workbench.action.toggleZenMode"
     },
     {
