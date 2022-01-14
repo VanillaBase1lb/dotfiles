@@ -46,5 +46,14 @@
     "extensions.autoUpdate": false,
     "window.zoomLevel": 1,
     "window.menuBarVisibility": "toggle",
-    "keyboard.dispatch": "keyCode"
+    "keyboard.dispatch": "keyCode",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "workbench.editor.untitled.hint": "hidden",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.formatOnSave": true,
+    "javascript.suggest.names": false,
+    "workbench.activityBar.visible": false
 }
