@@ -1,0 +1,8 @@
+[hide title bars]
+Description=hide title bars
+noborder=true
+noborderrule=2
+types=1
+wmclass=.*
+wmclasscomplete=true
+wmclassmatch=3
