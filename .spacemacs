@@ -1,6 +1,8 @@
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
+;; BOOKMARK
+(setq warning-minimum-level :emergency)
 
 (defun dotspacemacs/layers ()
   "Layer configuration:
@@ -94,7 +96,7 @@ It should only modify the values of Spacemacs settings."
   (setq-default
    ;; Start emacs without refreshing packages every time.
    ;; BOOKMARK
-   ;; configuration-layer--package-archives-refreshed t
+   configuration-layer--package-archives-refreshed t
    ;; do not uncomment this...;; (getenv "spacemacs_do_not_refresh_packages")
    ;; If non-nil then enable support for the portable dumper. You'll need
    ;; to compile Emacs 27 from source following the instructions in file
