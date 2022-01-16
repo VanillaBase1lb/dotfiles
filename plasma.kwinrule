@@ -1,7 +1,7 @@
 [hide title bars]
 Description=hide title bars
 noborder=true
-noborderrule=2
+noborderrule=4
 types=1
 wmclass=.*
 wmclasscomplete=true
