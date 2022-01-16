@@ -55,6 +55,5 @@
     "editor.formatOnSaveMode": "modificationsIfAvailable",
     "editor.formatOnSave": true,
     "javascript.suggest.names": false,
-    "editor.lineNumbers": "relative",
-    "workbench.activityBar.visible": false
+    "editor.lineNumbers": "relative"
 }
