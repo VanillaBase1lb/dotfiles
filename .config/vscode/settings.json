@@ -60,5 +60,6 @@
     ],
     "terminal.integrated.confirmOnExit": "hasChildProcesses",
     "terminal.integrated.ignoreProcessNames": [],
-    "terminal.integrated.defaultProfile.linux": "fish"
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "workbench.activityBar.visible": false
 }
