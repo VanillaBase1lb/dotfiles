@@ -81,6 +81,5 @@
         }
     ],
     "vim.overrideCopy": false,
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "workbench.activityBar.visible": false
+    "workbench.colorTheme": "Gruvbox Dark Hard"
 }
