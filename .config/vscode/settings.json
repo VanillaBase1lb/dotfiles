@@ -5,12 +5,17 @@
     "vim.foldfix": true,
     "vim.highlightedyank.enable": true,
     "vim.hlsearch": true,
-    "vim.leader": " ",
     "vim.matchpairs": "(:),{:},[:],<:>",
     "vim.neovimPath": "/usr/bin/nvim",
-    "vim.neovimUseConfigFile": true,
+    "vim.neovimUseConfigFile": false,
     "vim.showMarksInGutter": true,
     "vim.easymotion": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["k", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
     "vim.normalModeKeyBindings": [
         {
             "before": ["Y"],
@@ -19,24 +24,28 @@
     ],
     "vim.normalModeKeyBindingsNonRecursive": [
         {
-            "before": ["f"],
-            "after": ["leader", "leader", "s"]
+            "before": [
+                "s"
+            ],
+            "after": [
+                "leader",
+                "leader",
+                "s"
+            ]
         },
         {
-            "before": ["<leader>", "f"],
-            "after": ["leader", "leader", "leader", "j"]
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "whichkey.show"
+            ]
         }
     ],
     "vim.easymotionJumpToAnywhereRegex": "[$&+:=?@#|<>^*()%!\\{\\}_-]",
     "workbench.iconTheme": "material-icon-theme",
-    "workbench.colorTheme": "Gruvbox Dark Hard",
     "editor.acceptSuggestionOnEnter": "off",
     "telemetry.telemetryLevel": "off",
-    "vscode-neovim.useCtrlKeysForInsertMode": false,
-    "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
-    "vscode-neovim.mouseSelectionStartVisualMode": true,
-    "vscode-neovim.textDecorationsAtTop": true,
-    "vscode-neovim.logOutputToConsole": true,
     "websearch.ac_engine": "Google",
     "websearch.default_engine": "Google",
     "explorer.compactFolders": false,
@@ -61,5 +70,17 @@
     "terminal.integrated.confirmOnExit": "hasChildProcesses",
     "terminal.integrated.ignoreProcessNames": [],
     "terminal.integrated.defaultProfile.linux": "fish",
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "whichkey.show"
+            ]
+        }
+    ],
+    "vim.overrideCopy": false,
+    "workbench.colorTheme": "Default High Contrast",
     "workbench.activityBar.visible": false
 }
