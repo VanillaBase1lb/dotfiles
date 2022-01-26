@@ -19,7 +19,6 @@ set showcmd
 
 " Disable bells
 set noerrorbells
-set visualbell
 
 " Set partial search and result highlighting
 set incsearch
@@ -45,5 +44,4 @@ set expandtab
 set smarttab
 
 " Show line number and listchars
-set list
 set rnu
