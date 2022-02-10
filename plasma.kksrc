@@ -1,5 +1,7 @@
 [ActivityManager][Global Shortcuts]
 switch-to-activity-0ef42ee4-e7b9-4d62-8808-17fae98df3fa=
+switch-to-activity-16021a99-23ea-4c0a-8778-746779b4b679=
+switch-to-activity-432b3a56-39f4-4b8c-ba0a-22eed1c14de3=
 switch-to-activity-e651b138-5bfd-42ae-978f-0a758c195850=
 
 [KDE Keyboard Layout Switcher][Global Shortcuts]
@@ -11,10 +13,10 @@ Switch to Next Keyboard Layout=
 AboutApp=
 AboutKDE=
 Activate Next Tab=Ctrl+]; Ctrl+PgDown
-Activate Previous Tab=Ctrl+PgUp; Ctrl+[
+Activate Previous Tab=Ctrl+[; Ctrl+PgUp
 ActualSize=Ctrl+0
 AddBookmark=Ctrl+B
-Back=Alt+Left; Back
+Back=Back; Alt+Left
 BackwardWord=Ctrl+Left
 Begin=Ctrl+Home
 BeginningOfLine=Home
@@ -41,7 +43,7 @@ FindPrev=Shift+F3
 FitToHeight=
 FitToPage=
 FitToWidth=
-Forward=Forward; Alt+Right
+Forward=Alt+Right; Forward
 ForwardWord=Ctrl+Right
 FullScreen=Ctrl+Shift+F
 Goto=
@@ -105,6 +107,9 @@ Toggle Touchpad=Touchpad Toggle
 Show System Activity=Ctrl+Esc
 display=Display
 
+[khotkeys][Global Shortcuts]
+{d03619b6-9b3c-48cc-9d9c-a2aadb485550}=
+
 [kitty.desktop][Global Shortcuts]
 _launch=Meta+Return
 
@@ -113,7 +118,7 @@ decrease_microphone_volume=Microphone Volume Down
 decrease_volume=Volume Down
 increase_microphone_volume=Microphone Volume Up
 increase_volume=Volume Up
-mic_mute=Meta+Volume Mute; Microphone Mute
+mic_mute=Microphone Mute; Meta+Volume Mute
 mute=Volume Mute
 
 [ksmserver][Global Shortcuts]
@@ -165,6 +170,7 @@ MoveZoomDown=
 MoveZoomLeft=
 MoveZoomRight=
 MoveZoomUp=
+Overview=Meta+W
 Setup Window Shortcut=
 Show Desktop=
 ShowDesktopGrid=Meta+X
@@ -235,6 +241,7 @@ Window Maximize Horizontal=
 Window Maximize Vertical=
 Window Minimize=
 Window Move=
+Window Move Center=
 Window No Border=Meta+Y
 Window On All Desktops=
 Window One Desktop Down=
@@ -379,6 +386,7 @@ activate task manager entry 6=
 activate task manager entry 7=
 activate task manager entry 8=
 activate task manager entry 9=
+activate widget 24=Alt+F1
 activate widget 3=
 activate widget 8=
 clear-history=
@@ -386,7 +394,7 @@ clipboard_action=
 cycleNextAction=
 cyclePrevAction=
 edit_clipboard=
-manage activities=Meta+W
+manage activities=
 next activity=
 previous activity=
 repeat_action=
