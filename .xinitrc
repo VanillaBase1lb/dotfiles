@@ -51,4 +51,5 @@ fi
 numlockx &
 xmodmap ~/.Xmodmap &
 export DESKTOP_SESSION=plasma &
+export XDG_SESSION_TYPE=x11 &
 exec startplasma-x11
