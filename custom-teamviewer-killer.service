@@ -1,0 +1,10 @@
+[Unit]
+Description=Custom service just to kill teamviewer before shutdown or reboot
+
+[Service]
+ExecStop=/usr/bin/killall teamviewerd
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
