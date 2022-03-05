@@ -1,5 +1,6 @@
 [Unit]
 Description=Custom service just to kill teamviewer before shutdown or reboot
+After=teamviewerd.service
 
 [Service]
 ExecStop=/usr/bin/killall teamviewerd
