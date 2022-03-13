@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="random"
+ZSH_THEME="random" # set by `omz`
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#63625f'
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 

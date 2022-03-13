@@ -1,86 +1,79 @@
 {
-    "workbench.list.automaticKeyboardNavigation": false,
-    "vim.autoindent": false,
-    "vim.enableNeovim": true,
-    "vim.foldfix": true,
-    "vim.highlightedyank.enable": true,
-    "vim.hlsearch": true,
-    "vim.matchpairs": "(:),{:},[:],<:>",
-    "vim.neovimPath": "/usr/bin/nvim",
-    "vim.neovimUseConfigFile": false,
-    "vim.showMarksInGutter": true,
-    "vim.easymotion": true,
-    "vim.insertModeKeyBindings": [
-        {
-            "before": ["k", "j"],
-            "after": ["<Esc>"]
-        }
-    ],
-    "vim.normalModeKeyBindings": [
-        {
-            "before": ["Y"],
-            "after": ["y", "$"]
-        }
-    ],
-    "vim.normalModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "s"
-            ],
-            "after": [
-                "leader",
-                "leader",
-                "s"
-            ]
-        },
-        {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "whichkey.show"
-            ]
-        }
-    ],
-    "vim.easymotionJumpToAnywhereRegex": "[$&+:=?@#|<>^*()%!\\{\\}_-]",
-    "workbench.iconTheme": "material-icon-theme",
-    "editor.acceptSuggestionOnEnter": "off",
-    "telemetry.telemetryLevel": "off",
-    "websearch.ac_engine": "Google",
-    "websearch.default_engine": "Google",
-    "explorer.compactFolders": false,
-    "workbench.enableExperiments": false,
-    "workbench.settings.enableNaturalLanguageSearch": false,
-    "update.mode": "none",
-    "extensions.autoUpdate": false,
-    "window.zoomLevel": 1,
-    "window.menuBarVisibility": "toggle",
-    "keyboard.dispatch": "keyCode",
-    "workbench.editor.untitled.hint": "hidden",
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "workbench.list.automaticKeyboardNavigation": false,
+  "vim.autoindent": false,
+  "vim.enableNeovim": true,
+  "vim.foldfix": true,
+  "vim.highlightedyank.enable": true,
+  "vim.hlsearch": true,
+  "vim.matchpairs": "(:),{:},[:],<:>",
+  "vim.neovimPath": "/usr/bin/nvim",
+  "vim.neovimUseConfigFile": false,
+  "vim.showMarksInGutter": true,
+  "vim.easymotion": true,
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["k", "j"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindings": [
+    {
+      "before": ["Y"],
+      "after": ["y", "$"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["s"],
+      "after": ["leader", "leader", "s"]
     },
-    "editor.formatOnSaveMode": "modificationsIfAvailable",
-    "editor.formatOnSave": true,
-    "javascript.suggest.names": false,
-    "editor.lineNumbers": "relative",
-    "terminal.integrated.commandsToSkipShell": [
-        "whichkey.show"
-    ],
-    "terminal.integrated.confirmOnExit": "hasChildProcesses",
-    "terminal.integrated.ignoreProcessNames": [],
-    "terminal.integrated.defaultProfile.linux": "fish",
-    "vim.visualModeKeyBindingsNonRecursive": [
-        {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "whichkey.show"
-            ]
-        }
-    ],
-    "vim.overrideCopy": false,
-    "workbench.colorTheme": "Gruvbox Dark Hard",
-    "workbench.activityBar.visible": false
+    {
+      "before": ["<space>"],
+      "commands": ["whichkey.show"]
+    }
+  ],
+  "vim.easymotionJumpToAnywhereRegex": "[$&+:=?@#|<>^*()%!\\{\\}_-]",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.acceptSuggestionOnEnter": "off",
+  "telemetry.telemetryLevel": "off",
+  "websearch.ac_engine": "Google",
+  "websearch.default_engine": "Google",
+  "explorer.compactFolders": false,
+  "workbench.enableExperiments": false,
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "update.mode": "none",
+  "extensions.autoUpdate": false,
+  "window.menuBarVisibility": "toggle",
+  "keyboard.dispatch": "keyCode",
+  "workbench.editor.untitled.hint": "hidden",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.formatOnSave": true,
+  "javascript.suggest.names": false,
+  "editor.lineNumbers": "relative",
+  "terminal.integrated.commandsToSkipShell": ["whichkey.show"],
+  "terminal.integrated.confirmOnExit": "hasChildProcesses",
+  "terminal.integrated.ignoreProcessNames": [],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": ["whichkey.show"]
+    }
+  ],
+  "vim.overrideCopy": false,
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vim.easymotionKeys": "hklyuiopnmqwertzxcvbasdgjf",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "unibeautify.defaultConfig": "/mnt/storage/devel/.unibeautifyrc.yml",
+  "workbench.activityBar.visible": false,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
