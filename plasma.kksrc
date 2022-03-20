@@ -13,7 +13,7 @@ Switch to Next Keyboard Layout=
 AboutApp=
 AboutKDE=
 Activate Next Tab=Ctrl+PgDown; Ctrl+]
-Activate Previous Tab=Ctrl+PgUp; Ctrl+[
+Activate Previous Tab=Ctrl+[; Ctrl+PgUp
 ActualSize=Ctrl+0
 AddBookmark=Ctrl+B
 Back=Back; Alt+Left
@@ -24,7 +24,7 @@ Clear=
 Close=Ctrl+W; Ctrl+Esc
 ConfigureNotifications=
 ConfigureToolbars=
-Copy=Ctrl+C; Ctrl+Ins
+Copy=Ctrl+Ins; Ctrl+C
 CreateFolder=F10
 Cut=Shift+Del; Ctrl+X
 DeleteFile=Shift+Del
@@ -68,7 +68,7 @@ PrintPreview=
 Prior=PgUp
 Quit=Ctrl+Q
 Redo=Ctrl+Shift+Z
-Reload=Refresh; F5
+Reload=F5; Refresh
 RenameFile=F2
 Replace=Ctrl+R
 ReportBug=
@@ -131,6 +131,11 @@ toggle_stair_layout=
 toggle_three_column_layout=
 toggle_tile_layout=
 toggle_window_floating=Meta+Z
+
+[firefox.desktop][Global Shortcuts]
+_launch=Meta+B
+new-private-window=
+new-window=
 
 [kaccess][Global Shortcuts]
 Toggle Screen Reader On and Off=
@@ -392,11 +397,11 @@ Launcher=Ctrl+Print
 _launch=
 
 [org.kde.dolphin.desktop][Global Shortcuts]
-_launch=
+_launch=Meta+E
 
 [org.kde.krunner.desktop][Global Shortcuts]
 RunClipboard=
-_launch=Meta+D; Search
+_launch=Search; Meta+D
 
 [org.kde.plasma.emojier.desktop][Global Shortcuts]
 _launch=Meta+.
