@@ -44,7 +44,7 @@ set expandtab
 set smarttab
 
 " Show line number and listchars
-set rnu
+set nu rnu
 
 " Keep cursor in middle
 set scrolloff=99
