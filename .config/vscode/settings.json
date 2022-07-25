@@ -65,15 +65,15 @@
   "vim.overrideCopy": false,
   "workbench.colorTheme": "Gruvbox Dark Hard",
   "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.html-language-features"
   },
   "vim.easymotionKeys": "hklyuiopnmqwertzxcvbasdgjf",
   "[python]": {
     "editor.defaultFormatter": "ms-python.python"
   },
-  "unibeautify.defaultConfig": "/mnt/storage/devel/.unibeautifyrc.yml",
-  "workbench.activityBar.visible": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "editor.cursorSurroundingLines": 99,
+  "hdinsight.disableOpenSurveyLink": true
 }
