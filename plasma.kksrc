@@ -153,7 +153,7 @@ display=Display
 {4506e22d-8708-425a-a09b-943096a25e25}=Ctrl+Alt+T
 {d03619b6-9b3c-48cc-9d9c-a2aadb485550}=
 
-[kitty.desktop][Global Shortcuts]
+[Alacritty.desktop][Global Shortcuts]
 _launch=Meta+Return
 
 [kmix][Global Shortcuts]
