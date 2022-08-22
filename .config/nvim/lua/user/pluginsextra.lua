@@ -23,3 +23,8 @@ require('hop').setup { }
 
 -- which-key.nvim
 require('which-key').setup { }
+
+
+
+-- nvim-bqf
+require('bqf').setup { }

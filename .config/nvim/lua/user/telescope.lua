@@ -22,4 +22,11 @@ telescope.setup {
       },
     },
   },
+  {
+    pickers = {
+      live_grep = {
+        only_sort_text = true
+      }
+    }
+  },
 }

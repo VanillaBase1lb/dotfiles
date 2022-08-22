@@ -64,6 +64,8 @@ return packer.startup(function(use)
   use { "tpope/vim-surround" }
   use { "mbbill/undotree" }
   use { "tpope/vim-fugitive" }
+  use { "kevinhwang91/nvim-bqf" }
+  use { "stefandtw/quickfix-reflector.vim" }
 
   -- Colorschemes
   use { "folke/tokyonight.nvim" }
