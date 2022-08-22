@@ -79,6 +79,8 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
+export LC_ALL=en.US.UTF-8
+export LANG=en.US.UTF-8
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
