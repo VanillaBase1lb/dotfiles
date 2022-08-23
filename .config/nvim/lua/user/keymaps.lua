@@ -65,27 +65,31 @@ keymap("i", "kj", "<ESC>", opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
+-- Nvim-tree
+keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+
 -- Plugins --
 
 -- Toggle
-keymap("n", "<leader>te", ":NvimTreeToggle<CR>", opts)
 keymap("n", "<leader>tq", ":BqfToggle<CR>", opts)
 keymap("n", "<leader>tu", ":UndotreeToggle<CR>", opts)
 
 -- Telescope
 keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
-keymap("n", "<leader>fg", ":Telescope live_grep<CR>", opts)
+keymap("n", "<leader>fg", ":Telescope grep_string<CR>", opts)
+keymap("n", "<leader>fs", ":Telescope live_grep<CR>", opts)
 keymap("n", "<leader>fp", ":Telescope projects<CR>", opts)
 keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 keymap("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
+keymap("n", "<leader>fr", ":Telescope resume<CR>", opts)
 
 -- Git
 keymap("n", "<leader>gg", ":Git<CR>", opts)
 
 -- Comment
 -- deprecated
---[[ keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", opts) ]]
---[[ keymap("x", "<leader>/", '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>') ]]
+-- keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle_current_linewise()<CR>", opts)
+-- keymap("x", "<leader>/", '<ESC><CMD>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<CR>')
 
 -- DAP
 keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
@@ -100,4 +104,7 @@ keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
 
 -- Alpha (landing page)
 keymap("n", "<leader>gh", ":Alpha<CR>", opts)
+
+-- Others/General
+keymap("n", "<S-Esc>", ":noh", opts)
 
