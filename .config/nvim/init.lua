@@ -41,13 +41,13 @@ vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
 
 -- Shorten function name
-local keymap = vim.keymap.set
+-- local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = false }
 --Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+vim.keymap.set("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
-keymap("n", "<leader><leader>", ":", opts)
+vim.keymap.set("n", "<leader><leader>", ":", opts)
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -57,92 +57,81 @@ keymap("n", "<leader><leader>", ":", opts)
 --   command_mode = "c",
 -- Normal --
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
+vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
+vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
+vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
+vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", opts)
+vim.keymap.set("n", "<C-Down>", ":resize +2<CR>", opts)
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", opts)
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", opts)
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
 -- Clear highlights
-keymap("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
+vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 -- Operations on buffers/windows/frames
-keymap("n", "Q", ":bd!<CR>", opts)
-keymap("n", "<leader>bd", ":bd<CR>", opts)
-keymap("n", "<leader>bw", ":w<CR>", opts)
-keymap("n", "<leader>q", ":q<CR>", opts)
-keymap("n", "<leader>wd", ":q!<CR>", opts)
-keymap("n", "<leader>wv", ":vsplit<CR>", opts)
-keymap("n", "<leader>ws", ":split<CR>", opts)
-keymap("n", "<leader>wx", "<C-w>x", opts)
-keymap("n", "<leader>w=", "<C-w>=", opts)
-keymap("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
+vim.keymap.set("n", "Q", ":bd!<CR>", opts)
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", opts)
+vim.keymap.set("n", "<leader>bw", ":w<CR>", opts)
+vim.keymap.set("n", "<leader>q", ":q<CR>", opts)
+vim.keymap.set("n", "<leader>wd", ":q!<CR>", opts)
+vim.keymap.set("n", "<leader>wv", ":vsplit<CR>", opts)
+vim.keymap.set("n", "<leader>ws", ":split<CR>", opts)
+vim.keymap.set("n", "<leader>wx", "<C-w>x", opts)
+vim.keymap.set("n", "<leader>w=", "<C-w>=", opts)
+vim.keymap.set("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
 -- Better paste
-keymap("v", "p", '"_dP', opts)
+vim.keymap.set("v", "p", '"_dP', opts)
 -- Better text navigation
-keymap("n", "s", "<cmd>lua require'hop'.hint_char1()<CR>", opts)
-keymap("v", "s", "<cmd>lua require'hop'.hint_char1()<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "s", require'hop'.hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
-keymap("i", "kj", "<ESC>", opts)
+vim.keymap.set("i", "kj", "<ESC>", opts)
 -- Visual --
 -- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+vim.keymap.set("v", "<", "<gv", opts)
+vim.keymap.set("v", ">", ">gv", opts)
 -- Nvim-tree
-keymap("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
 -- Plugins --
 -- Toggle
-keymap("n", "<leader>tq", ":BqfToggle<CR>", opts)
-keymap("n", "<leader>tu", ":UndotreeToggle<CR>", opts)
+vim.keymap.set("n", "<leader>tq", ":BqfToggle<CR>", opts)
+vim.keymap.set("n", "<leader>tu", ":UndotreeToggle<CR>", opts)
 -- Telescope
-keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
-keymap("n", "<leader>fg", ":Telescope grep_string<CR>", opts)
-keymap("n", "<leader>fs", ":Telescope live_grep<CR>", opts)
-keymap("n", "<leader>fp", ":Telescope projects<CR>", opts)
-keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
-keymap("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
-keymap("n", "<leader>fr", ":Telescope resume<CR>", opts)
+vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", opts)
+vim.keymap.set("n", "<leader>fg", ":Telescope grep_string<CR>", opts)
+vim.keymap.set("n", "<leader>fs", ":Telescope live_grep<CR>", opts)
+vim.keymap.set("n", "<leader>fp", ":Telescope projects<CR>", opts)
+vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", opts)
+vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
+vim.keymap.set("n", "<leader>fr", ":Telescope resume<CR>", opts)
 -- Git
-keymap("n", "<leader>gg", ":Git<CR>", opts)
--- DAP
-keymap("n", "<leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", opts)
-keymap("n", "<leader>dc", "<cmd>lua require'dap'.continue()<cr>", opts)
-keymap("n", "<leader>di", "<cmd>lua require'dap'.step_into()<cr>", opts)
-keymap("n", "<leader>do", "<cmd>lua require'dap'.step_over()<cr>", opts)
-keymap("n", "<leader>dO", "<cmd>lua require'dap'.step_out()<cr>", opts)
-keymap("n", "<leader>dr", "<cmd>lua require'dap'.repl.toggle()<cr>", opts)
-keymap("n", "<leader>dl", "<cmd>lua require'dap'.run_last()<cr>", opts)
-keymap("n", "<leader>du", "<cmd>lua require'dapui'.toggle()<cr>", opts)
-keymap("n", "<leader>dt", "<cmd>lua require'dap'.terminate()<cr>", opts)
--- Alpha (landing page)
-keymap("n", "<leader>gh", ":Alpha<CR>", opts)
+vim.keymap.set("n", "<leader>gg", ":Git<CR>", opts)
+-- Go to init.lua
+vim.keymap.set("n", "<leader>gh", ":e ~/.config/nvim/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
 vim.api.nvim_create_autocmd("User", {
 	pattern = "LspAttached",
 	desc = "LSP actions",
 	callback = function()
 		local lsp_map_opts = { buffer = 0 }
-		keymap("n", "K", vim.lsp.buf.hover, lsp_map_opts)
-		keymap("n", "gd", vim.lsp.buf.definition, lsp_map_opts)
-		keymap("n", "gD", vim.lsp.buf.declaration, lsp_map_opts)
-		keymap("n", "gi", vim.lsp.buf.implementation, lsp_map_opts)
-		keymap("n", "go", vim.lsp.buf.type_definition, lsp_map_opts)
-		keymap("n", "gr", vim.lsp.buf.references, lsp_map_opts)
-		keymap("n", "<leader>ls", vim.lsp.buf.signature_help, lsp_map_opts)
-		keymap("n", "<leader>lr", vim.lsp.buf.rename, lsp_map_opts)
-		keymap("n", "<leader>la", vim.lsp.buf.code_action, lsp_map_opts)
-		keymap("x", "<leader>la", vim.lsp.buf.range_code_action, lsp_map_opts)
-		keymap("n", "<leader>lf", vim.lsp.buf.formatting, lsp_map_opts)
-		keymap("n", "<leader>lq", vim.diagnostic.setloclist, lsp_map_opts)
-		keymap("n", "gl", vim.diagnostic.open_float, lsp_map_opts)
-		keymap("n", "[e", vim.diagnostic.goto_prev, lsp_map_opts)
-		keymap("n", "]e", vim.diagnostic.goto_next, lsp_map_opts)
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, lsp_map_opts)
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_map_opts)
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_map_opts)
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_map_opts)
+		vim.keymap.set("n", "go", vim.lsp.buf.type_definition, lsp_map_opts)
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_map_opts)
+		vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, lsp_map_opts)
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, lsp_map_opts)
+		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, lsp_map_opts)
+		vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, lsp_map_opts)
+		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, lsp_map_opts)
+		vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, lsp_map_opts)
+		vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_map_opts)
+		vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, lsp_map_opts)
+		vim.keymap.set("n", "]e", vim.diagnostic.goto_next, lsp_map_opts)
 	end,
 })
 -- Others/General
@@ -185,7 +174,6 @@ packer.startup(function(use)
 	use({ "nvim-lua/plenary.nvim" }) -- Useful lua functions used by lots of plugins
 	use({ "windwp/nvim-autopairs" }) -- Autopairs, integrates with both cmp and treesitter
 	use({ "numToStr/Comment.nvim" })
-	use({ "JoosepAlviste/nvim-ts-context-commentstring" })
 	use({ "kyazdani42/nvim-web-devicons" })
 	use({ "kyazdani42/nvim-tree.lua" })
 	use({ "akinsho/bufferline.nvim" })
@@ -194,7 +182,6 @@ packer.startup(function(use)
 	use({ "ahmedkhalf/project.nvim" })
 	use({ "lewis6991/impatient.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
-	use({ "goolord/alpha-nvim" })
 	-- Custom pugins
 	use({ "NMAC427/guess-indent.nvim" })
 	use({ "phaazon/hop.nvim" })
@@ -221,8 +208,6 @@ packer.startup(function(use)
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
 	-- LSP
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
-	-- use({ "williamboman/nvim-lsp-installer" }) -- simple to use language server installer
-	-- use({ "jose-elias-alvarez/null-ls.nvim" }) -- for formatters and linters
 	use({ "williamboman/mason.nvim" })
 	use({ "williamboman/mason-lspconfig.nvim" })
 	use({ "RRethy/vim-illuminate" })
@@ -230,13 +215,6 @@ packer.startup(function(use)
 	use({ "nvim-telescope/telescope.nvim" })
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
-	-- Git
-	use({ "lewis6991/gitsigns.nvim" })
-	-- DAP
-	use({ "mfussenegger/nvim-dap" })
-	use({ "rcarriga/nvim-dap-ui" })
-	use({ "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } })
-	use({ "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" })
 
 	-- -- Automatically set up your configuration after cloning packer.nvim
 	-- -- Put this at the end after all plugins
@@ -244,6 +222,27 @@ packer.startup(function(use)
 	--   require("packer").sync()
 	-- end
 end)
+
+
+
+-- Impatient
+local impatient = require("impatient")
+impatient.enable_profile()
+-- session manager
+local Path = require('plenary.path')
+require('session_manager').setup({
+	sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
+	path_replacer = '__', -- The character to which the path separator will be replaced for session files.
+	colon_replacer = '++', -- The character to which the colon symbol will be replaced for session files.
+	autoload_mode = require('session_manager.config').AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
+	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
+	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
+		'gitcommit',
+	},
+	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
+	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
+})
 
 
 
@@ -269,7 +268,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme darkplus")
 
 
 
@@ -325,6 +324,7 @@ lspconfig.util.default_config = vim.tbl_deep_extend(
 lspconfig.tsserver.setup({})
 lspconfig.html.setup({})
 lspconfig.cssls.setup({})
+lspconfig.yamlls.setup({})
 lspconfig.sumneko_lua.setup({
 	settings = {
 		Lua = {
@@ -352,7 +352,7 @@ lspconfig.sumneko_lua.setup({
 require('luasnip.loaders.from_vscode').lazy_load()
 local cmp = require('cmp')
 local luasnip = require('luasnip')
-local select_opts = { behavior = cmp.SelectBehavior.Select }
+local select_opts = { behavior = cmp.SelectBehavior.Insert }
 cmp.setup({
 	snippet = {
 		expand = function(args)
@@ -418,23 +418,19 @@ cmp.setup({
 
 -- Telescope --
 local telescope = require("telescope")
-
 local actions = require("telescope.actions")
-
 telescope.setup({
 	defaults = {
-
 		prompt_prefix = " ",
 		selection_caret = " ",
 		path_display = { "smart" },
 		file_ignore_patterns = { ".git/", "node_modules" },
-
 		mappings = {
 			i = {
 				["<Down>"] = actions.cycle_history_next,
 				["<Up>"] = actions.cycle_history_prev,
-				["<C-j>"] = actions.move_selection_next,
-				["<C-k>"] = actions.move_selection_previous,
+				["<C-n>"] = actions.move_selection_next,
+				["<C-p>"] = actions.move_selection_previous,
 			},
 		},
 	},
@@ -446,9 +442,38 @@ telescope.setup({
 		},
 	},
 })
-
+-- Project
+local project = require("project_nvim")
+project.setup({
+	-- Manual mode doesn't automatically change your root directory, so you have
+	-- the option to manually do so using `:ProjectRoot` command.
+	manual_mode = false,
+	-- Methods of detecting the root directory. **"lsp"** uses the native neovim
+	-- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
+	-- order matters: if one is not detected, the other is used as fallback. You
+	-- can also delete or rearangne the detection methods.
+	detection_methods = { "lsp", "pattern" },
+	-- All the patterns used to detect root dir, when **"pattern"** is in
+	-- detection_methods
+	patterns = { ".sln", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
+	-- Table of lsp clients to ignore by name
+	-- eg: { "efm", ... }
+	ignore_lsp = {},
+	-- Don't calculate root dir on specific directories
+	-- Ex: { "~/.cargo/*", ... }
+	exclude_dirs = {},
+	-- Show hidden files in telescope
+	show_hidden = true,
+	-- When set to false, you will get a message when project.nvim changes your
+	-- directory.
+	silent_chdir = false,
+	-- Path where project.nvim will store the project history for use in
+	-- telescope
+	datapath = vim.fn.stdpath("data"),
+})
+telescope.load_extension("projects")
+-- TreeSitter
 local configs = require("nvim-treesitter.configs")
-
 configs.setup({
 	ensure_installed = "all", -- one of "all" or a list of languages
 	ignore_install = { "" }, -- List of parsers to ignore installing
@@ -462,38 +487,25 @@ configs.setup({
 	--[[ indent = { enable = true, disable = { "python", "css" } }, ]]
 })
 
+-- Comment
+require("Comment").setup({})
+
+-- hop.nvim
+require("hop").setup({})
+
 -- Setup nvim-cmp.
 local npairs = require("nvim-autopairs")
-
 npairs.setup({
 	check_ts = true, -- treesitter integration
 	disable_filetype = { "TelescopePrompt" },
 })
-
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
--- local cmp_status_ok, cmp = pcall(require, "cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({}))
 
-require("user.comment")
-
-local gitsigns = require("gitsigns")
-
-gitsigns.setup({
-	signs = {
-		add = { hl = "GitSignsAdd", text = "▎", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-		change = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-		delete = { hl = "GitSignsDelete", text = "契", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-		topdelete = { hl = "GitSignsDelete", text = "契", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
-		changedelete = { hl = "GitSignsChange", text = "▎", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-	},
-})
-
+-- nvim-tree
 local nvim_tree = require("nvim-tree")
-
 local nvim_tree_config = require("nvim-tree.config")
-
 local tree_cb = nvim_tree_config.nvim_tree_callback
-
 nvim_tree.setup({
 	update_focused_file = {
 		enable = true,
@@ -550,103 +562,74 @@ nvim_tree.setup({
 		},
 	},
 })
-
-local bufferline = require("bufferline")
-
-bufferline.setup({
-	options = {
-		close_command = "bd %d", -- can be a string | function, see "Mouse actions"
-		right_mouse_command = "bd %d", -- can be a string | function, see "Mouse actions"
-		offsets = { { filetype = "NvimTree", text = "", padding = 1 } },
-		separator_style = "thin", -- | "thick" | "thin" | { 'any', 'any' },
+-- guess-indent
+-- This is the default configuration
+require("guess-indent").setup({
+	auto_cmd = true, -- Set to false to disable automatic execution
+	filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
+		"netrw",
+		"tutor",
 	},
-	highlights = {
-		fill = {
-			fg = { attribute = "fg", highlight = "#ff0000" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-		background = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-
-		buffer_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-
-		close_button = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-		close_button_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-
-		tab_selected = {
-			fg = { attribute = "fg", highlight = "Normal" },
-			bg = { attribute = "bg", highlight = "Normal" },
-		},
-		tab = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-		tab_close = {
-			fg = { attribute = "fg", highlight = "TabLineSel" },
-			bg = { attribute = "bg", highlight = "Normal" },
-		},
-
-		duplicate_selected = {
-			fg = { attribute = "fg", highlight = "TabLineSel" },
-			bg = { attribute = "bg", highlight = "TabLineSel" },
-			underline = true,
-		},
-		duplicate_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-			underline = true,
-		},
-		duplicate = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-			underline = true,
-		},
-
-		modified = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-		modified_selected = {
-			fg = { attribute = "fg", highlight = "Normal" },
-			bg = { attribute = "bg", highlight = "Normal" },
-		},
-		modified_visible = {
-			fg = { attribute = "fg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-
-		separator = {
-			fg = { attribute = "bg", highlight = "TabLine" },
-			bg = { attribute = "bg", highlight = "TabLine" },
-		},
-		separator_selected = {
-			fg = { attribute = "bg", highlight = "Normal" },
-			bg = { attribute = "bg", highlight = "Normal" },
-		},
-		indicator_selected = {
-			fg = { attribute = "fg", highlight = "LspDiagnosticsDefaultHint" },
-			bg = { attribute = "bg", highlight = "Normal" },
-		},
+	buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
+		"help",
+		"nofile",
+		"terminal",
+		"prompt",
 	},
 })
 
-local lualine = require("lualine")
+-- Toggleterm
+local toggleterm = require("toggleterm")
+toggleterm.setup({
+	-- size = 20,
+	open_mapping = [[<c-\>]],
+	-- hide_numbers = true,
+	shade_terminals = true,
+	shading_factor = 2,
+	start_in_insert = true,
+	insert_mappings = true,
+	persist_size = true,
+	direction = "float",
+	-- close_on_exit = true,
+	shell = vim.o.shell,
+	float_opts = {
+		border = "curved",
+	},
+})
+function _G.set_terminal_keymaps()
+	local terminal_opts = { noremap = true }
+	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
+end
 
+vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+
+
+-- Visual config --
+-- Bufferline
+local bufferline = require("bufferline")
+bufferline.setup({
+	options = {
+		-- Use nvim built-in lsp
+		diagnostics = "nvim_lsp",
+		-- Get out of the way on the left nvim-tree The location of
+		offsets = { {
+			filetype = "NvimTree",
+			text = "File Explorer",
+			highlight = "Directory",
+			text_align = "left"
+		} }
+	}
+})
+
+-- Lualine
+local lualine = require("lualine")
 local hide_in_width = function()
 	return vim.fn.winwidth(0) > 80
 end
-
 local diagnostics = {
 	"diagnostics",
 	sources = { "nvim_diagnostic" },
@@ -655,28 +638,23 @@ local diagnostics = {
 	colored = true,
 	always_visible = true,
 }
-
 local diff = {
 	"diff",
 	colored = true,
 	-- symbols = { added = "", modified = "", removed = "" }, -- changes diff symbols
 	cond = hide_in_width,
 }
-
 local filetype = {
 	"filetype",
 	icons_enabled = true,
 }
-
 local location = {
 	"location",
 	padding = 0,
 }
-
 local spaces = function()
 	return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
 end
-
 lualine.setup({
 	options = {
 		globalstatus = true,
@@ -697,93 +675,48 @@ lualine.setup({
 	},
 })
 
-local toggleterm = require("toggleterm")
-
-toggleterm.setup({
-	size = 20,
-	open_mapping = [[<c-\>]],
-	hide_numbers = true,
-	shade_terminals = true,
-	shading_factor = 2,
-	start_in_insert = true,
-	insert_mappings = true,
-	persist_size = true,
-	direction = "float",
-	close_on_exit = true,
-	shell = vim.o.shell,
-	float_opts = {
-		border = "curved",
+-- Illuminate
+require('illuminate').configure({
+	-- providers: provider used to get references in the buffer, ordered by priority
+	providers = {
+		'lsp',
+		'treesitter',
+		'regex',
 	},
+	-- delay: delay in milliseconds
+	delay = 100,
+	-- filetype_overrides: filetype specific overrides.
+	-- The keys are strings to represent the filetype while the values are tables that
+	-- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
+	filetype_overrides = {},
+	-- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
+	filetypes_denylist = {
+		'dirvish',
+		'fugitive',
+	},
+	-- filetypes_allowlist: filetypes to illuminate, this is overriden by filetypes_denylist
+	filetypes_allowlist = {},
+	-- modes_denylist: modes to not illuminate, this overrides modes_allowlist
+	modes_denylist = {},
+	-- modes_allowlist: modes to illuminate, this is overriden by modes_denylist
+	modes_allowlist = {},
+	-- providers_regex_syntax_denylist: syntax to not illuminate, this overrides providers_regex_syntax_allowlist
+	-- Only applies to the 'regex' provider
+	-- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+	providers_regex_syntax_denylist = {},
+	-- providers_regex_syntax_allowlist: syntax to illuminate, this is overriden by providers_regex_syntax_denylist
+	-- Only applies to the 'regex' provider
+	-- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
+	providers_regex_syntax_allowlist = {},
+	-- under_cursor: whether or not to illuminate under the cursor
+	under_cursor = true,
 })
 
-function _G.set_terminal_keymaps()
-	local terminal_opts = { noremap = true }
-	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
-end
-
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-
-
-local project = require("project_nvim")
-project.setup({
-	-- Manual mode doesn't automatically change your root directory, so you have
-	-- the option to manually do so using `:ProjectRoot` command.
-	manual_mode = false,
-
-	-- Methods of detecting the root directory. **"lsp"** uses the native neovim
-	-- lsp, while **"pattern"** uses vim-rooter like glob pattern matching. Here
-	-- order matters: if one is not detected, the other is used as fallback. You
-	-- can also delete or rearangne the detection methods.
-	detection_methods = { "lsp", "pattern" },
-
-	-- All the patterns used to detect root dir, when **"pattern"** is in
-	-- detection_methods
-	patterns = { ".sln", ".git", "_darcs", ".hg", ".bzr", ".svn", "Makefile", "package.json" },
-
-	-- Table of lsp clients to ignore by name
-	-- eg: { "efm", ... }
-	ignore_lsp = {},
-
-	-- Don't calculate root dir on specific directories
-	-- Ex: { "~/.cargo/*", ... }
-	exclude_dirs = {},
-
-	-- Show hidden files in telescope
-	show_hidden = true,
-
-	-- When set to false, you will get a message when project.nvim changes your
-	-- directory.
-	silent_chdir = false,
-
-	-- Path where project.nvim will store the project history for use in
-	-- telescope
-	datapath = vim.fn.stdpath("data"),
-})
-
-telescope.load_extension("projects")
-
-local impatient = require("impatient")
-
-impatient.enable_profile()
-
-vim.g.Illuminate_ftblacklist = { "alpha", "NvimTree" }
-vim.api.nvim_set_keymap("n", "<a-n>", '<cmd>lua require"illuminate".next_reference{wrap=true}<cr>', { noremap = true })
-vim.api.nvim_set_keymap(
-	"n",
-	"<a-p>",
-	'<cmd>lua require"illuminate".next_reference{reverse=true,wrap=true}<cr>',
-	{ noremap = true }
-)
-
+-- Blankline
 local indent_blankline = require("indent_blankline")
-
 indent_blankline.setup({
 	char = "▏",
-	show_trailing_blankline_indent = false,
+	show_trailing_blankline_indent = true,
 	show_first_indent_level = true,
 	use_treesitter = true,
 	show_current_context = true,
@@ -795,78 +728,7 @@ indent_blankline.setup({
 	},
 })
 
-local alpha = require("alpha")
-
-local dashboard = require("alpha.themes.dashboard")
-dashboard.section.header.val = {
-	[[                               __                ]],
-	[[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
-	[[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
-	[[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
-	[[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
-	[[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
-}
-dashboard.section.buttons.val = {
-	dashboard.button("f", " " .. " Find file", ":Telescope find_files <CR>"),
-	dashboard.button("e", " " .. " New file", ":ene <BAR> startinsert <CR>"),
-	dashboard.button("p", " " .. " Find project", ":lua require('telescope').extensions.projects.projects()<CR>"),
-	dashboard.button("r", " " .. " Recent files", ":Telescope oldfiles <CR>"),
-	dashboard.button("t", " " .. " Find text", ":Telescope live_grep <CR>"),
-	dashboard.button("c", " " .. " Config", ":e ~/.config/nvim/init.lua <CR>"),
-	dashboard.button("q", " " .. " Quit", ":qa<CR>"),
-}
-local function footer()
-	return "vanillabase1lb"
-end
-
-dashboard.section.footer.val = footer()
-
-dashboard.section.footer.opts.hl = "Type"
-dashboard.section.header.opts.hl = "Include"
-dashboard.section.buttons.opts.hl = "Keyword"
-
-dashboard.opts.opts.noautocmd = true
-alpha.setup(dashboard.opts)
-
--- require "user.dap"
-
--- guess-indent
--- This is the default configuration
-require("guess-indent").setup({
-	auto_cmd = true, -- Set to false to disable automatic execution
-	filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
-		"netrw",
-		"tutor",
-	},
-	buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
-		"help",
-		"nofile",
-		"terminal",
-		"prompt",
-	},
-})
-
--- hop.nvim
-require("hop").setup({})
-
 -- which-key.nvim
 require("which-key").setup({})
-
 -- nvim-bqf
 require("bqf").setup({})
-
--- session manager
-local Path = require('plenary.path')
-require('session_manager').setup({
-	sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
-	path_replacer = '__', -- The character to which the path separator will be replaced for session files.
-	colon_replacer = '++', -- The character to which the colon symbol will be replaced for session files.
-	autoload_mode = require('session_manager.config').AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
-	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
-	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
-	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-		'gitcommit',
-	},
-	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
-	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
-})
