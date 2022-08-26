@@ -107,6 +107,8 @@ vim.keymap.set("n", "<leader>fp", ":Telescope projects<CR>", opts)
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
 vim.keymap.set("n", "<leader>fr", ":Telescope resume<CR>", opts)
+vim.keymap.set("n", "<leader>ft", ":Telescope treesitter<CR>", opts)
+vim.keymap.set("n", "<leader>fm", ":Telescope marks<CR>", opts)
 -- Git
 vim.keymap.set("n", "<leader>gg", ":Git<CR>", opts)
 -- Go to init.lua
