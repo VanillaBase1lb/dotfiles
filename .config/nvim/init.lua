@@ -85,10 +85,12 @@ vim.keymap.set("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buf
 -- Better paste
 vim.keymap.set("v", "p", '"_dP', opts)
 -- Better text navigation
-vim.keymap.set({ "n", "v", "x" }, "s", require'hop'.hint_char1, opts)
+vim.keymap.set({ "n", "v", "x" }, "s", require 'hop'.hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
 vim.keymap.set("i", "kj", "<ESC>", opts)
+-- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
+vim.keymap.set("i", "<C-h>", "<C-w>", opts)
 -- Visual --
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv", opts)
@@ -350,6 +352,7 @@ lspconfig.sumneko_lua.setup({
 		lspconfig.util.default_config.on_attach(client, bufnr)
 	end
 })
+lspconfig.clangd.setup({})
 -- Autocomplete completion CMP
 require('luasnip.loaders.from_vscode').lazy_load()
 local cmp = require('cmp')
