@@ -85,7 +85,7 @@ vim.keymap.set("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buf
 -- Better paste
 vim.keymap.set("v", "p", '"_dP', opts)
 -- Better text navigation
-vim.keymap.set({ "n", "v", "x" }, "s", require 'hop'.hint_char1, opts)
+vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
 vim.keymap.set("i", "kj", "<ESC>", opts)
@@ -116,28 +116,43 @@ vim.keymap.set("n", "<leader>gg", ":Git<CR>", opts)
 -- Go to init.lua
 vim.keymap.set("n", "<leader>gh", ":e ~/.config/nvim/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
-vim.api.nvim_create_autocmd("User", {
-	pattern = "LspAttached",
-	desc = "LSP actions",
-	callback = function()
-		local lsp_map_opts = { buffer = 0 }
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, lsp_map_opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_map_opts)
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_map_opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_map_opts)
-		vim.keymap.set("n", "go", vim.lsp.buf.type_definition, lsp_map_opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_map_opts)
-		vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, lsp_map_opts)
-		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, lsp_map_opts)
-		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, lsp_map_opts)
-		vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, lsp_map_opts)
-		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, lsp_map_opts)
-		vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, lsp_map_opts)
-		vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_map_opts)
-		vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, lsp_map_opts)
-		vim.keymap.set("n", "]e", vim.diagnostic.goto_next, lsp_map_opts)
-	end,
-})
+vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
+vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
+vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
+vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
+vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, opts)
+vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, opts)
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
+vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, opts)
+vim.keymap.set("n", "]e", vim.diagnostic.goto_next, opts)
+-- vim.api.nvim_create_autocmd("User", {
+-- 	pattern = "LspAttached",
+-- 	desc = "LSP actions",
+-- 	callback = function()
+-- 		local lsp_map_opts = { buffer = 0 }
+-- 		vim.keymap.set("n", "K", vim.lsp.buf.hover, lsp_map_opts)
+-- 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_map_opts)
+-- 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_map_opts)
+-- 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_map_opts)
+-- 		vim.keymap.set("n", "go", vim.lsp.buf.type_definition, lsp_map_opts)
+-- 		vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_map_opts)
+-- 		vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, lsp_map_opts)
+-- 		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, lsp_map_opts)
+-- 		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, lsp_map_opts)
+-- 		vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, lsp_map_opts)
+-- 		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, lsp_map_opts)
+-- 		vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, lsp_map_opts)
+-- 		vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_map_opts)
+-- 		vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, lsp_map_opts)
+-- 		vim.keymap.set("n", "]e", vim.diagnostic.goto_next, lsp_map_opts)
+-- 	end,
+-- })
 -- Others/General
 
 -- Automatically install packer
@@ -207,18 +222,22 @@ packer.startup(function(use)
 	use({ "saadparwaiz1/cmp_luasnip" }) -- snippet completions
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
+	use({ "rcarriga/cmp-dap" })
 	-- snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
 	-- LSP
-	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "williamboman/mason.nvim" })
 	use({ "williamboman/mason-lspconfig.nvim" })
+	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "RRethy/vim-illuminate" })
+	use({ "jose-elias-alvarez/null-ls.nvim" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
+	-- DAP
+	use({ "mfussenegger/nvim-dap" })
 
 	-- -- Automatically set up your configuration after cloning packer.nvim
 	-- -- Put this at the end after all plugins
@@ -227,28 +246,24 @@ packer.startup(function(use)
 	-- end
 end)
 
-
-
 -- Impatient
 local impatient = require("impatient")
 impatient.enable_profile()
 -- session manager
-local Path = require('plenary.path')
-require('session_manager').setup({
-	sessions_dir = Path:new(vim.fn.stdpath('data'), 'sessions'), -- The directory where the session files will be saved.
-	path_replacer = '__', -- The character to which the path separator will be replaced for session files.
-	colon_replacer = '++', -- The character to which the colon symbol will be replaced for session files.
-	autoload_mode = require('session_manager.config').AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+local Path = require("plenary.path")
+require("session_manager").setup({
+	sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
+	path_replacer = "__", -- The character to which the path separator will be replaced for session files.
+	colon_replacer = "++", -- The character to which the colon symbol will be replaced for session files.
+	autoload_mode = require("session_manager.config").AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
 	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
 	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
 	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-		'gitcommit',
+		"gitcommit",
 	},
 	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
 	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
-
-
 
 -- General tweaks --
 -- Set wrap and spell in markdown and gitcommit
@@ -274,8 +289,6 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 vim.cmd("colorscheme darkplus")
 
-
-
 -- Diagnostics
 local sign = function(diagnostics_opt)
 	vim.fn.sign_define(diagnostics_opt.name, {
@@ -289,7 +302,7 @@ sign({ name = "DiagnosticSignWarn", text = "▲" })
 sign({ name = "DiagnosticSignHint", text = "⚑" })
 sign({ name = "DiagnosticSignInfo", text = "" })
 vim.diagnostic.config({
-	virtual_text = false,
+	virtual_text = true,
 	signs = true,
 	severity_sort = false,
 	float = {
@@ -305,100 +318,127 @@ vim.diagnostic.config({
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 -- LSP config
-require('mason').setup({})
-require('mason-lspconfig').setup({})
 local lsp_defaults = {
 	flags = {
 		debounce_text_changes = 150,
 	},
-	capabilities = require('cmp_nvim_lsp').update_capabilities(
-		vim.lsp.protocol.make_client_capabilities()
-	),
+	capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 	on_attach = function()
-		vim.api.nvim_exec_autocmds('User', { pattern = 'LspAttached' })
-	end
+		vim.api.nvim_exec_autocmds("User", { pattern = "LspAttached" })
+	end,
 }
-local lspconfig = require('lspconfig')
-lspconfig.util.default_config = vim.tbl_deep_extend(
-	'force',
-	lspconfig.util.default_config,
-	lsp_defaults
-)
+require("mason").setup({})
+require("mason-lspconfig").setup({
+	automatic_installation = true,
+})
+local lspconfig = require("lspconfig")
+lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, lsp_defaults)
 -- Add new LSP servers here
-lspconfig.tsserver.setup({})
-lspconfig.html.setup({})
-lspconfig.cssls.setup({})
-lspconfig.yamlls.setup({})
-lspconfig.sumneko_lua.setup({
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-			workspace = {
-				library = {
-					[vim.fn.expand "$VIMRUNTIME/lua"] = true,
-					[vim.fn.stdpath "config" .. "/lua"] = true,
+require("mason-lspconfig").setup_handlers({
+	-- The first entry (without a key) will be the default handler
+	-- and will be called for each installed server that doesn't have
+	-- a dedicated handler.
+	function(server_name) -- default handler (optional)
+		lspconfig[server_name].setup({})
+	end,
+	-- Next, you can provide targeted overrides for specific servers.
+	["clangd"] = function()
+		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
+		capabilities_clangd.offsetEncoding = { "utf-16" }
+		lspconfig.clangd.setup({ capabilities = capabilities_clangd })
+	end,
+	["sumneko_lua"] = function()
+		lspconfig.sumneko_lua.setup({
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { "vim" },
+					},
+					workspace = {
+						library = {
+							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+							[vim.fn.stdpath("config") .. "/lua"] = true,
+						},
+					},
+					telemetry = {
+						enable = false,
+					},
 				},
 			},
-			telemetry = {
-				enable = false,
-			},
-
-		}
-	},
-	single_file_support = true,
-	on_attach = function(client, bufnr)
-		lspconfig.util.default_config.on_attach(client, bufnr)
-	end
+			single_file_support = true,
+			-- on_attach = function(client, bufnr)
+			-- 	lspconfig.util.default_config.on_attach(client, bufnr)
+			-- end,
+		})
+	end,
 })
-lspconfig.clangd.setup({})
 -- Autocomplete completion CMP
-require('luasnip.loaders.from_vscode').lazy_load()
-local cmp = require('cmp')
-local luasnip = require('luasnip')
+require("luasnip.loaders.from_vscode").lazy_load()
+local cmp = require("cmp")
+local luasnip = require("luasnip")
 local select_opts = { behavior = cmp.SelectBehavior.Insert }
+-- null-ls
+local null_ls = require("null-ls")
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.fixjson,
+		null_ls.builtins.formatting.eslint,
+		null_ls.builtins.formatting.shfmt,
+		null_ls.builtins.code_actions.eslint,
+		null_ls.builtins.code_actions.shellcheck,
+		null_ls.builtins.diagnostics.eslint,
+		null_ls.builtins.diagnostics.pylint,
+		-- null_ls.builtins.diagnostics.luacheck,
+		null_ls.builtins.completion.spell,
+	},
+})
 cmp.setup({
+	enabled = function()
+		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
+	end,
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
-		end
+		end,
 	},
 	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'nvim_lua' },
-		{ name = 'luasnip' },
-		{ name = 'path' },
-		{ name = 'buffer' },
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+		{ name = "buffer" },
+		{ name = "path" },
+		{ name = "nvim_lua" },
+		{ name = "dap" },
 	},
 	window = {
-		documentation = cmp.config.window.bordered()
+		documentation = cmp.config.window.bordered(),
 	},
 	formatting = {
-		fields = { 'menu', 'abbr', 'kind' },
+		fields = { "menu", "abbr", "kind" },
 		format = function(entry, item)
 			local menu_icon = {
-				nvim_lsp = 'λ',
-				luasnip = '⋗',
-				buffer = 'Ω',
-				path = '🖫',
+				nvim_lsp = "λ",
+				luasnip = "⋗",
+				buffer = "Ω",
+				path = "🖫",
 			}
 			item.menu = menu_icon[entry.source.name]
 			return item
 		end,
 	},
 	mapping = {
-		['<C-p>'] = cmp.mapping.select_prev_item(select_opts),
-		['<C-n>'] = cmp.mapping.select_next_item(select_opts),
+		["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
+		["<C-n>"] = cmp.mapping.select_next_item(select_opts),
 		-- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
 		-- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-e>'] = cmp.mapping.abort(),
-		['<CR>'] = cmp.mapping.confirm({ select = false }),
-		['<Tab>'] = cmp.mapping(function(fallback)
-			local col = vim.fn.col('.') - 1
+		["<C-e>"] = cmp.mapping.abort(),
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<Tab>"] = cmp.mapping(function(fallback)
+			local col = vim.fn.col(".") - 1
 			if cmp.visible() then
 				cmp.select_next_item(select_opts)
-			elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
 				fallback()
 			elseif luasnip.jumpable(1) then
 				luasnip.jump(1)
@@ -406,8 +446,8 @@ cmp.setup({
 			else
 				fallback()
 			end
-		end, { 'i', 's' }),
-		['<S-Tab>'] = cmp.mapping(function(fallback)
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item(select_opts)
 			elseif luasnip.jumpable(-1) then
@@ -415,11 +455,9 @@ cmp.setup({
 			else
 				fallback()
 			end
-		end, { 'i', 's' }),
+		end, { "i", "s" }),
 	},
 })
-
-
 
 -- Telescope --
 local telescope = require("telescope")
@@ -612,6 +650,40 @@ end
 
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
+-- DAP config
+local dap = require("dap")
+dap.adapters.python = {
+	type = "executable",
+	command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python",
+	-- command = vim.fn.getcwd() .. string.format("%s/bin/python", os.getenv("VIRTUAL_ENV")),
+	args = { "-m", "debugpy.adapter" },
+}
+dap.configurations.python = {
+	{
+		-- The first three options are required by nvim-dap
+		type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+		request = "launch",
+		name = "Launch file",
+		-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+		program = "${file}", -- This configuration will launch the current file if used.
+		pythonPath = function()
+			-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+			-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+			-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+			local cwd = vim.fn.getcwd()
+			local pypath = cwd .. string.format("%s/bin/python", os.getenv("VIRTUAL_ENV"))
+			if vim.fn.executable(pypath) == 1 then
+				return pypath
+				-- elseif vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+				-- 	return cwd .. '/venv/bin/python'
+				-- elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+				-- 	return cwd .. '/.venv/bin/python'
+			else
+				return "/usr/bin/python"
+			end
+		end,
+	},
+}
 
 -- Visual config --
 -- Bufferline
@@ -621,13 +693,15 @@ bufferline.setup({
 		-- Use nvim built-in lsp
 		diagnostics = "nvim_lsp",
 		-- Get out of the way on the left nvim-tree The location of
-		offsets = { {
-			filetype = "NvimTree",
-			text = "File Explorer",
-			highlight = "Directory",
-			text_align = "left"
-		} }
-	}
+		offsets = {
+			{
+				filetype = "NvimTree",
+				text = "File Explorer",
+				highlight = "Directory",
+				text_align = "left",
+			},
+		},
+	},
 })
 
 -- Lualine
@@ -681,12 +755,12 @@ lualine.setup({
 })
 
 -- Illuminate
-require('illuminate').configure({
+require("illuminate").configure({
 	-- providers: provider used to get references in the buffer, ordered by priority
 	providers = {
-		'lsp',
-		'treesitter',
-		'regex',
+		"lsp",
+		"treesitter",
+		"regex",
 	},
 	-- delay: delay in milliseconds
 	delay = 100,
@@ -696,8 +770,8 @@ require('illuminate').configure({
 	filetype_overrides = {},
 	-- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
 	filetypes_denylist = {
-		'dirvish',
-		'fugitive',
+		"dirvish",
+		"fugitive",
 	},
 	-- filetypes_allowlist: filetypes to illuminate, this is overriden by filetypes_denylist
 	filetypes_allowlist = {},
