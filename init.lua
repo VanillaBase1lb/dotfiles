@@ -197,7 +197,6 @@ local packer = require("packer")
 
 -- Install your plugins here
 packer.startup(function(use)
-	-- My plugins here
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
 	use({ "nvim-lua/plenary.nvim" }) -- Useful lua functions used by lots of plugins
 	use({ "windwp/nvim-autopairs" }) -- Autopairs, integrates with both cmp and treesitter
@@ -232,6 +231,7 @@ packer.startup(function(use)
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
 	use({ "rcarriga/cmp-dap" })
+	use({ "ray-x/lsp_signature.nvim" })
 	-- snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
@@ -241,6 +241,7 @@ packer.startup(function(use)
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "RRethy/vim-illuminate" })
 	use({ "jose-elias-alvarez/null-ls.nvim" })
+	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
 	-- Treesitter
@@ -356,7 +357,10 @@ require("mason-lspconfig").setup_handlers({
 	["clangd"] = function()
 		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
 		capabilities_clangd.offsetEncoding = { "utf-16" }
-		lspconfig.clangd.setup({ capabilities = capabilities_clangd })
+		lspconfig.clangd.setup({
+			capabilities = capabilities_clangd,
+			-- cmd = { "clangd", "--completion-style=detailed" },
+		})
 	end,
 	["sumneko_lua"] = function()
 		lspconfig.sumneko_lua.setup({
@@ -383,6 +387,12 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 })
+-- require("lsp_signature").setup({
+-- 	bind = true, -- This is mandatory, otherwise border config won't get registered.
+-- 	handler_opts = {
+-- 		border = "rounded",
+-- 	},
+-- })
 -- Autocomplete completion CMP
 require("luasnip.loaders.from_vscode").lazy_load()
 local cmp = require("cmp")
@@ -417,6 +427,7 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
@@ -667,7 +678,7 @@ local dap = require("dap")
 dap.adapters.node2 = {
 	type = "executable",
 	command = "node",
-	args = vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js",
+	args = { vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
 }
 dap.configurations.javascript = {
 	{
@@ -692,7 +703,7 @@ dap.configurations.javascript = {
 dap.adapters.chrome = {
 	type = "executable",
 	command = "node",
-	args = vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js",
+	args = { vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" },
 }
 dap.configurations.javascriptreact = { -- change this to javascript if needed
 	{
@@ -751,6 +762,56 @@ dap.configurations.python = {
 		end,
 	},
 }
+-- cpp/c/rust
+dap.adapters.cppdbg = {
+	id = "cppdbg",
+	type = "executable",
+	command = vim.fn.stdpath("data") .. "/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+}
+dap.configurations.cpp = {
+	{
+		name = "Launch file",
+		type = "cppdbg",
+		request = "launch",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+		end,
+		cwd = "${workspaceFolder}",
+		stopAtEntry = true,
+		stopAtConnect = true,
+		justMyCode = true,
+		args = {},
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
+	},
+	{
+		name = "Attach to gdbserver :1234",
+		type = "cppdbg",
+		request = "launch",
+		MIMode = "gdb",
+		miDebuggerServerAddress = "localhost:1234",
+		miDebuggerPath = "/usr/bin/gdb",
+		cwd = "${workspaceFolder}",
+		stopAtConnect = true,
+		justMyCode = true,
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+		end,
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
+	},
+}
+dap.configurations.c = dap.configurations.cpp
 -- dapui
 require("dapui").setup({
 	icons = { expanded = "▾", collapsed = "▸" },
