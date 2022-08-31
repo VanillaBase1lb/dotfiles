@@ -3,7 +3,7 @@ vim.opt.backup = false -- creates a backup file
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
-vim.opt.fileencoding = "utf-8" -- the encoding written to a file
+vim.opt.fileencoding = "utf-32" -- the encoding written to a file
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.mouse = "a" -- allow the mouse to be used in neovim
@@ -44,10 +44,6 @@ vim.opt.iskeyword:append("-")
 -- local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = false }
---Remap space as leader key
-vim.keymap.set("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.keymap.set("n", "<leader><leader>", ":", opts)
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -55,6 +51,11 @@ vim.keymap.set("n", "<leader><leader>", ":", opts)
 --   visual_block_mode = "x",
 --   term_mode = "t",
 --   command_mode = "c",
+--Remap space as leader key
+vim.keymap.set({ "n", "v", "x" }, " ", "<NOP>", opts)
+vim.g.mapleader = " "
+vim.keymap.set({ "n", "v", "x" }, ";", ":", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader><leader>", ":nohlsearch<CR>", opts)
 -- Normal --
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
@@ -69,12 +70,10 @@ vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", opts)
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
--- Clear highlights
-vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
 -- Operations on buffers/windows/frames
-vim.keymap.set("n", "Q", ":bd!<CR>", opts)
-vim.keymap.set("n", "<leader>bd", ":bd<CR>", opts)
-vim.keymap.set("n", "<leader>bw", ":w<CR>", opts)
+vim.keymap.set("n", "Q", ":bd<CR>", opts)
+vim.keymap.set("n", "<leader>bd", ":bd!<CR>", opts)
+vim.keymap.set("n", "<leader>bw", ":update<CR>", opts)
 vim.keymap.set("n", "<leader>q", ":q<CR>", opts)
 vim.keymap.set("n", "<leader>wd", ":q!<CR>", opts)
 vim.keymap.set("n", "<leader>wv", ":vsplit<CR>", opts)
@@ -84,11 +83,13 @@ vim.keymap.set("n", "<leader>w=", "<C-w>=", opts)
 vim.keymap.set("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
 -- Better paste
 vim.keymap.set("v", "p", '"_dP', opts)
+vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
+vim.keymap.set({ "n", "v", "x" }, ",P", '"0P', opts)
 -- Better text navigation
 vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
-vim.keymap.set("i", "kj", "<ESC>", opts)
+vim.keymap.set({ "i", "c" }, "kj", "<ESC>", opts)
 -- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
 vim.keymap.set("i", "<C-h>", "<C-w>", opts)
 -- Visual --
