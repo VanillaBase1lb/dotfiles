@@ -1,15 +1,15 @@
-vim.opt.backup = false -- creates a backup file
+-- vim.opt.backup = false -- creates a backup file
 -- vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
-vim.opt.fileencoding = "utf-8" -- the encoding written to a file
+vim.opt.fileencoding = "utf-32" -- the encoding written to a file
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.mouse = "a" -- allow the mouse to be used in neovim
 vim.opt.pumheight = 10 -- pop up menu height
 vim.opt.showmode = false -- we don't need to see things like -- INSERT -- anymore
-vim.opt.showtabline = 1 -- always show tabs
+vim.opt.showtabline = 2 -- always show tabs
 vim.opt.smartcase = true -- smart case
 vim.opt.smartindent = true -- make indenting smarter again
 vim.opt.splitbelow = true -- force all horizontal splits to go below current window
@@ -19,14 +19,14 @@ vim.opt.termguicolors = true -- set term gui colors (most terminals support this
 vim.opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true -- enable persistent undo
 vim.opt.updatetime = 300 -- faster completion (4000ms default)
-vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
+-- vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- vim.opt.expandtab = true                        -- convert tabs to spaces
 vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
 -- vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.number = true -- set numbered lines
 vim.opt.rnu = true
-vim.opt.laststatus = 3
+-- vim.opt.laststatus = 3
 vim.opt.showcmd = true
 vim.opt.ruler = false
 vim.opt.numberwidth = 4 -- set number column width to 2 {default 4}
@@ -44,10 +44,6 @@ vim.opt.iskeyword:append("-")
 -- local keymap = vim.keymap.set
 -- Silent keymap option
 local opts = { silent = false }
---Remap space as leader key
-vim.keymap.set("", "<Space>", "<Nop>", opts)
-vim.g.mapleader = " "
-vim.keymap.set("n", "<leader><leader>", ":", opts)
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -55,66 +51,82 @@ vim.keymap.set("n", "<leader><leader>", ":", opts)
 --   visual_block_mode = "x",
 --   term_mode = "t",
 --   command_mode = "c",
+--Remap space as leader key
+vim.keymap.set({ "n", "v", "x" }, " ", "<NOP>", opts)
+vim.g.mapleader = " "
+vim.keymap.set({ "n", "v", "x" }, ";", ":", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader><leader>", ":nohlsearch<CR>", opts)
 -- Normal --
 -- Better window navigation
-vim.keymap.set("n", "<C-h>", "<C-w>h", opts)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opts)
-vim.keymap.set("n", "<C-k>", "<C-w>k", opts)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-h>", "<C-w>h", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-j>", "<C-w>j", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-k>", "<C-w>k", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-l>", "<C-w>l", opts)
 -- Resize with arrows
-vim.keymap.set("n", "<C-Up>", ":resize -2<CR>", opts)
-vim.keymap.set("n", "<C-Down>", ":resize +2<CR>", opts)
-vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-Up>", ":resize -2<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-Down>", ":resize +2<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-Left>", ":vertical resize -2<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
-vim.keymap.set("n", "<S-l>", ":bnext<CR>", opts)
-vim.keymap.set("n", "<S-h>", ":bprevious<CR>", opts)
--- Clear highlights
-vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<S-l>", ":bnext<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<S-h>", ":bprevious<CR>", opts)
 -- Operations on buffers/windows/frames
-vim.keymap.set("n", "Q", ":bd!<CR>", opts)
-vim.keymap.set("n", "<leader>bd", ":bd<CR>", opts)
-vim.keymap.set("n", "<leader>bw", ":w<CR>", opts)
-vim.keymap.set("n", "<leader>q", ":q<CR>", opts)
-vim.keymap.set("n", "<leader>wd", ":q!<CR>", opts)
-vim.keymap.set("n", "<leader>wv", ":vsplit<CR>", opts)
-vim.keymap.set("n", "<leader>ws", ":split<CR>", opts)
-vim.keymap.set("n", "<leader>wx", "<C-w>x", opts)
-vim.keymap.set("n", "<leader>w=", "<C-w>=", opts)
-vim.keymap.set("n", "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
+vim.keymap.set({ "n", "v", "x" }, "Q", ":bd<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>bd", ":bd!<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>w", ":update<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":q!<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
 -- Better paste
-vim.keymap.set("v", "p", '"_dP', opts)
+vim.keymap.set({ "v", "x" }, "p", '"_dP', opts)
+vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
+vim.keymap.set({ "n", "v", "x" }, ",P", '"0P', opts)
 -- Better text navigation
 vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
-vim.keymap.set("i", "kj", "<ESC>", opts)
+vim.keymap.set({ "i", "c" }, "kj", "<ESC>", opts)
 -- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
-vim.keymap.set("i", "<C-h>", "<C-w>", opts)
+vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
 -- Visual --
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 -- Nvim-tree
-vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", opts)
+vim.keymap.set({"n","v","x"}, "<leader>e", ":NvimTreeToggle<CR>", opts)
 -- Plugins --
 -- Toggle
-vim.keymap.set("n", "<leader>tq", ":BqfToggle<CR>", opts)
-vim.keymap.set("n", "<leader>tu", ":UndotreeToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>tq", ":BqfToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>tu", ":UndotreeToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>td", require("dapui").toggle, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>tc", function()
+	local qf_exists = false
+	for _, win in pairs(vim.fn.getwininfo()) do
+		if win["quickfix"] == 1 then
+			qf_exists = true
+		end
+	end
+	if qf_exists == true then
+		vim.cmd("cclose")
+		return
+	end
+	if not vim.tbl_isempty(vim.fn.getqflist()) then
+		vim.cmd("copen")
+	end
+end, opts)
 -- Telescope
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", opts)
-vim.keymap.set("n", "<leader>fg", ":Telescope grep_string<CR>", opts)
-vim.keymap.set("n", "<leader>fs", ":Telescope live_grep<CR>", opts)
-vim.keymap.set("n", "<leader>fp", ":Telescope projects<CR>", opts)
-vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", opts)
-vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", opts)
-vim.keymap.set("n", "<leader>fr", ":Telescope resume<CR>", opts)
-vim.keymap.set("n", "<leader>ft", ":Telescope treesitter<CR>", opts)
-vim.keymap.set("n", "<leader>fm", ":Telescope marks<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>ff", ":Telescope find_files<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fg", ":Telescope grep_string<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fs", ":Telescope live_grep<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fp", ":Telescope projects<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fb", ":Telescope buffers<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fh", ":Telescope help_tags<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fr", ":Telescope resume<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>ft", ":Telescope treesitter<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fm", ":Telescope marks<CR>", opts)
 -- Git
-vim.keymap.set("n", "<leader>gg", ":Git<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>gg", ":Git<CR>", opts)
 -- Go to init.lua
-vim.keymap.set("n", "<leader>gh", ":e ~/.config/nvim/init.lua<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>gh", ":e ~/.config/nvim/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
 vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
@@ -129,30 +141,33 @@ vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, opts)
 vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, opts)
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]e", vim.diagnostic.goto_next, opts)
--- vim.api.nvim_create_autocmd("User", {
--- 	pattern = "LspAttached",
--- 	desc = "LSP actions",
--- 	callback = function()
--- 		local lsp_map_opts = { buffer = 0 }
--- 		vim.keymap.set("n", "K", vim.lsp.buf.hover, lsp_map_opts)
--- 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, lsp_map_opts)
--- 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, lsp_map_opts)
--- 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, lsp_map_opts)
--- 		vim.keymap.set("n", "go", vim.lsp.buf.type_definition, lsp_map_opts)
--- 		vim.keymap.set("n", "gr", vim.lsp.buf.references, lsp_map_opts)
--- 		vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, lsp_map_opts)
--- 		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, lsp_map_opts)
--- 		vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, lsp_map_opts)
--- 		vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, lsp_map_opts)
--- 		vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, lsp_map_opts)
--- 		vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, lsp_map_opts)
--- 		vim.keymap.set("n", "gl", vim.diagnostic.open_float, lsp_map_opts)
--- 		vim.keymap.set("n", "[e", vim.diagnostic.goto_prev, lsp_map_opts)
--- 		vim.keymap.set("n", "]e", vim.diagnostic.goto_next, lsp_map_opts)
--- 	end,
--- })
+vim.keymap.set({ "n", "v", "x" }, "[e", vim.diagnostic.goto_prev, opts)
+vim.keymap.set({ "n", "v", "x" }, "]e", vim.diagnostic.goto_next, opts)
+-- DAP
+vim.keymap.set({ "n", "v", "x" }, "<leader>db", require("dap").toggle_breakpoint, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dc", require("dap").continue, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>do", require("dap").step_over, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>di", require("dap").step_into, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dO", require("dap").step_out, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dp", require("dap").pause, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dl", require("dap").list_breakpoints, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dx", require("dap").clear_breakpoints, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dK", require("dapui").float_element, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dq", require("dap").terminate, opts)
+vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
+vim.keymap.set({ "n" }, "<leader>dB", function()
+	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, opts)
+function _G.set_terminal_keymaps()
+	local terminal_opts = { noremap = true }
+	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
+	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
+end
+
+vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 -- Others/General
 
 -- Automatically install packer
@@ -188,7 +203,6 @@ local packer = require("packer")
 
 -- Install your plugins here
 packer.startup(function(use)
-	-- My plugins here
 	use({ "wbthomason/packer.nvim" }) -- Have packer manage itself
 	use({ "nvim-lua/plenary.nvim" }) -- Useful lua functions used by lots of plugins
 	use({ "windwp/nvim-autopairs" }) -- Autopairs, integrates with both cmp and treesitter
@@ -223,6 +237,7 @@ packer.startup(function(use)
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-nvim-lua" })
 	use({ "rcarriga/cmp-dap" })
+	use({ "ray-x/lsp_signature.nvim" })
 	-- snippets
 	use({ "L3MON4D3/LuaSnip" }) --snippet engine
 	use({ "rafamadriz/friendly-snippets" }) -- a bunch of snippets to use
@@ -232,13 +247,16 @@ packer.startup(function(use)
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
 	use({ "RRethy/vim-illuminate" })
 	use({ "jose-elias-alvarez/null-ls.nvim" })
+	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
 	-- DAP
 	use({ "mfussenegger/nvim-dap" })
-
+	use({ "rcarriga/nvim-dap-ui" })
+	-- use({ "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } })
+	-- use({ "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" })
 	-- -- Automatically set up your configuration after cloning packer.nvim
 	-- -- Put this at the end after all plugins
 	-- if PACKER_BOOTSTRAP then
@@ -287,7 +305,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme darkplus")
+vim.cmd("colorscheme gruvbox")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
@@ -345,7 +363,10 @@ require("mason-lspconfig").setup_handlers({
 	["clangd"] = function()
 		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
 		capabilities_clangd.offsetEncoding = { "utf-16" }
-		lspconfig.clangd.setup({ capabilities = capabilities_clangd })
+		lspconfig.clangd.setup({
+			capabilities = capabilities_clangd,
+			-- cmd = { "clangd", "--completion-style=detailed" },
+		})
 	end,
 	["sumneko_lua"] = function()
 		lspconfig.sumneko_lua.setup({
@@ -372,6 +393,12 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 })
+-- require("lsp_signature").setup({
+-- 	bind = true, -- This is mandatory, otherwise border config won't get registered.
+-- 	handler_opts = {
+-- 		border = "rounded",
+-- 	},
+-- })
 -- Autocomplete completion CMP
 require("luasnip.loaders.from_vscode").lazy_load()
 local cmp = require("cmp")
@@ -406,6 +433,7 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
@@ -639,19 +667,65 @@ toggleterm.setup({
 		border = "curved",
 	},
 })
-function _G.set_terminal_keymaps()
-	local terminal_opts = { noremap = true }
-	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
-end
 
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-
--- DAP config
+-- DAP config --
 local dap = require("dap")
+-- nodejs
+dap.adapters.node2 = {
+	type = "executable",
+	command = "node",
+	args = { vim.fn.stdpath("data") .. "/mason/packages/node-debug2-adapter/out/src/nodeDebug.js" },
+}
+dap.configurations.javascript = {
+	{
+		name = "Launch",
+		type = "node2",
+		request = "launch",
+		program = "${file}",
+		cwd = vim.fn.getcwd(),
+		sourceMaps = true,
+		protocol = "inspector",
+		console = "integratedTerminal",
+	},
+	{
+		-- For this to work you need to make sure the node process is started with the `--inspect` flag.
+		name = "Attach to process",
+		type = "node2",
+		request = "attach",
+		processId = require("dap.utils").pick_process,
+	},
+}
+-- chrome
+dap.adapters.chrome = {
+	type = "executable",
+	command = "node",
+	args = { vim.fn.stdpath("data") .. "/mason/packages/chrome-debug-adapter/out/src/chromeDebug.js" },
+}
+dap.configurations.javascriptreact = { -- change this to javascript if needed
+	{
+		type = "chrome",
+		request = "attach",
+		program = "${file}",
+		cwd = vim.fn.getcwd(),
+		sourceMaps = true,
+		protocol = "inspector",
+		port = 9222,
+		webRoot = "${workspaceFolder}",
+	},
+}
+dap.configurations.typescriptreact = { -- change to typescript if needed
+	{
+		type = "chrome",
+		request = "attach",
+		program = "${file}",
+		cwd = vim.fn.getcwd(),
+		sourceMaps = true,
+		protocol = "inspector",
+		port = 9222,
+		webRoot = "${workspaceFolder}",
+	},
+}
+-- python
 dap.adapters.python = {
 	type = "executable",
 	command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python",
@@ -684,6 +758,122 @@ dap.configurations.python = {
 		end,
 	},
 }
+-- cpp/c/rust
+dap.adapters.cppdbg = {
+	id = "cppdbg",
+	type = "executable",
+	command = vim.fn.stdpath("data") .. "/mason/packages/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+}
+dap.configurations.cpp = {
+	{
+		name = "Launch file",
+		type = "cppdbg",
+		request = "launch",
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+		end,
+		cwd = "${workspaceFolder}",
+		stopAtEntry = true,
+		stopAtConnect = true,
+		justMyCode = true,
+		args = {},
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
+	},
+	{
+		name = "Attach to gdbserver :1234",
+		type = "cppdbg",
+		request = "launch",
+		MIMode = "gdb",
+		miDebuggerServerAddress = "localhost:1234",
+		miDebuggerPath = "/usr/bin/gdb",
+		cwd = "${workspaceFolder}",
+		stopAtConnect = true,
+		justMyCode = true,
+		program = function()
+			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+		end,
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		},
+	},
+}
+dap.configurations.c = dap.configurations.cpp
+-- dapui
+require("dapui").setup({
+	icons = { expanded = "▾", collapsed = "▸" },
+	mappings = {
+		-- Use a table to apply multiple mappings
+		expand = { "<CR>", "<2-LeftMouse>" },
+		open = "o",
+		remove = "d",
+		edit = "e",
+		repl = "r",
+		toggle = "t",
+	},
+	-- Expand lines larger than the window
+	-- Requires >= 0.7
+	expand_lines = vim.fn.has("nvim-0.7"),
+	-- Layouts define sections of the screen to place windows.
+	-- The position can be "left", "right", "top" or "bottom".
+	-- The size specifies the height/width depending on position. It can be an Int
+	-- or a Float. Integer specifies height/width directly (i.e. 20 lines/columns) while
+	-- Float value specifies percentage (i.e. 0.3 - 30% of available lines/columns)
+	-- Elements are the elements shown in the layout (in order).
+	-- Layouts are opened in order so that earlier layouts take priority in window sizing.
+	layouts = {
+		{
+			elements = {
+				-- Elements can be strings or table with id and size keys.
+				{ id = "scopes", size = 0.25 },
+				"breakpoints",
+				"stacks",
+				"watches",
+			},
+			size = 40, -- 40 columns
+			position = "left",
+		},
+		{
+			elements = {
+				"repl",
+				"console",
+			},
+			size = 0.25, -- 25% of total lines
+			position = "bottom",
+		},
+	},
+	floating = {
+		max_height = nil, -- These can be integers or a float between 0 and 1.
+		max_width = nil, -- Floats will be treated as percentage of your screen.
+		border = "single", -- Border style. Can be "single", "double" or "rounded"
+		mappings = {
+			close = { "q", "<Esc>" },
+		},
+	},
+	windows = { indent = 1 },
+	render = {
+		max_type_length = nil, -- Can be integer or nil.
+	},
+})
+local dapui = require("dapui")
+dap.listeners.after.event_initialized["dapui_config"] = function()
+	dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+	dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+	dapui.close()
+end
 
 -- Visual config --
 -- Bufferline
@@ -810,4 +1000,6 @@ indent_blankline.setup({
 -- which-key.nvim
 require("which-key").setup({})
 -- nvim-bqf
-require("bqf").setup({})
+require("bqf").setup({
+	auto_enable = false,
+})

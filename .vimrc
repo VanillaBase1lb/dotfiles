@@ -1,50 +1,50 @@
-" kj to exit insert mode
-imap kj <Esc>
+" This is only necessary for set termguicolors.
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 
-" Use Vim settings, rather than Vi settings
-set nocompatible
-
-" Do not keep any history
-set viminfo='0,:0,<0,@0,f0
-set nobackup
-set nowb
+set ignorecase
+set mouse=a
+set tabline=2
+set smartcase
+set smartindent
+set splitbelow
+set splitright
 set noswapfile
-
-" Allow backspacing over everything in INSERT mode
-set backspace=indent,eol,start
-
-" Show ruler and command visual aid
-set ruler
+set termguicolors
+"set expandtab
+"set shiftwidth=2
+"set tapstop=2
+set cursorline
+set nu
+set rnu
 set showcmd
-
-" Disable bells
-set noerrorbells
-
-" Set partial search and result highlighting
+set scrolloff=999
+set sidescrolloff=999
+set backspace=indent,eol,start
 set incsearch
 set hlsearch
-
-" Ignore case when searching
-set ignorecase
-set smartcase
-
-" Show matching bracets
 set showmatch
+set termguicolors
 
-" Highlight the cursor line
-set cursorline
+noremap <space> <nop>
+let mapleader = " "
+noremap <leader><leader> :nohlsearch<cr>
+noremap ; :
+noremap <c-h> <c-w>h
+noremap <c-j> <c-w>j
+noremap <c-k> <c-w>k
+noremap <c-l> <c-w>l
+noremap <c-up> :resize -2<cr>
+noremap <c-down> :resize +2<cr>
+noremap <c-left> :vertical resize -2<cr>
+noremap <c-right> :vertical resize +2<cr>
+noremap <s-l> :bnext<cr>
+noremap <s-h> :bprevious<cr>
+noremap Q :bd<cr>
+vnoremap p "_dP
+noremap ,p "0p
+noremap ,P "0P
+noremap! kj <esc>
 
-" Set default vertical split to right
-set splitright
-
-" Set soft tabs
-set tabstop=2
-set shiftwidth=2
-set expandtab
-set smarttab
-
-" Show line number and listchars
-set nu rnu
-
-" Keep cursor in middle
-set scrolloff=99
+syntax on
+colorscheme pablo
