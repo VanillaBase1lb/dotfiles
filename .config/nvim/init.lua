@@ -39,6 +39,7 @@ vim.opt.fillchars.eob = " "
 vim.opt.shortmess:append("c")
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
+vim.cmd("set guicursor=")
 
 -- Shorten function name
 -- local keymap = vim.keymap.set
@@ -74,8 +75,9 @@ vim.keymap.set({ "n", "v", "x" }, "<S-h>", ":bprevious<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "Q", ":bd<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bd", ":bd!<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>w", ":update<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":q!<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":q<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
+vim.keymap.set({ "n", "v", "x" }, "<leader>bs", ":BufferLinePick<CR>", opts) -- create new temporary buffer in vsplit
 -- Better paste
 vim.keymap.set({ "v", "x" }, "p", '"_dP', opts)
 vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
@@ -92,7 +94,7 @@ vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 -- Nvim-tree
-vim.keymap.set({"n","v","x"}, "<leader>e", ":NvimTreeToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":NvimTreeToggle<CR>", opts)
 -- Plugins --
 -- Toggle
 vim.keymap.set({ "n", "v", "x" }, "<leader>tq", ":BqfToggle<CR>", opts)
@@ -225,6 +227,7 @@ packer.startup(function(use)
 	use({ "kevinhwang91/nvim-bqf" })
 	use({ "stefandtw/quickfix-reflector.vim" })
 	use({ "Shatur/neovim-session-manager" })
+	use({ "github/copilot.vim" })
 	-- Colorschemes
 	use({ "folke/tokyonight.nvim" })
 	use({ "lunarvim/darkplus.nvim" })
@@ -245,13 +248,14 @@ packer.startup(function(use)
 	use({ "williamboman/mason.nvim" })
 	use({ "williamboman/mason-lspconfig.nvim" })
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
-	use({ "RRethy/vim-illuminate" })
+	-- use({ "RRethy/vim-illuminate" })
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
 	-- Treesitter
 	use({ "nvim-treesitter/nvim-treesitter" })
+	use({ "nvim-treesitter/nvim-treesitter-context" })
 	-- DAP
 	use({ "mfussenegger/nvim-dap" })
 	use({ "rcarriga/nvim-dap-ui" })
@@ -305,7 +309,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme tokyonight")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
@@ -944,43 +948,6 @@ lualine.setup({
 	},
 })
 
--- Illuminate
-require("illuminate").configure({
-	-- providers: provider used to get references in the buffer, ordered by priority
-	providers = {
-		"lsp",
-		"treesitter",
-		"regex",
-	},
-	-- delay: delay in milliseconds
-	delay = 100,
-	-- filetype_overrides: filetype specific overrides.
-	-- The keys are strings to represent the filetype while the values are tables that
-	-- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
-	filetype_overrides = {},
-	-- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
-	filetypes_denylist = {
-		"dirvish",
-		"fugitive",
-	},
-	-- filetypes_allowlist: filetypes to illuminate, this is overriden by filetypes_denylist
-	filetypes_allowlist = {},
-	-- modes_denylist: modes to not illuminate, this overrides modes_allowlist
-	modes_denylist = {},
-	-- modes_allowlist: modes to illuminate, this is overriden by modes_denylist
-	modes_allowlist = {},
-	-- providers_regex_syntax_denylist: syntax to not illuminate, this overrides providers_regex_syntax_allowlist
-	-- Only applies to the 'regex' provider
-	-- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-	providers_regex_syntax_denylist = {},
-	-- providers_regex_syntax_allowlist: syntax to illuminate, this is overriden by providers_regex_syntax_denylist
-	-- Only applies to the 'regex' provider
-	-- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-	providers_regex_syntax_allowlist = {},
-	-- under_cursor: whether or not to illuminate under the cursor
-	under_cursor = true,
-})
-
 -- Blankline
 local indent_blankline = require("indent_blankline")
 indent_blankline.setup({
@@ -998,7 +965,7 @@ indent_blankline.setup({
 })
 
 -- which-key.nvim
-require("which-key").setup({})
+require("which-key").setup()
 -- nvim-bqf
 require("bqf").setup({
 	auto_enable = false,

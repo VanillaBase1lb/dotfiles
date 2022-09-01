@@ -47,4 +47,6 @@ noremap ,P "0P
 noremap! kj <esc>
 
 syntax on
+set pumheight=10
 colorscheme pablo
+set wildmenu wildoptions=pum
