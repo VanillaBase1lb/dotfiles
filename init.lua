@@ -87,6 +87,7 @@ vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 -- Insert --
 -- Press jk fast to enter
 vim.keymap.set({ "i", "c" }, "kj", "<ESC>", opts)
+vim.keymap.set({ "t" }, "kj", "<C-\\><C-n>", opts)
 -- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
 -- Visual --
@@ -213,9 +214,9 @@ packer.startup(function(use)
 	use({ "kyazdani42/nvim-tree.lua" })
 	use({ "akinsho/bufferline.nvim" })
 	use({ "nvim-lualine/lualine.nvim" })
-	use({ "akinsho/toggleterm.nvim" })
+	-- use({ "akinsho/toggleterm.nvim" })
 	use({ "ahmedkhalf/project.nvim" })
-	use({ "lewis6991/impatient.nvim" })
+	-- use({ "lewis6991/impatient.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	-- Custom pugins
 	use({ "NMAC427/guess-indent.nvim" })
@@ -228,6 +229,7 @@ packer.startup(function(use)
 	use({ "stefandtw/quickfix-reflector.vim" })
 	use({ "Shatur/neovim-session-manager" })
 	use({ "github/copilot.vim" })
+	use({ "lewis6991/gitsigns.nvim" })
 	-- Colorschemes
 	use({ "folke/tokyonight.nvim" })
 	use({ "lunarvim/darkplus.nvim" })
@@ -268,9 +270,6 @@ packer.startup(function(use)
 	-- end
 end)
 
--- Impatient
-local impatient = require("impatient")
-impatient.enable_profile()
 -- session manager
 local Path = require("plenary.path")
 require("session_manager").setup({
@@ -653,25 +652,6 @@ require("guess-indent").setup({
 	},
 })
 
--- Toggleterm
-local toggleterm = require("toggleterm")
-toggleterm.setup({
-	-- size = 20,
-	open_mapping = [[<c-\>]],
-	-- hide_numbers = true,
-	shade_terminals = true,
-	shading_factor = 2,
-	start_in_insert = true,
-	insert_mappings = true,
-	persist_size = true,
-	direction = "float",
-	-- close_on_exit = true,
-	shell = vim.o.shell,
-	float_opts = {
-		border = "curved",
-	},
-})
-
 -- DAP config --
 local dap = require("dap")
 -- nodejs
@@ -969,4 +949,52 @@ require("which-key").setup()
 -- nvim-bqf
 require("bqf").setup({
 	auto_enable = false,
+})
+-- gitsigns
+require("gitsigns").setup({
+	on_attach = function(bufnr)
+		local gs = package.loaded.gitsigns
+		local function map(mode, l, r, opts_gitsigns)
+			opts_gitsigns = opts_gitsigns or {}
+			opts_gitsigns.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts_gitsigns)
+		end
+		-- Navigation
+		map("n", "]c", function()
+			if vim.wo.diff then
+				return "]c"
+			end
+			vim.schedule(function()
+				gs.next_hunk()
+			end)
+			return "<Ignore>"
+		end, { expr = true })
+		map("n", "[c", function()
+			if vim.wo.diff then
+				return "[c"
+			end
+			vim.schedule(function()
+				gs.prev_hunk()
+			end)
+			return "<Ignore>"
+		end, { expr = true })
+		-- Actions
+		map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+		map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
+		map("n", "<leader>hS", gs.stage_buffer)
+		map("n", "<leader>hu", gs.undo_stage_hunk)
+		map("n", "<leader>hR", gs.reset_buffer)
+		map("n", "<leader>hp", gs.preview_hunk)
+		map("n", "<leader>hb", function()
+			gs.blame_line({ full = true })
+		end)
+		map("n", "<leader>tb", gs.toggle_current_line_blame)
+		map("n", "<leader>hd", gs.diffthis)
+		map("n", "<leader>hD", function()
+			gs.diffthis("~")
+		end)
+		map("n", "<leader>tD", gs.toggle_deleted)
+		-- Text object
+		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+	end,
 })
