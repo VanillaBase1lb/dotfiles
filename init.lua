@@ -21,8 +21,8 @@ vim.opt.undofile = true -- enable persistent undo
 vim.opt.updatetime = 300 -- faster completion (4000ms default)
 -- vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- vim.opt.expandtab = true                        -- convert tabs to spaces
-vim.opt.shiftwidth = 2 -- the number of spaces inserted for each indentation
--- vim.opt.tabstop = 2                             -- insert 2 spaces for a tab
+vim.opt.shiftwidth = 0 -- the number of spaces inserted for each indentation
+vim.opt.tabstop = 4 -- insert 2 spaces for a tab
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.number = true -- set numbered lines
 vim.opt.rnu = true
@@ -91,9 +91,6 @@ vim.keymap.set({ "t" }, "kj", "<C-\\><C-n>", opts)
 -- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
 -- Visual --
--- Stay in indent mode
-vim.keymap.set("v", "<", "<gv", opts)
-vim.keymap.set("v", ">", ">gv", opts)
 -- Nvim-tree
 vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":NvimTreeToggle<CR>", opts)
 -- Plugins --
@@ -411,17 +408,21 @@ local select_opts = { behavior = cmp.SelectBehavior.Insert }
 local null_ls = require("null-ls")
 null_ls.setup({
 	sources = {
-		null_ls.builtins.formatting.stylua,
+		-- null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.black,
-		null_ls.builtins.formatting.fixjson,
-		null_ls.builtins.formatting.eslint,
+		-- null_ls.builtins.formatting.fixjson,
+		-- null_ls.builtins.formatting.eslint,
 		null_ls.builtins.formatting.shfmt,
+		-- null_ls.builtins.formatting.goimports,
 		null_ls.builtins.code_actions.eslint,
 		null_ls.builtins.code_actions.shellcheck,
 		null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.diagnostics.pylint,
+		null_ls.builtins.diagnostics.golangci_lint,
 		-- null_ls.builtins.diagnostics.luacheck,
-		null_ls.builtins.completion.spell,
+		null_ls.builtins.completion.spell.with({
+			filetypes = { "text", "markdown" }
+		}),
 	},
 })
 cmp.setup({
@@ -959,6 +960,7 @@ require("gitsigns").setup({
 			opts_gitsigns.buffer = bufnr
 			vim.keymap.set(mode, l, r, opts_gitsigns)
 		end
+
 		-- Navigation
 		map("n", "]c", function()
 			if vim.wo.diff then
