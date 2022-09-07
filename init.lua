@@ -39,7 +39,7 @@ vim.opt.fillchars.eob = " "
 vim.opt.shortmess:append("c")
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
-vim.cmd("set guicursor=")
+-- vim.cmd("set guicursor=")
 
 -- Shorten function name
 -- local keymap = vim.keymap.set
@@ -84,6 +84,8 @@ vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
 vim.keymap.set({ "n", "v", "x" }, ",P", '"0P', opts)
 -- Better text navigation
 vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
+vim.keymap.set({ "n", "v", "x" }, "]]", "]m", opts)
+vim.keymap.set({ "n", "v", "x" }, "[[", "[m", opts)
 -- Insert --
 -- Press jk fast to enter
 vim.keymap.set({ "i", "c" }, "kj", "<ESC>", opts)
@@ -305,7 +307,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme gruvbox")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
@@ -1000,3 +1002,10 @@ require("gitsigns").setup({
 		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 	end,
 })
+
+-- Copilot
+vim.g.copilot_node_command = "~/.nvm/versions/node/v17.9.1/bin/node"
+-- vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_tab_fallback = ""
+-- vim.keymap.set("i", "<C-J>", vim.fn["copilot#Accept"], opts)
