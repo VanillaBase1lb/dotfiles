@@ -34,7 +34,8 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(go
-     python
+     ;; python
+     (python :variables python-formatter 'yapf)
      javascript
      c-c++
      ;; ----------------------------------------------------------------
@@ -67,6 +68,7 @@ This function should only modify configuration layer settings."
 
      ;; themes-megapack
      dap
+     semantic
      )
 
 
@@ -197,7 +199,7 @@ It should only modify the values of Spacemacs settings."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
 
    ;; Scale factor controls the scaling (size) of the startup banner. Default
    ;; value is `auto' for scaling the logo automatically to fit all buffer
@@ -557,6 +559,7 @@ default it calls `spacemacs/load-spacemacs-env' which loads the environment
 variables declared in `~/.spacemacs.env' or `~/.spacemacs.d/.spacemacs.env'.
 See the header of this file for more information."
   (spacemacs/load-spacemacs-env)
+  (setenv "PATH" (concat (getenv "PATH") ":" (expand-file-name "~/.emacs.d/.local/custom/")))
   )
 
 (defun dotspacemacs/user-init ()
@@ -586,6 +589,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (setq dap-python-debugger 'debugpy)
   (setq evil-escape-key-sequence "kj")
   (setq select-enable-clipboard nil)
   (setq evil-symbol-word-search t)
@@ -597,6 +601,7 @@ before packages are loaded."
   (spacemacs/set-leader-keys "'" #'spacemacs/shell-pop-vterm)
   (define-key evil-visual-state-map (kbd "C-S-c") 'clipboard-kill-ring-save)
   (define-key evil-visual-state-map (kbd "C-S-x") 'clipboard-kill-region)
+  (define-key evil-visual-state-map (kbd "S") 'evil-avy-goto-word-1) ; does not work
   (define-key evil-insert-state-map (kbd "C-S-v") 'clipboard-yank)
   (define-key evil-normal-state-map (kbd "s") 'evil-avy-goto-char)
   (define-key evil-normal-state-map (kbd "S") 'evil-avy-goto-word-1)
@@ -633,6 +638,9 @@ before packages are loaded."
   (push
    '("*lsp-help*" :regexp nil :dedicated t :position right :stick t :noselect nil :width 0.4)
    popwin:special-display-config)
+  (push
+   '(".*log*" :regexp t :dedicated t :position right :stick t :noselect nil :width 0.4)
+   popwin:special-display-config)
   (define-key evil-normal-state-map (kbd "gh") #'lsp-ui-doc-toggle)
   )
 
@@ -650,7 +658,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes '(default))
- '(package-selected-packages '(neotree ac-ispell)))
+ '(package-selected-packages '(srefactor stickyfunc-enhance neotree ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
