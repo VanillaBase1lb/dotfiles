@@ -72,12 +72,13 @@ vim.keymap.set({ "n", "v", "x" }, "<C-Right>", ":vertical resize +2<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<S-l>", ":bnext<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<S-h>", ":bprevious<CR>", opts)
 -- Operations on buffers/windows/frames
-vim.keymap.set({ "n", "v", "x" }, "Q", ":bd<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "Q", ":bp|bd #<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bd", ":bd!<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>w", ":update<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":q<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
 vim.keymap.set({ "n", "v", "x" }, "<leader>bs", ":BufferLinePick<CR>", opts) -- create new temporary buffer in vsplit
+vim.keymap.set({ "n", "v", "x" }, "<leader>bf", ":buffers!<CR>:buffer<Space>", opts)
 -- Better paste
 vim.keymap.set({ "v", "x" }, "p", '"_dP', opts)
 vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
@@ -170,6 +171,7 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+vim.cmd("autocmd! TermOpen * :setlocal nobuflisted")
 -- Others/General
 
 -- Automatically install packer
@@ -495,7 +497,7 @@ cmp.setup({
 
 -- Telescope --
 local telescope = require("telescope")
-local actions = require("telescope.actions")
+local telescope_actions = require("telescope.actions")
 telescope.setup({
 	defaults = {
 		prompt_prefix = " ",
@@ -504,18 +506,19 @@ telescope.setup({
 		file_ignore_patterns = { ".git/", "node_modules" },
 		mappings = {
 			i = {
-				["<Down>"] = actions.cycle_history_next,
-				["<Up>"] = actions.cycle_history_prev,
-				["<C-n>"] = actions.move_selection_next,
-				["<C-p>"] = actions.move_selection_previous,
+				["<Down>"] = telescope_actions.cycle_history_next,
+				["<Up>"] = telescope_actions.cycle_history_prev,
+				["<C-n>"] = telescope_actions.move_selection_next,
+				["<C-p>"] = telescope_actions.move_selection_previous,
 			},
 		},
 	},
-	{
-		pickers = {
-			live_grep = {
-				only_sort_text = true,
-			},
+	pickers = {
+		live_grep = {
+			only_sort_text = true,
+		},
+		buffers = {
+			show_all_buffers = true,
 		},
 	},
 })

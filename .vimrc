@@ -11,9 +11,9 @@ set splitbelow
 set splitright
 set noswapfile
 set termguicolors
+set tabstop=4
+set shiftwidth=0
 "set expandtab
-"set shiftwidth=2
-"set tapstop=2
 set cursorline
 set nu
 set rnu
@@ -29,6 +29,9 @@ set termguicolors
 noremap <space> <nop>
 let mapleader = " "
 noremap <leader><leader> :nohlsearch<cr>
+noremap <leader>bf :buffers!<CR>:buffer<Space>
+noremap <leader>w :update<CR>
+noremap <leader>q :q<CR>
 noremap ; :
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
@@ -40,7 +43,8 @@ noremap <c-left> :vertical resize -2<cr>
 noremap <c-right> :vertical resize +2<cr>
 noremap <s-l> :bnext<cr>
 noremap <s-h> :bprevious<cr>
-noremap Q :bd<cr>
+noremap Q :bd<CR>
+" noremap Q :bn\|bd #<CR>
 vnoremap p "_dP
 noremap ,p "0p
 noremap ,P "0P
