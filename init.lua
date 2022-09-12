@@ -746,6 +746,7 @@ dap.configurations.python = {
 	},
 }
 -- cpp/c/rust
+-- note to self: while compiling c/c++, use flags -g -O0 when debugging
 dap.adapters.cppdbg = {
 	id = "cppdbg",
 	type = "executable",
