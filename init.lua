@@ -74,6 +74,7 @@ vim.keymap.set({ "n", "v", "x" }, "<S-h>", ":bprevious<CR>", opts)
 -- Operations on buffers/windows/frames
 vim.keymap.set({ "n", "v", "x" }, "Q", ":bp|bd #<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bd", ":bd!<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>bD", ":bp|bd! #<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>w", ":update<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>q", ":q<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bt", ":vnew<CR>", opts) -- create new temporary buffer in vsplit
