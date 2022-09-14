@@ -117,6 +117,19 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>tc", function()
 		vim.cmd("copen")
 	end
 end, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>tl", function()
+	local lwin_exists = false
+	for _, win in pairs(vim.fn.getwininfo()) do
+		if win["loclist"] == 1 then
+			lwin_exists = true
+		end
+	end
+	if lwin_exists == true then
+		vim.cmd("lclose")
+		return
+	end
+	vim.cmd("lopen")
+end, opts)
 -- Telescope
 vim.keymap.set({ "n", "v", "x" }, "<leader>ff", ":Telescope find_files<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>fg", ":Telescope grep_string<CR>", opts)
@@ -148,16 +161,19 @@ vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 vim.keymap.set({ "n", "v", "x" }, "[e", vim.diagnostic.goto_prev, opts)
 vim.keymap.set({ "n", "v", "x" }, "]e", vim.diagnostic.goto_next, opts)
 -- DAP
-vim.keymap.set({ "n", "v", "x" }, "<leader>db", require("dap").toggle_breakpoint, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dc", require("dap").continue, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>do", require("dap").step_over, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>di", require("dap").step_into, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dO", require("dap").step_out, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>db", ":DapToggleBreakpoint<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dc", ":DapContinue<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F5>", ":DapContinue<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>do", ":DapStepOver<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F10>", ":DapStepOver<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>di", ":DapStepInto<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F11>", ":DapStepInto<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dO", ":DapStepOut<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>dp", require("dap").pause, opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>dl", require("dap").list_breakpoints, opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>dx", require("dap").clear_breakpoints, opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>dK", require("dapui").float_element, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dq", require("dap").terminate, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dq", ":DapTerminate", opts)
 vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
 vim.keymap.set({ "n" }, "<leader>dB", function()
 	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
@@ -232,6 +248,7 @@ packer.startup(function(use)
 	use({ "Shatur/neovim-session-manager" })
 	use({ "github/copilot.vim" })
 	use({ "lewis6991/gitsigns.nvim" })
+	use({ "nvim-orgmode/orgmode" })
 	-- Colorschemes
 	use({ "folke/tokyonight.nvim" })
 	use({ "lunarvim/darkplus.nvim" })
@@ -338,9 +355,10 @@ vim.diagnostic.config({
 		ghost_text = true,
 	},
 })
+
+-- LSP config
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
--- LSP config
 local lsp_defaults = {
 	flags = {
 		debounce_text_changes = 150,
@@ -365,6 +383,17 @@ require("mason-lspconfig").setup_handlers({
 		lspconfig[server_name].setup({})
 	end,
 	-- Next, you can provide targeted overrides for specific servers.
+	["pyright"] = function()
+		lspconfig.pyright.setup({
+			settings = {
+				python = {
+					analysis = {
+						typeCheckingMode = "off",
+					},
+				},
+			}
+		})
+	end,
 	["clangd"] = function()
 		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
 		capabilities_clangd.offsetEncoding = { "utf-16" }
@@ -404,11 +433,10 @@ require("mason-lspconfig").setup_handlers({
 -- 		border = "rounded",
 -- 	},
 -- })
--- Autocomplete completion CMP
+
 require("luasnip.loaders.from_vscode").lazy_load()
-local cmp = require("cmp")
 local luasnip = require("luasnip")
-local select_opts = { behavior = cmp.SelectBehavior.Insert }
+
 -- null-ls
 local null_ls = require("null-ls")
 null_ls.setup({
@@ -430,6 +458,10 @@ null_ls.setup({
 		}),
 	},
 })
+
+-- Autocomplete completion CMP
+local cmp = require("cmp")
+local select_opts = { behavior = cmp.SelectBehavior.Insert }
 cmp.setup({
 	enabled = function()
 		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
@@ -518,11 +550,9 @@ telescope.setup({
 		live_grep = {
 			only_sort_text = true,
 		},
-		buffers = {
-			show_all_buffers = true,
-		},
 	},
 })
+
 -- Project
 local project = require("project_nvim")
 project.setup({
@@ -553,6 +583,7 @@ project.setup({
 	datapath = vim.fn.stdpath("data"),
 })
 telescope.load_extension("projects")
+
 -- TreeSitter
 local configs = require("nvim-treesitter.configs")
 configs.setup({
@@ -643,6 +674,7 @@ nvim_tree.setup({
 		},
 	},
 })
+
 -- guess-indent
 -- This is the default configuration
 require("guess-indent").setup({
@@ -800,6 +832,7 @@ dap.configurations.cpp = {
 	},
 }
 dap.configurations.c = dap.configurations.cpp
+
 -- dapui
 require("dapui").setup({
 	icons = { expanded = "▾", collapsed = "▸" },
@@ -954,10 +987,12 @@ indent_blankline.setup({
 
 -- which-key.nvim
 require("which-key").setup()
+
 -- nvim-bqf
 require("bqf").setup({
 	auto_enable = false,
 })
+
 -- gitsigns
 require("gitsigns").setup({
 	on_attach = function(bufnr)
@@ -990,19 +1025,15 @@ require("gitsigns").setup({
 		-- Actions
 		map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
 		map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
-		map("n", "<leader>hS", gs.stage_buffer)
-		map("n", "<leader>hu", gs.undo_stage_hunk)
-		map("n", "<leader>hR", gs.reset_buffer)
-		map("n", "<leader>hp", gs.preview_hunk)
-		map("n", "<leader>hb", function()
-			gs.blame_line({ full = true })
-		end)
-		map("n", "<leader>tb", gs.toggle_current_line_blame)
-		map("n", "<leader>hd", gs.diffthis)
-		map("n", "<leader>hD", function()
-			gs.diffthis("~")
-		end)
-		map("n", "<leader>tD", gs.toggle_deleted)
+		map("n", "<leader>hS", ":Gitsigns stage_buffer<CR>")
+		map("n", "<leader>hu", ":Gitsigns undo_stage_hunk<CR>")
+		map("n", "<leader>hR", ":Gitsigns reset_buffer<CR>")
+		map("n", "<leader>hp", ":Gitsigns preview_hunk<CR>")
+		map("n", "<leader>hb", ":Gitsigns blame_line<CR>")
+		map("n", "<leader>tb", ":Gitsigns toggle_current_line_blame<CR>")
+		map("n", "<leader>hd", ":Gitsigns diffthis<CR>")
+		map("n", "<leader>hD", ":Gitsigns diffthis ~<CR>")
+		map("n", "<leader>tD", ":Gitsigns toggle_deleted<CR>")
 		-- Text object
 		map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
 	end,
