@@ -186,7 +186,35 @@ env:
   #builtin_box_drawing: true
 
 # If `true`, bold text is drawn using the bright color variants.
-#draw_bold_text_with_bright_colors: false
+draw_bold_text_with_bright_colors: false
+
+# Colors (Darkside)
+colors:
+  primary:
+    background: '#222324'
+    foreground: '#bababa'
+
+  # Normal colors
+  normal:
+    black:    '#555555'
+    red:      '#e8341c'
+    green:    '#68c256'
+    yellow:   '#f2d42c'
+    blue:     '#1c98e8'
+    magenta:  '#8e69c9'
+    cyan:     '#1c98e8'
+    white:    '#bababa'
+
+  # Bright colors
+  bright:
+    black:    '#666666'
+    red:      '#e05a4f'
+    green:    '#77b869'
+    yellow:   '#efd64b'
+    blue:     '#387cd3'
+    magenta:  '#957bbe'
+    cyan:     '#3d97e2'
+    white:    '#bababa'
 
 # Colors (Tomorrow Night)
 #colors:

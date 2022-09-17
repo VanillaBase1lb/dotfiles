@@ -52,5 +52,5 @@ noremap! kj <esc>
 
 syntax on
 set pumheight=10
-colorscheme pablo
+colorscheme habamax
 set wildmenu wildoptions=pum

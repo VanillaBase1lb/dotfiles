@@ -22,7 +22,7 @@ vim.opt.updatetime = 300 -- faster completion (4000ms default)
 -- vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- vim.opt.expandtab = true                        -- convert tabs to spaces
 vim.opt.shiftwidth = 0 -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 4 -- insert 2 spaces for a tab
+vim.opt.tabstop = 4 -- no. of spaces inserted for a tab
 vim.opt.cursorline = true -- highlight the current line
 vim.opt.number = true -- set numbered lines
 vim.opt.rnu = true
@@ -248,9 +248,7 @@ packer.startup(function(use)
 	use({ "Shatur/neovim-session-manager" })
 	use({ "github/copilot.vim" })
 	use({ "lewis6991/gitsigns.nvim" })
-	use({ "nvim-orgmode/orgmode" })
 	-- Colorschemes
-	use({ "folke/tokyonight.nvim" })
 	use({ "lunarvim/darkplus.nvim" })
 	use({ "ellisonleao/gruvbox.nvim" })
 	-- cmp plugins
@@ -327,7 +325,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme gruvbox")
+vim.cmd("colorscheme darkplus")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
