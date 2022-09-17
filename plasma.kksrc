@@ -4,15 +4,20 @@ switch-to-activity-16021a99-23ea-4c0a-8778-746779b4b679=
 switch-to-activity-432b3a56-39f4-4b8c-ba0a-22eed1c14de3=
 switch-to-activity-e651b138-5bfd-42ae-978f-0a758c195850=
 
+[Alacritty.desktop][Global Shortcuts]
+New=
+_launch=Meta+Return
+
 [KDE Keyboard Layout Switcher][Global Shortcuts]
 Switch keyboard layout to English (Dvorak)=
 Switch keyboard layout to English (US)=
+Switch keyboard layout to English (programmer Dvorak)=
 Switch to Next Keyboard Layout=
 
 [StandardShortcuts]
 AboutApp=
 AboutKDE=
-Activate Next Tab=Ctrl+PgDown; Ctrl+]
+Activate Next Tab=Ctrl+]; Ctrl+PgDown
 Activate Previous Tab=Ctrl+[; Ctrl+PgUp
 ActualSize=Ctrl+0
 AddBookmark=Ctrl+B
@@ -21,7 +26,7 @@ BackwardWord=Ctrl+Left
 Begin=Ctrl+Home
 BeginningOfLine=Home
 Clear=
-Close=Ctrl+W; Ctrl+Esc
+Close=Ctrl+Esc; Ctrl+W
 ConfigureNotifications=
 ConfigureToolbars=
 Copy=Ctrl+Ins; Ctrl+C
@@ -50,7 +55,7 @@ Goto=
 GotoLine=Ctrl+G
 GotoPage=
 Help=F1
-Home=Home Page; Alt+Home
+Home=Alt+Home; Home Page
 KeyBindings=Ctrl+Alt+,
 Mail=
 MoveToTrash=Del
@@ -68,7 +73,7 @@ PrintPreview=
 Prior=PgUp
 Quit=Ctrl+Q
 Redo=Ctrl+Shift+Z
-Reload=F5; Refresh
+Reload=Refresh; F5
 RenameFile=F2
 Replace=Ctrl+R
 ReportBug=
@@ -79,7 +84,7 @@ Save=Ctrl+S
 SaveAs=Ctrl+Shift+S
 SaveOptions=
 SelectAll=Ctrl+A
-ShowHideHiddenFiles=Alt+.; Ctrl+H
+ShowHideHiddenFiles=Ctrl+H; Alt+.
 ShowMenubar=Ctrl+M
 ShowStatusbar=
 ShowToolbar=
@@ -92,7 +97,7 @@ Undo=Ctrl+Z
 Up=Alt+Up
 WhatsThis=Shift+F1
 Zoom=
-ZoomIn=Ctrl++; Ctrl+=
+ZoomIn=Ctrl+=; Ctrl++
 ZoomOut=Ctrl+-
 
 [bismuth][Global Shortcuts]
@@ -150,18 +155,17 @@ Show System Activity=Ctrl+Esc
 display=Display
 
 [khotkeys][Global Shortcuts]
+{2b33cb58-1010-4150-8e3f-38caf0e8e7ea}=Print
 {4506e22d-8708-425a-a09b-943096a25e25}=Ctrl+Alt+T
+{45a759bb-482c-4f1e-8758-a9a4933f3c76}=
 {d03619b6-9b3c-48cc-9d9c-a2aadb485550}=
-
-[Alacritty.desktop][Global Shortcuts]
-_launch=Meta+Return
 
 [kmix][Global Shortcuts]
 decrease_microphone_volume=Microphone Volume Down
 decrease_volume=Volume Down
 increase_microphone_volume=Microphone Volume Up
 increase_volume=Volume Up
-mic_mute=Microphone Mute; Meta+Volume Mute
+mic_mute=Meta+Volume Mute; Microphone Mute
 mute=Volume Mute
 
 [ksmserver][Global Shortcuts]
@@ -391,9 +395,9 @@ previousmedia=Media Previous
 stopmedia=Media Stop
 
 [org.flameshot.Flameshot.desktop][Global Shortcuts]
-Capture=Print
+Capture=Shift+Print
 Configure=
-Launcher=Ctrl+Print
+Launcher=
 _launch=
 
 [org.kde.dolphin.desktop][Global Shortcuts]
@@ -401,7 +405,7 @@ _launch=Meta+E
 
 [org.kde.krunner.desktop][Global Shortcuts]
 RunClipboard=
-_launch=Search; Meta+D
+_launch=Meta+D; Search
 
 [org.kde.plasma.emojier.desktop][Global Shortcuts]
 _launch=Meta+.
@@ -434,6 +438,7 @@ activate widget 3=
 activate widget 8=
 clear-history=
 clipboard_action=
+cycle-panels=Meta+Alt+P
 cycleNextAction=
 cyclePrevAction=
 edit_clipboard=
