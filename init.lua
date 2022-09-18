@@ -19,6 +19,13 @@ vim.opt.termguicolors = true -- set term gui colors (most terminals support this
 vim.opt.timeoutlen = 1000 -- time to wait for a mapped sequence to complete (in milliseconds)
 vim.opt.undofile = true -- enable persistent undo
 vim.opt.updatetime = 300 -- faster completion (4000ms default)
+vim.opt.list = true
+vim.opt.listchars = {
+	tab = '│·',
+	extends = '⟩',
+	precedes = '⟨',
+	trail = '·'
+}
 -- vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- vim.opt.expandtab = true                        -- convert tabs to spaces
 vim.opt.shiftwidth = 0 -- the number of spaces inserted for each indentation
@@ -188,7 +195,7 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
-vim.cmd("autocmd! TermOpen * :setlocal nobuflisted")
+-- vim.cmd("autocmd! TermOpen * :setlocal nobuflisted")
 -- Others/General
 
 -- Automatically install packer
@@ -249,7 +256,7 @@ packer.startup(function(use)
 	use({ "github/copilot.vim" })
 	use({ "lewis6991/gitsigns.nvim" })
 	-- Colorschemes
-	use({ "lunarvim/darkplus.nvim" })
+	use({ "Mofiqul/vscode.nvim" })
 	use({ "ellisonleao/gruvbox.nvim" })
 	-- cmp plugins
 	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
@@ -325,7 +332,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme darkplus")
+vim.cmd("colorscheme vscode")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
@@ -445,10 +452,12 @@ null_ls.setup({
 		-- null_ls.builtins.formatting.eslint,
 		null_ls.builtins.formatting.shfmt,
 		-- null_ls.builtins.formatting.goimports,
-		null_ls.builtins.code_actions.eslint,
+		-- null_ls.builtins.code_actions.eslint,
 		null_ls.builtins.code_actions.shellcheck,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.diagnostics.pylint,
+		-- null_ls.builtins.diagnostics.eslint,
+		null_ls.builtins.diagnostics.pylint.with({
+			prefer_local = ".venv/bin",
+		}),
 		null_ls.builtins.diagnostics.golangci_lint,
 		-- null_ls.builtins.diagnostics.luacheck,
 		null_ls.builtins.completion.spell.with({
@@ -594,7 +603,8 @@ configs.setup({
 	autopairs = {
 		enable = true,
 	},
-	--[[ indent = { enable = true, disable = { "python", "css" } }, ]]
+	-- indent = { enable = true, disable = { "python", "css" } },
+	indent = { enable = true },
 })
 
 -- Comment
@@ -968,20 +978,20 @@ lualine.setup({
 })
 
 -- Blankline
-local indent_blankline = require("indent_blankline")
-indent_blankline.setup({
-	char = "▏",
-	show_trailing_blankline_indent = true,
-	show_first_indent_level = true,
-	use_treesitter = true,
-	show_current_context = true,
-	buftype_exclude = { "terminal", "nofile" },
-	filetype_exclude = {
-		"help",
-		"packer",
-		"NvimTree",
-	},
-})
+-- local indent_blankline = require("indent_blankline")
+-- indent_blankline.setup({
+-- 	char = "▏",
+-- 	show_trailing_blankline_indent = true,
+-- 	show_first_indent_level = true,
+-- 	use_treesitter = true,
+-- 	show_current_context = true,
+-- 	buftype_exclude = { "terminal", "nofile" },
+-- 	filetype_exclude = {
+-- 		"help",
+-- 		"packer",
+-- 		"NvimTree",
+-- 	},
+-- })
 
 -- which-key.nvim
 require("which-key").setup()

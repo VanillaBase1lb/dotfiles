@@ -25,6 +25,8 @@ set incsearch
 set hlsearch
 set showmatch
 set termguicolors
+set list
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 
 noremap <space> <nop>
 let mapleader = " "
