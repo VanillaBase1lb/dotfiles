@@ -775,8 +775,9 @@ dap.configurations.python = {
 			-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
 			-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
 			-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-			local cwd = vim.fn.getcwd()
-			local pypath = cwd .. string.format("%s/bin/python", os.getenv("VIRTUAL_ENV"))
+			-- local cwd = vim.fn.getcwd()
+			-- local pypath = cwd .. string.format("%s/bin/python", os.getenv("VIRTUAL_ENV"))
+			local pypath = string.format("%s/bin/python", os.getenv("VIRTUAL_ENV"))
 			if vim.fn.executable(pypath) == 1 then
 				return pypath
 				-- elseif vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
