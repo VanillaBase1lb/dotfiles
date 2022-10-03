@@ -40,7 +40,8 @@ vim.opt.numberwidth = 4 -- set number column width to 2 {default 4}
 vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false -- display lines as one long line
 vim.opt.scrolloff = 999
-vim.opt.sidescrolloff = 999
+-- vim.opt.sidescrolloff = 999
+vim.opt.virtualedit = "all"
 -- vim.opt.guifont = "monospace:h17"               -- the font used in graphical neovim applications
 vim.opt.fillchars.eob = " "
 vim.opt.shortmess:append("c")
@@ -431,6 +432,20 @@ require("mason-lspconfig").setup_handlers({
 			-- end,
 		})
 	end,
+	["sqls"] = function()
+		lspconfig.sqls.setup({
+			settings = {
+				sqls = {
+					connections = {
+						{
+							driver = "mysql",
+							dataSourceName = "frappeuser:password@tcp(localhost:3306)/frappe",
+						}
+					},
+				},
+			}
+		})
+	end,
 })
 -- require("lsp_signature").setup({
 -- 	bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -451,6 +466,13 @@ null_ls.setup({
 		-- null_ls.builtins.formatting.fixjson,
 		-- null_ls.builtins.formatting.eslint,
 		null_ls.builtins.formatting.shfmt,
+		-- null_ls.builtins.formatting.sql_formatter,
+		null_ls.builtins.formatting.sqlfluff.with({
+			extra_args = { "--dialect", "mysql" },
+		}),
+		null_ls.builtins.diagnostics.sqlfluff.with({
+			extra_args = { "--dialect", "mysql" },
+		}),
 		null_ls.builtins.formatting.markdownlint,
 		-- null_ls.builtins.formatting.goimports,
 		-- null_ls.builtins.code_actions.eslint,
@@ -458,6 +480,9 @@ null_ls.setup({
 		-- null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.diagnostics.pylint.with({
 			prefer_local = ".venv/bin",
+			diagnostics_postprocess = function(diagnostic)
+				diagnostic.code = diagnostic.message_id
+			end,
 		}),
 		null_ls.builtins.diagnostics.golangci_lint,
 		null_ls.builtins.diagnostics.markdownlint,
