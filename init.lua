@@ -7,6 +7,7 @@ vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.mouse = "a" -- allow the mouse to be used in neovim
+vim.opt.mousescroll = "ver:1"
 vim.opt.pumheight = 10 -- pop up menu height
 vim.opt.showmode = false -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 2 -- always show tabs
@@ -163,7 +164,20 @@ vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
 vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
 vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, opts)
-vim.keymap.set("n", "<leader>lf", vim.lsp.buf.formatting, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>lf",
+	function() vim.lsp.buf.format { filter = function(client)
+			-- ignore these formatters
+			local ignore_formatters = { "tsserver", "sqls", "html", }
+			for _, ignore_formatter in pairs(ignore_formatters) do
+				if client.name == ignore_formatter then
+					return false
+				end
+			end
+			return true
+		end,
+			async = true }
+	end,
+	opts)
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 vim.keymap.set({ "n", "v", "x" }, "[e", vim.diagnostic.goto_prev, opts)
@@ -460,11 +474,12 @@ local luasnip = require("luasnip")
 -- null-ls
 local null_ls = require("null-ls")
 null_ls.setup({
+	debug = true,
 	sources = {
 		-- null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.black,
 		-- null_ls.builtins.formatting.fixjson,
-		-- null_ls.builtins.formatting.eslint,
+		null_ls.builtins.formatting.prettier,
 		null_ls.builtins.formatting.shfmt,
 		-- null_ls.builtins.formatting.sql_formatter,
 		null_ls.builtins.formatting.sqlfluff.with({
@@ -475,9 +490,9 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.markdownlint,
 		-- null_ls.builtins.formatting.goimports,
-		-- null_ls.builtins.code_actions.eslint,
+		null_ls.builtins.code_actions.eslint_d,
 		null_ls.builtins.code_actions.shellcheck,
-		-- null_ls.builtins.diagnostics.eslint,
+		null_ls.builtins.diagnostics.eslint_d,
 		null_ls.builtins.diagnostics.pylint.with({
 			prefer_local = ".venv/bin",
 			diagnostics_postprocess = function(diagnostic)
@@ -698,7 +713,7 @@ nvim_tree.setup({
 	},
 	view = {
 		width = 30,
-		height = 30,
+		-- height = 30,
 		side = "left",
 		mappings = {
 			list = {
