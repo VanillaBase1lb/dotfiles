@@ -48,7 +48,7 @@ vim.opt.fillchars.eob = " "
 vim.opt.shortmess:append("c")
 vim.opt.whichwrap:append("<,>,[,],h,l")
 vim.opt.iskeyword:append("-")
--- vim.cmd("set guicursor=")
+vim.opt.guicursor = "n:blinkon1"
 
 -- Shorten function name
 -- local keymap = vim.keymap.set
@@ -1095,5 +1095,5 @@ vim.g.copilot_node_command = "~/.nvm/versions/node/v17.9.1/bin/node"
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
--- vim.keymap.set("i", "<C-J>", vim.fn["copilot#Accept()"], opts)
-vim.api.nvim_set_keymap('i', '<c-j>', 'copilot#Accept()', { expr = true })
+-- vim.keymap.set("i", "<C-F>", vim.fn["copilot#Accept()"], opts)
+vim.api.nvim_set_keymap('i', '<C-F>', 'copilot#Accept()', { expr = true })
