@@ -1082,7 +1082,7 @@ require("gitsigns").setup({
 		map("n", "<leader>hp", ":Gitsigns preview_hunk<CR>")
 		map("n", "<leader>hb", ":Gitsigns blame_line<CR>")
 		map("n", "<leader>tb", ":Gitsigns toggle_current_line_blame<CR>")
-		map("n", "<leader>hd", ":Gitsigns diffthis<CR>")
+		map("n", "<leader>hd", ":Gitsigns diffthis HEAD<CR>")
 		map("n", "<leader>hD", ":Gitsigns diffthis ~<CR>")
 		map("n", "<leader>tD", ":Gitsigns toggle_deleted<CR>")
 		-- Text object
