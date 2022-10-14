@@ -1,0 +1,24 @@
+[$Version]
+update_info=kwinrules.upd:replace-placement-string-to-enum,kwinrules.upd:use-virtual-desktop-ids
+
+[1]
+Description=hide title bars
+noborder=true
+noborderrule=4
+types=1
+wmclass=.*
+wmclasscomplete=true
+wmclassmatch=3
+
+[General]
+count=1
+rules=1
+
+[f732a362-6b21-44d8-9fc7-811d6ad517da]
+Description=hide title bars
+noborder=true
+noborderrule=4
+types=1
+wmclass=.*
+wmclasscomplete=true
+wmclassmatch=3

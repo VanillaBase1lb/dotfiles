@@ -1,0 +1,9 @@
+[ELAN0504:01 04F3:312A Touchpad]
+clickMethodAreas=false
+clickMethodClickfinger=true
+middleEmulation=true
+pointerAcceleration=0
+scrollEdge=false
+scrollTwoFinger=true
+tapDragLock=true
+tapToClick=true
