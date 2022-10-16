@@ -22,10 +22,10 @@ vim.opt.undofile = true -- enable persistent undo
 vim.opt.updatetime = 300 -- faster completion (4000ms default)
 vim.opt.list = true
 vim.opt.listchars = {
-	tab = '│·',
-	extends = '⟩',
-	precedes = '⟨',
-	trail = '·'
+	tab = "│·",
+	extends = "⟩",
+	precedes = "⟨",
+	trail = "·",
 }
 -- vim.opt.writebackup = false -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 -- vim.opt.expandtab = true                        -- convert tabs to spaces
@@ -154,7 +154,7 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>gg", ":Git<CR>", opts)
 -- Go to init.lua
 vim.keymap.set({ "n", "v", "x" }, "<leader>gh", ":e ~/.config/nvim/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
-vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
 vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
@@ -164,10 +164,11 @@ vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
 vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
 vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>lf",
-	function() vim.lsp.buf.format { filter = function(client)
+vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
+	vim.lsp.buf.format({
+		filter = function(client)
 			-- ignore these formatters
-			local ignore_formatters = { "tsserver", "sqls", "html", }
+			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua" }
 			for _, ignore_formatter in pairs(ignore_formatters) do
 				if client.name == ignore_formatter then
 					return false
@@ -175,9 +176,9 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>lf",
 			end
 			return true
 		end,
-			async = true }
-	end,
-	opts)
+		async = true,
+	})
+end, opts)
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
 vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
 vim.keymap.set({ "n", "v", "x" }, "[e", vim.diagnostic.goto_prev, opts)
@@ -411,7 +412,7 @@ require("mason-lspconfig").setup_handlers({
 						typeCheckingMode = "off",
 					},
 				},
-			}
+			},
 		})
 	end,
 	["clangd"] = function()
@@ -454,10 +455,10 @@ require("mason-lspconfig").setup_handlers({
 						{
 							driver = "mysql",
 							dataSourceName = "frappeuser:password@tcp(localhost:3306)/frappe",
-						}
+						},
 					},
 				},
-			}
+			},
 		})
 	end,
 })
@@ -476,7 +477,7 @@ local null_ls = require("null-ls")
 null_ls.setup({
 	debug = true,
 	sources = {
-		-- null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.black,
 		-- null_ls.builtins.formatting.fixjson,
 		null_ls.builtins.formatting.prettier,
@@ -501,9 +502,15 @@ null_ls.setup({
 		}),
 		null_ls.builtins.diagnostics.golangci_lint,
 		null_ls.builtins.diagnostics.markdownlint,
-		-- null_ls.builtins.diagnostics.luacheck,
+		null_ls.builtins.diagnostics.cpplint,
+		null_ls.builtins.diagnostics.cppcheck.with({
+			command = vim.fn.stdpath("data") .. "/mason/packages/cppcheck/cppcheck",
+		}),
+		null_ls.builtins.diagnostics.luacheck.with({
+			extra_args = { "--globals", "vim" },
+		}),
 		null_ls.builtins.completion.spell.with({
-			filetypes = { "text", "markdown" }
+			filetypes = { "text", "markdown" },
 		}),
 	},
 })
@@ -827,7 +834,7 @@ dap.configurations.python = {
 				-- elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
 				-- 	return cwd .. '/.venv/bin/python'
 			else
-				return "/usr/bin/python"
+				return vim.fn.exepath("python")
 			end
 		end,
 	},
@@ -866,7 +873,7 @@ dap.configurations.cpp = {
 		request = "launch",
 		MIMode = "gdb",
 		miDebuggerServerAddress = "localhost:1234",
-		miDebuggerPath = "/usr/bin/gdb",
+		miDebuggerPath = vim.fn.exepath("gdb"),
 		cwd = "${workspaceFolder}",
 		stopAtConnect = true,
 		justMyCode = true,
@@ -883,6 +890,7 @@ dap.configurations.cpp = {
 	},
 }
 dap.configurations.c = dap.configurations.cpp
+dap.configurations.rust = dap.configurations.cpp
 
 -- dapui
 require("dapui").setup({
@@ -1096,4 +1104,4 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
 -- vim.keymap.set("i", "<C-F>", vim.fn["copilot#Accept()"], opts)
-vim.api.nvim_set_keymap('i', '<C-F>', 'copilot#Accept()', { expr = true })
+vim.api.nvim_set_keymap("i", "<C-F>", "copilot#Accept()", { expr = true })
