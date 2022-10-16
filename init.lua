@@ -64,22 +64,20 @@ local opts = { silent = false }
 --Remap space as leader key
 vim.keymap.set({ "n", "v", "x" }, " ", "<NOP>", opts)
 vim.g.mapleader = " "
-vim.keymap.set({ "n", "v", "x" }, ";", ":", opts)
+-- vim.keymap.set({ "n", "v", "x" }, ";", ":", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader><leader>", ":nohlsearch<CR>", opts)
 -- Normal --
--- Better window navigation
-vim.keymap.set({ "n", "v", "x" }, "<C-h>", "<C-w>h", opts)
-vim.keymap.set({ "n", "v", "x" }, "<C-j>", "<C-w>j", opts)
-vim.keymap.set({ "n", "v", "x" }, "<C-k>", "<C-w>k", opts)
-vim.keymap.set({ "n", "v", "x" }, "<C-l>", "<C-w>l", opts)
+-- Better buffer navigation
+vim.keymap.set({ "n", "v", "x" }, "L", "<C-d>", opts)
+vim.keymap.set({ "n", "v", "x" }, "H", "<C-u>", opts)
 -- Resize with arrows
 vim.keymap.set({ "n", "v", "x" }, "<C-Up>", ":resize -2<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<C-Down>", ":resize +2<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<C-Left>", ":vertical resize -2<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<C-Right>", ":vertical resize +2<CR>", opts)
 -- Navigate buffers
-vim.keymap.set({ "n", "v", "x" }, "<S-l>", ":bnext<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<S-h>", ":bprevious<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-l>", ":bnext<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<C-h>", ":bprevious<CR>", opts)
 -- Operations on buffers/windows/frames
 vim.keymap.set({ "n", "v", "x" }, "Q", ":bp|bd #<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>bd", ":bd!<CR>", opts)
@@ -91,8 +89,8 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>bs", ":BufferLinePick<CR>", opts) -- 
 vim.keymap.set({ "n", "v", "x" }, "<leader>bf", ":buffers!<CR>:buffer<Space>", opts)
 -- Better paste
 vim.keymap.set({ "v", "x" }, "p", '"_dP', opts)
-vim.keymap.set({ "n", "v", "x" }, ",p", '"0p', opts)
-vim.keymap.set({ "n", "v", "x" }, ",P", '"0P', opts)
+vim.keymap.set({ "n", "v", "x" }, "gp", '"0p', opts)
+vim.keymap.set({ "n", "v", "x" }, "gP", '"0P', opts)
 -- Better text navigation
 vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 vim.keymap.set({ "n", "v", "x" }, "]]", "]m", opts)
@@ -201,16 +199,16 @@ vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
 vim.keymap.set({ "n" }, "<leader>dB", function()
 	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
 end, opts)
-function _G.set_terminal_keymaps()
-	local terminal_opts = { noremap = true }
-	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
-	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
-end
+-- function _G.set_terminal_keymaps()
+-- 	local terminal_opts = { noremap = true }
+-- 	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
+-- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
+-- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
+-- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
+-- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
+-- end
 
-vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
+-- vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 -- vim.cmd("autocmd! TermOpen * :setlocal nobuflisted")
 -- Others/General
 

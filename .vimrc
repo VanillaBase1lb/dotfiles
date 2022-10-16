@@ -34,22 +34,24 @@ noremap <leader><leader> :nohlsearch<cr>
 noremap <leader>bf :buffers!<CR>:buffer<Space>
 noremap <leader>w :update<CR>
 noremap <leader>q :q<CR>
-noremap ; :
-noremap <c-h> <c-w>h
-noremap <c-j> <c-w>j
-noremap <c-k> <c-w>k
-noremap <c-l> <c-w>l
+" noremap ; :
+" noremap <c-h> <c-w>h
+" noremap <c-j> <c-w>j
+" noremap <c-k> <c-w>k
+" noremap <c-l> <c-w>l
+noremap L <c-d>
+noremap H <c-u>
 noremap <c-up> :resize -2<cr>
 noremap <c-down> :resize +2<cr>
 noremap <c-left> :vertical resize -2<cr>
 noremap <c-right> :vertical resize +2<cr>
-noremap <s-l> :bnext<cr>
-noremap <s-h> :bprevious<cr>
+noremap <c-l> :bnext<cr>
+noremap <c-h> :bprevious<cr>
 noremap Q :bd<CR>
 " noremap Q :bn\|bd #<CR>
 vnoremap p "_dP
-noremap ,p "0p
-noremap ,P "0P
+noremap gp "0p
+noremap gP "0P
 noremap! kj <esc>
 
 syntax on
