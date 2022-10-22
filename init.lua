@@ -166,7 +166,7 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
 	vim.lsp.buf.format({
 		filter = function(client)
 			-- ignore these formatters
-			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua" }
+			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua", "eslint_d" }
 			for _, ignore_formatter in pairs(ignore_formatters) do
 				if client.name == ignore_formatter then
 					return false
@@ -258,7 +258,7 @@ packer.startup(function(use)
 	-- use({ "lewis6991/impatient.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	-- Custom pugins
-	use({ "NMAC427/guess-indent.nvim" })
+	use({ "tpope/vim-sleuth" })
 	use({ "phaazon/hop.nvim" })
 	use({ "folke/which-key.nvim" })
 	use({ "tpope/vim-surround" })
@@ -727,22 +727,6 @@ nvim_tree.setup({
 				{ key = "v", cb = tree_cb("vsplit") },
 			},
 		},
-	},
-})
-
--- guess-indent
--- This is the default configuration
-require("guess-indent").setup({
-	auto_cmd = true, -- Set to false to disable automatic execution
-	filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
-		"netrw",
-		"tutor",
-	},
-	buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
-		"help",
-		"nofile",
-		"terminal",
-		"prompt",
 	},
 })
 
