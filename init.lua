@@ -258,7 +258,7 @@ packer.startup(function(use)
 	-- use({ "lewis6991/impatient.nvim" })
 	use({ "lukas-reineke/indent-blankline.nvim" })
 	-- Custom pugins
-	use({ "tpope/vim-sleuth" })
+	use({ "NMAC427/guess-indent.nvim" })
 	use({ "phaazon/hop.nvim" })
 	use({ "folke/which-key.nvim" })
 	use({ "tpope/vim-surround" })
@@ -327,7 +327,7 @@ require("session_manager").setup({
 -- General tweaks --
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "gitcommit", "markdown" },
+	pattern = { "gitcommit", "markdown", "text" },
 	callback = function()
 		vim.opt_local.wrap = true
 		vim.opt_local.spell = true
@@ -338,6 +338,7 @@ vim.cmd("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTre
 vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 	callback = function()
 		vim.cmd("set formatoptions-=cro")
+		-- vim.cmd("GuessIndent")
 	end,
 })
 -- Highlight Yanked Text
@@ -361,7 +362,7 @@ sign({ name = "DiagnosticSignWarn", text = "▲" })
 sign({ name = "DiagnosticSignHint", text = "⚑" })
 sign({ name = "DiagnosticSignInfo", text = "" })
 vim.diagnostic.config({
-	virtual_text = true,
+	virtual_text = false,
 	signs = true,
 	severity_sort = false,
 	float = {
@@ -727,6 +728,22 @@ nvim_tree.setup({
 				{ key = "v", cb = tree_cb("vsplit") },
 			},
 		},
+	},
+})
+
+-- guess-indent
+-- This is the default configuration
+require("guess-indent").setup({
+	auto_cmd = true, -- Set to false to disable automatic execution
+	filetype_exclude = { -- A list of filetypes for which the auto command gets disabled
+		"netrw",
+		"tutor",
+	},
+	buftype_exclude = { -- A list of buffer types for which the auto command gets disabled
+		"help",
+		"nofile",
+		"terminal",
+		"prompt",
 	},
 })
 
