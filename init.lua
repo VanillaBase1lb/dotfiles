@@ -7,7 +7,7 @@ vim.opt.fileencoding = "utf-8" -- the encoding written to a file
 vim.opt.hlsearch = true -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true -- ignore case in search patterns
 vim.opt.mouse = "a" -- allow the mouse to be used in neovim
-vim.opt.mousescroll = "ver:1"
+vim.opt.mousescroll = "ver:2"
 vim.opt.pumheight = 10 -- pop up menu height
 vim.opt.showmode = true -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 2 -- always show tabs
@@ -147,8 +147,6 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>fh", ":Telescope help_tags<CR>", opts
 vim.keymap.set({ "n", "v", "x" }, "<leader>fr", ":Telescope resume<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>ft", ":Telescope treesitter<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>fm", ":Telescope marks<CR>", opts)
--- Git
-vim.keymap.set({ "n", "v", "x" }, "<leader>gg", ":Git<CR>", opts)
 -- Go to init.lua
 vim.keymap.set({ "n", "v", "x" }, "<leader>gh", ":e " .. vim.fn.stdpath("config") .. "/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
@@ -263,7 +261,6 @@ packer.startup(function(use)
 	use({ "folke/which-key.nvim" })
 	use({ "tpope/vim-surround" })
 	use({ "mbbill/undotree" })
-	use({ "tpope/vim-fugitive" })
 	use({ "kevinhwang91/nvim-bqf" })
 	use({ "stefandtw/quickfix-reflector.vim" })
 	use({ "Shatur/neovim-session-manager" })
@@ -272,6 +269,7 @@ packer.startup(function(use)
 	-- Colorschemes
 	use({ "Mofiqul/vscode.nvim" })
 	use({ "ellisonleao/gruvbox.nvim" })
+	use({ "folke/tokyonight.nvim" })
 	-- cmp plugins
 	use({ "hrsh7th/nvim-cmp" }) -- The completion plugin
 	use({ "hrsh7th/cmp-buffer" }) -- buffer completions
@@ -347,7 +345,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
 })
-vim.cmd("colorscheme vscode")
+vim.cmd("colorscheme tokyonight-moon")
 
 -- Diagnostics
 local sign = function(diagnostics_opt)
