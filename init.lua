@@ -89,6 +89,8 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>bs", ":BufferLinePick<CR>", opts) -- 
 vim.keymap.set({ "n", "v", "x" }, "<leader>bf", ":buffers!<CR>:buffer<Space>", opts)
 -- Better paste
 vim.keymap.set({ "v", "x" }, "p", '"_dP', opts)
+vim.keymap.set({ "v", "x" }, "K", ":m '<-2<CR>gv=gv", opts)
+vim.keymap.set({ "v", "x" }, "J", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set({ "n", "v", "x" }, "gp", '"0p', opts)
 vim.keymap.set({ "n", "v", "x" }, "gP", '"0P', opts)
 -- Better text navigation
@@ -451,7 +453,7 @@ require("mason-lspconfig").setup_handlers({
 					connections = {
 						{
 							driver = "mysql",
-							dataSourceName = "frappeuser:password@tcp(localhost:3306)/frappe",
+							dataSourceName = "dbuser:password@tcp(localhost:3306)/test",
 						},
 					},
 				},
