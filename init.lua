@@ -166,7 +166,7 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
 	vim.lsp.buf.format({
 		filter = function(client)
 			-- ignore these formatters
-			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua", "eslint_d" }
+			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua", "eslint_d", "eslint" }
 			for _, ignore_formatter in pairs(ignore_formatters) do
 				if client.name == ignore_formatter then
 					return false
@@ -490,9 +490,10 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.markdownlint,
 		-- null_ls.builtins.formatting.goimports,
-		null_ls.builtins.code_actions.eslint_d,
+		null_ls.builtins.code_actions.eslint,
 		null_ls.builtins.code_actions.shellcheck,
-		null_ls.builtins.diagnostics.eslint_d,
+		-- null_ls.builtins.diagnostics.eslint_d,
+		null_ls.builtins.diagnostics.eslint,
 		null_ls.builtins.diagnostics.pylint.with({
 			prefer_local = ".venv/bin",
 			diagnostics_postprocess = function(diagnostic)
@@ -529,10 +530,10 @@ cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
-		{ name = "nvim_lsp_signature_help" },
-		{ name = "buffer" },
+		-- { name = "nvim_lsp_signature_help" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
+		{ name = "buffer" },
 		{ name = "dap" },
 	},
 	window = {
@@ -557,6 +558,7 @@ cmp.setup({
 		-- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
 		-- ['<C-f>'] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.abort(),
+		["<C-Space>"] = cmp.mapping.complete(),
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			local col = vim.fn.col(".") - 1
