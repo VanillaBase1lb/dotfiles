@@ -593,7 +593,7 @@ telescope.setup({
 		prompt_prefix = " ",
 		selection_caret = " ",
 		path_display = { "smart" },
-		file_ignore_patterns = { ".git/", "node_modules" },
+		file_ignore_patterns = { ".git", "node_modules" },
 		mappings = {
 			i = {
 				["<Down>"] = telescope_actions.cycle_history_next,
@@ -604,8 +604,14 @@ telescope.setup({
 		},
 	},
 	pickers = {
+		find_files = {
+			hidden = true,
+		},
 		live_grep = {
 			only_sort_text = true,
+			additional_args = function(_)
+				return { "--hidden" }
+			end,
 		},
 	},
 })
