@@ -116,15 +116,15 @@
         "when": "inputFocus && notebookEditorFocused && !editorHasSelection && !editorHoverVisible"
     },
     {
-        "key": "ctrl+shift+t",
+        "key": "shift+alt+t",
         "command": "workbench.action.toggleMaximizedPanel"
     },
     {
-        "key": "alt+o",
+        "key": "ctrl+l",
         "command": "workbench.action.nextEditor"
     },
     {
-        "key": "alt+i",
+        "key": "ctrl+h",
         "command": "workbench.action.previousEditor"
     },
     {
@@ -534,10 +534,6 @@
         "command": "-workbench.action.files.revealActiveFileInWindows"
     },
     {
-        "key": "ctrl+q",
-        "command": "workbench.action.toggleZenMode"
-    },
-    {
         "key": "alt+w",
         "command": "-toggleSearchEditorWholeWord",
         "when": "inSearchEditor && searchInputBoxFocus"
@@ -711,5 +707,52 @@
         "key": "ctrl+shift+e",
         "command": "-workbench.view.explorer",
         "when": "viewContainer.workbench.view.explorer.enabled"
+    },
+    {
+        "key": "alt+h",
+        "command": "-testing.toggleTestingPeekHistory",
+        "when": "testing.isPeekVisible"
+    },
+    {
+        "key": "ctrl+shift+t",
+        "command": "-workbench.action.reopenClosedEditor"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "-editor.action.startFindReplaceAction",
+        "when": "editorFocus || editorIsOpen"
+    },
+    {
+        "key": "ctrl+h",
+        "command": "-whichkey.searchBindings",
+        "when": "whichkeyVisible"
+    },
+    {
+        "key": "alt+o",
+        "command": "-C_Cpp.SwitchHeaderSource",
+        "when": "editorTextFocus && editorLangId == 'c' || editorTextFocus && editorLangId == 'cpp' || editorTextFocus && editorLangId == 'cuda-cpp'"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-expandLineSelection",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-notebook.centerActiveCell",
+        "when": "notebookEditorFocused"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "-workbench.action.closeActiveEditor"
+    },
+    {
+        "key": "ctrl+w",
+        "command": "-workbench.action.closeGroup",
+        "when": "activeEditorGroupEmpty && multipleEditorGroups"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "workbench.action.closeActiveEditor"
     },
 ]

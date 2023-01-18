@@ -30,16 +30,26 @@
     {
       "before": ["<space>"],
       "commands": ["whichkey.show"]
+    },
+    {
+      "before": ["Q"],
+      "after": [":", "b", "d", "<CR>"]
+    },
+    {
+      "before": ["g", "p"],
+      "after": ["\"", "0", "p"]
+    },
+    {
+      "before": ["g", "P"],
+      "after": ["\"", "0", "P"]
     }
   ],
   "vim.easymotionJumpToAnywhereRegex": "[$&+:=?@#|<>^*()%!\\{\\}_-]",
   "workbench.iconTheme": "material-icon-theme",
   "editor.acceptSuggestionOnEnter": "off",
   "telemetry.telemetryLevel": "off",
-  "websearch.ac_engine": "Google",
-  "websearch.default_engine": "Google",
   "explorer.compactFolders": false,
-  "workbench.enableExperiments": false,
+  "workbench.enableExperiments": true,
   "workbench.settings.enableNaturalLanguageSearch": false,
   "update.mode": "none",
   "extensions.autoUpdate": false,
@@ -63,7 +73,6 @@
     }
   ],
   "vim.overrideCopy": false,
-  "workbench.colorTheme": "Gruvbox Dark Hard",
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
@@ -76,5 +85,7 @@
   },
   "editor.cursorSurroundingLines": 99,
   "hdinsight.disableOpenSurveyLink": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.minimap.enabled": false,
   "workbench.activityBar.visible": false
 }
