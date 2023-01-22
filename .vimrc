@@ -27,6 +27,7 @@ set showmatch
 set termguicolors
 set list
 set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
+set virtualedit=all
 
 noremap <space> <nop>
 let mapleader = " "
