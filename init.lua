@@ -139,6 +139,7 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>tl", function()
 	end
 	vim.cmd("lopen")
 end, opts)
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
 -- Telescope
 vim.keymap.set({ "n", "v", "x" }, "<leader>ff", ":Telescope find_files<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>fg", ":Telescope grep_string<CR>", opts)
@@ -153,34 +154,25 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>fm", ":Telescope marks<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>gh", ":e " .. vim.fn.stdpath("config") .. "/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, opts)
-vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
-vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 vim.keymap.set("n", "<leader>ls", vim.lsp.buf.signature_help, opts)
 vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
-vim.keymap.set("n", "<leader>la", vim.lsp.buf.code_action, opts)
-vim.keymap.set("x", "<leader>la", vim.lsp.buf.range_code_action, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>la", vim.lsp.buf.code_action, opts)
+local filterfunc = function(client)
+	-- ignore these formatters
+	local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua", "eslint_d", "eslint" }
+	for _, ignore_formatter in pairs(ignore_formatters) do
+		if client.name == ignore_formatter then
+			return false
+		end
+	end
+	return true
+end
 vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
 	vim.lsp.buf.format({
-		filter = function(client)
-			-- ignore these formatters
-			local ignore_formatters = { "tsserver", "sqls", "html", "sumneko_lua", "eslint_d", "eslint" }
-			for _, ignore_formatter in pairs(ignore_formatters) do
-				if client.name == ignore_formatter then
-					return false
-				end
-			end
-			return true
-		end,
+		filter = filterfunc,
 		async = true,
 	})
 end, opts)
-vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
-vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
-vim.keymap.set({ "n", "v", "x" }, "[e", vim.diagnostic.goto_prev, opts)
-vim.keymap.set({ "n", "v", "x" }, "]e", vim.diagnostic.goto_next, opts)
 -- DAP
 vim.keymap.set({ "n", "v", "x" }, "<leader>db", ":DapToggleBreakpoint<CR>", opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>dc", ":DapContinue<CR>", opts)
@@ -199,17 +191,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
 vim.keymap.set({ "n" }, "<leader>dB", function()
 	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
 end, opts)
--- function _G.set_terminal_keymaps()
--- 	local terminal_opts = { noremap = true }
--- 	-- vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
--- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-h>", [[<C-\><C-n><C-W>h]], terminal_opts)
--- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-j>", [[<C-\><C-n><C-W>j]], terminal_opts)
--- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-k>", [[<C-\><C-n><C-W>k]], terminal_opts)
--- 	vim.api.nvim_buf_set_keymap(0, "t", "<C-l>", [[<C-\><C-n><C-W>l]], terminal_opts)
--- end
-
--- vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
--- vim.cmd("autocmd! TermOpen * :setlocal nobuflisted")
 -- Others/General
 
 -- Automatically install packer
@@ -288,6 +269,7 @@ packer.startup(function(use)
 	use({ "williamboman/mason.nvim" })
 	use({ "williamboman/mason-lspconfig.nvim" })
 	use({ "neovim/nvim-lspconfig" }) -- enable LSP
+	use({ "VonHeikemen/lsp-zero.nvim" }) -- enable LSP
 	-- use({ "RRethy/vim-illuminate" })
 	use({ "jose-elias-alvarez/null-ls.nvim" })
 	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
@@ -349,127 +331,121 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 vim.cmd("colorscheme tokyonight-moon")
 
+-- LSP zero config
+local lsp = require("lsp-zero")
+lsp.preset("recommended")
+
+-- -- EFM
+-- lsp.configure("efm", {
+-- 	init_options = { documentFormatting = true },
+-- 	settings = {
+-- 		languages = {
+-- 			lua = {
+-- 				{ formatCommand = "stylua" .. " -", formatStdin = true },
+-- 			},
+-- 		},
+-- 	},
+-- })
+
+lsp.set_preferences({
+	set_lsp_keymaps = { omit = { "K, <F4>" } },
+})
+lsp.nvim_workspace()
+lsp.setup()
+
 -- Diagnostics
-local sign = function(diagnostics_opt)
-	vim.fn.sign_define(diagnostics_opt.name, {
-		texthl = diagnostics_opt.name,
-		text = diagnostics_opt.text,
-		numhl = "",
-	})
-end
-sign({ name = "DiagnosticSignError", text = "✘" })
-sign({ name = "DiagnosticSignWarn", text = "▲" })
-sign({ name = "DiagnosticSignHint", text = "⚑" })
-sign({ name = "DiagnosticSignInfo", text = "" })
 vim.diagnostic.config({
-	virtual_text = false,
-	signs = true,
-	severity_sort = false,
-	float = {
-		border = "rounded",
-		source = "always",
-		header = "",
-		prefix = "",
-	},
+	virtual_text = true,
 	experimental = {
 		ghost_text = true,
 	},
 })
 
--- LSP config
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-local lsp_defaults = {
-	flags = {
-		debounce_text_changes = 150,
-	},
-	capabilities = require("cmp_nvim_lsp").default_capabilities(),
-	on_attach = function()
-		vim.api.nvim_exec_autocmds("User", { pattern = "LspAttached" })
-	end,
-}
-require("mason").setup({})
-require("mason-lspconfig").setup({
-	automatic_installation = true,
-})
-local lspconfig = require("lspconfig")
-lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, lsp_defaults)
--- Add new LSP servers here
-require("mason-lspconfig").setup_handlers({
-	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have
-	-- a dedicated handler.
-	function(server_name) -- default handler (optional)
-		lspconfig[server_name].setup({})
-	end,
-	-- Next, you can provide targeted overrides for specific servers.
-	["pyright"] = function()
-		lspconfig.pyright.setup({
-			settings = {
-				python = {
-					analysis = {
-						typeCheckingMode = "off",
-					},
-				},
-			},
-		})
-	end,
-	["clangd"] = function()
-		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
-		capabilities_clangd.offsetEncoding = { "utf-16" }
-		lspconfig.clangd.setup({
-			capabilities = capabilities_clangd,
-			-- cmd = { "clangd", "--completion-style=detailed" },
-		})
-	end,
-	["sumneko_lua"] = function()
-		lspconfig.sumneko_lua.setup({
-			settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim" },
-					},
-					workspace = {
-						library = {
-							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							[vim.fn.stdpath("config") .. "/lua"] = true,
-						},
-					},
-					telemetry = {
-						enable = false,
-					},
-				},
-			},
-			single_file_support = true,
-			-- on_attach = function(client, bufnr)
-			-- 	lspconfig.util.default_config.on_attach(client, bufnr)
-			-- end,
-		})
-	end,
-	["sqls"] = function()
-		lspconfig.sqls.setup({
-			settings = {
-				sqls = {
-					connections = {
-						{
-							driver = "mysql",
-							dataSourceName = "dbuser:password@tcp(localhost:3306)/test",
-						},
-					},
-				},
-			},
-		})
-	end,
-})
--- require("lsp_signature").setup({
--- 	bind = true, -- This is mandatory, otherwise border config won't get registered.
--- 	handler_opts = {
--- 		border = "rounded",
+-- -- LSP config
+-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+-- local lsp_defaults = {
+-- 	flags = {
+-- 		debounce_text_changes = 150,
 -- 	},
+-- 	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+-- 	on_attach = function()
+-- 		vim.api.nvim_exec_autocmds("User", { pattern = "LspAttached" })
+-- 	end,
+-- }
+-- require("mason").setup({})
+-- require("mason-lspconfig").setup({
+-- 	automatic_installation = true,
 -- })
-
-require("luasnip.loaders.from_vscode").lazy_load()
-local luasnip = require("luasnip")
+-- local lspconfig = require("lspconfig")
+-- lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, lsp_defaults)
+-- -- Add new LSP servers here
+-- require("mason-lspconfig").setup_handlers({
+-- 	-- The first entry (without a key) will be the default handler
+-- 	-- and will be called for each installed server that doesn't have
+-- 	-- a dedicated handler.
+-- 	function(server_name) -- default handler (optional)
+-- 		lspconfig[server_name].setup({})
+-- 	end,
+-- 	-- Next, you can provide targeted overrides for specific servers.
+-- 	["pyright"] = function()
+-- 		lspconfig.pyright.setup({
+-- 			settings = {
+-- 				python = {
+-- 					analysis = {
+-- 						typeCheckingMode = "off",
+-- 					},
+-- 				},
+-- 			},
+-- 		})
+-- 	end,
+-- 	["clangd"] = function()
+-- 		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
+-- 		capabilities_clangd.offsetEncoding = { "utf-16" }
+-- 		lspconfig.clangd.setup({
+-- 			capabilities = capabilities_clangd,
+-- 			-- cmd = { "clangd", "--completion-style=detailed" },
+-- 		})
+-- 	end,
+-- 	["sumneko_lua"] = function()
+-- 		lspconfig.sumneko_lua.setup({
+-- 			settings = {
+-- 				Lua = {
+-- 					diagnostics = {
+-- 						globals = { "vim" },
+-- 					},
+-- 					workspace = {
+-- 						library = {
+-- 							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+-- 							[vim.fn.stdpath("config") .. "/lua"] = true,
+-- 						},
+-- 					},
+-- 					telemetry = {
+-- 						enable = false,
+-- 					},
+-- 				},
+-- 			},
+-- 			single_file_support = true,
+-- 			-- on_attach = function(client, bufnr)
+-- 			-- 	lspconfig.util.default_config.on_attach(client, bufnr)
+-- 			-- end,
+-- 		})
+-- 	end,
+-- 	["sqls"] = function()
+-- 		lspconfig.sqls.setup({
+-- 			settings = {
+-- 				sqls = {
+-- 					connections = {
+-- 						{
+-- 							driver = "mysql",
+-- 							dataSourceName = "dbuser:password@tcp(localhost:3306)/test",
+-- 						},
+-- 					},
+-- 				},
+-- 			},
+-- 		})
+-- 	end,
+-- })
 
 -- null-ls
 local null_ls = require("null-ls")
@@ -477,32 +453,29 @@ null_ls.setup({
 	debug = true,
 	sources = {
 		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.black,
+		-- null_ls.builtins.formatting.black,
 		-- null_ls.builtins.formatting.fixjson,
 		null_ls.builtins.formatting.prettier,
-		null_ls.builtins.formatting.shfmt,
+		-- null_ls.builtins.formatting.shfmt,
 		-- null_ls.builtins.formatting.sql_formatter,
-		null_ls.builtins.formatting.sqlfluff.with({
-			extra_args = { "--dialect", "mysql" },
-		}),
-		null_ls.builtins.diagnostics.sqlfluff.with({
-			extra_args = { "--dialect", "mysql" },
-		}),
-		null_ls.builtins.formatting.markdownlint,
+		-- null_ls.builtins.formatting.sqlfluff.with({
+		-- 	extra_args = { "--dialect", "mysql" },
+		-- }),
+		-- null_ls.builtins.diagnostics.sqlfluff.with({
+		-- 	extra_args = { "--dialect", "mysql" },
+		-- }),
+		-- null_ls.builtins.formatting.markdownlint,
 		-- null_ls.builtins.formatting.goimports,
-		null_ls.builtins.code_actions.eslint,
-		null_ls.builtins.code_actions.shellcheck,
-		-- null_ls.builtins.diagnostics.eslint_d,
-		null_ls.builtins.diagnostics.eslint,
-		null_ls.builtins.diagnostics.pylint.with({
-			prefer_local = ".venv/bin",
-			diagnostics_postprocess = function(diagnostic)
-				diagnostic.code = diagnostic.message_id
-			end,
-		}),
-		null_ls.builtins.diagnostics.golangci_lint,
-		null_ls.builtins.diagnostics.markdownlint,
-		null_ls.builtins.diagnostics.cpplint,
+		-- null_ls.builtins.code_actions.shellcheck,
+		-- null_ls.builtins.diagnostics.pylint.with({
+		-- 	prefer_local = ".venv/bin",
+		-- 	diagnostics_postprocess = function(diagnostic)
+		-- 		diagnostic.code = diagnostic.message_id
+		-- 	end,
+		-- }),
+		-- null_ls.builtins.diagnostics.golangci_lint,
+		-- null_ls.builtins.diagnostics.markdownlint,
+		-- null_ls.builtins.diagnostics.cpplint,
 		-- null_ls.builtins.diagnostics.cppcheck.with({
 		-- 	command = vim.fn.stdpath("data") .. "/mason/packages/cppcheck/cppcheck",
 		-- }),
@@ -512,76 +485,6 @@ null_ls.setup({
 		null_ls.builtins.completion.spell.with({
 			filetypes = { "text", "markdown" },
 		}),
-	},
-})
-
--- Autocomplete completion CMP
-local cmp = require("cmp")
-local select_opts = { behavior = cmp.SelectBehavior.Insert }
-cmp.setup({
-	enabled = function()
-		return vim.api.nvim_buf_get_option(0, "buftype") ~= "prompt" or require("cmp_dap").is_dap_buffer()
-	end,
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "nvim_lua" },
-		{ name = "luasnip" },
-		-- { name = "nvim_lsp_signature_help" },
-		{ name = "path" },
-		{ name = "buffer" },
-		{ name = "dap" },
-	},
-	window = {
-		documentation = cmp.config.window.bordered(),
-	},
-	formatting = {
-		fields = { "menu", "abbr", "kind" },
-		format = function(entry, item)
-			local menu_icon = {
-				nvim_lsp = "λ",
-				luasnip = "⋗",
-				buffer = "Ω",
-				path = "🖫",
-			}
-			item.menu = menu_icon[entry.source.name]
-			return item
-		end,
-	},
-	mapping = {
-		["<C-p>"] = cmp.mapping.select_prev_item(select_opts),
-		["<C-n>"] = cmp.mapping.select_next_item(select_opts),
-		-- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-		-- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-		["<C-e>"] = cmp.mapping.abort(),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
-		["<Tab>"] = cmp.mapping(function(fallback)
-			local col = vim.fn.col(".") - 1
-			if cmp.visible() then
-				cmp.select_next_item(select_opts)
-			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-				fallback()
-			elseif luasnip.jumpable(1) then
-				luasnip.jump(1)
-				cmp.complete()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item(select_opts)
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
 	},
 })
 
@@ -676,7 +579,7 @@ npairs.setup({
 	disable_filetype = { "TelescopePrompt" },
 })
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done({}))
+require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done({}))
 
 -- nvim-tree
 local nvim_tree = require("nvim-tree")
