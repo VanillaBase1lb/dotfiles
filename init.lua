@@ -285,9 +285,9 @@ packer.startup(function(use)
 	-- use({ "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" })
 	-- -- Automatically set up your configuration after cloning packer.nvim
 	-- -- Put this at the end after all plugins
-	-- if PACKER_BOOTSTRAP then
-	--   require("packer").sync()
-	-- end
+	if PACKER_BOOTSTRAP then
+	  require("packer").sync()
+	end
 end)
 
 -- session manager
