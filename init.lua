@@ -94,7 +94,6 @@ vim.keymap.set({ "v", "x" }, "J", ":m '>+1<CR>gv=gv", opts)
 vim.keymap.set({ "n", "v", "x" }, "gp", '"0p', opts)
 vim.keymap.set({ "n", "v", "x" }, "gP", '"0P', opts)
 -- Better text navigation
-vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
 vim.keymap.set({ "n", "v", "x" }, "]]", "]m", opts)
 vim.keymap.set({ "n", "v", "x" }, "[[", "[m", opts)
 -- Insert --
@@ -104,13 +103,6 @@ vim.keymap.set({ "t" }, "kj", "<C-\\><C-n>", opts)
 -- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
 -- Visual --
--- Nvim-tree
-vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":NvimTreeToggle<CR>", opts)
--- Plugins --
--- Toggle
-vim.keymap.set({ "n", "v", "x" }, "<leader>tq", ":BqfToggle<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>tu", ":UndotreeToggle<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>td", require("dapui").toggle, opts)
 vim.keymap.set({ "n", "v", "x" }, "<leader>tc", function()
 	local qf_exists = false
 	for _, win in pairs(vim.fn.getwininfo()) do
@@ -140,16 +132,6 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>tl", function()
 	vim.cmd("lopen")
 end, opts)
 vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, opts)
--- Telescope
-vim.keymap.set({ "n", "v", "x" }, "<leader>ff", ":Telescope find_files<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fg", ":Telescope grep_string<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fs", ":Telescope live_grep<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fp", ":Telescope projects<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fb", ":Telescope buffers<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fh", ":Telescope help_tags<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fr", ":Telescope resume<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>ft", ":Telescope treesitter<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>fm", ":Telescope marks<CR>", opts)
 -- Go to init.lua
 vim.keymap.set({ "n", "v", "x" }, "<leader>gh", ":e " .. vim.fn.stdpath("config") .. "/init.lua<CR>", opts)
 -- LSP/autocomplete keybindings
@@ -173,25 +155,6 @@ vim.keymap.set({ "n", "v", "x" }, "<leader>lf", function()
 		async = true,
 	})
 end, opts)
--- DAP
-vim.keymap.set({ "n", "v", "x" }, "<leader>db", ":DapToggleBreakpoint<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dc", ":DapContinue<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<F5>", ":DapContinue<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>do", ":DapStepOver<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<F10>", ":DapStepOver<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>di", ":DapStepInto<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<F11>", ":DapStepInto<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dO", ":DapStepOut<CR>", opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dp", require("dap").pause, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dl", require("dap").list_breakpoints, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dx", require("dap").clear_breakpoints, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dK", require("dapui").float_element, opts)
-vim.keymap.set({ "n", "v", "x" }, "<leader>dq", ":DapTerminate", opts)
-vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
-vim.keymap.set({ "n" }, "<leader>dB", function()
-	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-end, opts)
--- Others/General
 
 -- Automatically install packer
 local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -285,26 +248,49 @@ packer.startup(function(use)
 	-- use({ "microsoft/vscode-js-debug", opt = true, run = "npm install --legacy-peer-deps && npm run compile" })
 	-- -- Automatically set up your configuration after cloning packer.nvim
 	-- -- Put this at the end after all plugins
-	if PACKER_BOOTSTRAP then
-	  require("packer").sync()
-	end
+	-- if PACKER_BOOTSTRAP then
+	--   require("packer").sync()
+	-- end
 end)
 
--- session manager
-local Path = require("plenary.path")
-require("session_manager").setup({
-	sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
-	path_replacer = "__", -- The character to which the path separator will be replaced for session files.
-	colon_replacer = "++", -- The character to which the colon symbol will be replaced for session files.
-	autoload_mode = require("session_manager.config").AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
-	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
-	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
-	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
-		"gitcommit",
-	},
-	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
-	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
-})
+-- Plugin specific keymappings
+vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
+-- Nvim-tree
+vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":NvimTreeToggle<CR>", opts)
+-- Plugins --
+-- Toggle
+vim.keymap.set({ "n", "v", "x" }, "<leader>tq", ":BqfToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>tu", ":UndotreeToggle<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>td", require("dapui").toggle, opts)
+-- Telescope
+vim.keymap.set({ "n", "v", "x" }, "<leader>ff", ":Telescope find_files<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fg", ":Telescope grep_string<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fs", ":Telescope live_grep<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fp", ":Telescope projects<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fb", ":Telescope buffers<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fh", ":Telescope help_tags<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fr", ":Telescope resume<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>ft", ":Telescope treesitter<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>fm", ":Telescope marks<CR>", opts)
+-- DAP
+vim.keymap.set({ "n", "v", "x" }, "<leader>db", ":DapToggleBreakpoint<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dc", ":DapContinue<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F5>", ":DapContinue<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>do", ":DapStepOver<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F10>", ":DapStepOver<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>di", ":DapStepInto<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<F11>", ":DapStepInto<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dO", ":DapStepOut<CR>", opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dp", require("dap").pause, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dl", require("dap").list_breakpoints, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dx", require("dap").clear_breakpoints, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dK", require("dapui").float_element, opts)
+vim.keymap.set({ "n", "v", "x" }, "<leader>dq", ":DapTerminate", opts)
+vim.keymap.set({ "n", "v" }, "<leader>d=", require("dapui").eval, opts)
+vim.keymap.set({ "n" }, "<leader>dB", function()
+	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, opts)
+
 
 -- General tweaks --
 -- Set wrap and spell in markdown and gitcommit
@@ -328,6 +314,22 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	callback = function()
 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
 	end,
+})
+
+-- session manager
+local Path = require("plenary.path")
+require("session_manager").setup({
+	sessions_dir = Path:new(vim.fn.stdpath("data"), "sessions"), -- The directory where the session files will be saved.
+	path_replacer = "__", -- The character to which the path separator will be replaced for session files.
+	colon_replacer = "++", -- The character to which the colon symbol will be replaced for session files.
+	autoload_mode = require("session_manager.config").AutoloadMode.LastSession, -- Define what to do when Neovim is started without arguments. Possible values: Disabled, CurrentDir, LastSession
+	autosave_last_session = true, -- Automatically save last session on exit and on session switch.
+	autosave_ignore_not_normal = true, -- Plugin will not save a session when no buffers are opened, or all of them aren't writable or listed.
+	autosave_ignore_filetypes = { -- All buffers of these file types will be closed before the session is saved.
+		"gitcommit",
+	},
+	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
+	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
 vim.cmd("colorscheme tokyonight-moon")
 
@@ -360,92 +362,6 @@ vim.diagnostic.config({
 		ghost_text = true,
 	},
 })
-
--- -- LSP config
--- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
--- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
--- local lsp_defaults = {
--- 	flags = {
--- 		debounce_text_changes = 150,
--- 	},
--- 	capabilities = require("cmp_nvim_lsp").default_capabilities(),
--- 	on_attach = function()
--- 		vim.api.nvim_exec_autocmds("User", { pattern = "LspAttached" })
--- 	end,
--- }
--- require("mason").setup({})
--- require("mason-lspconfig").setup({
--- 	automatic_installation = true,
--- })
--- local lspconfig = require("lspconfig")
--- lspconfig.util.default_config = vim.tbl_deep_extend("force", lspconfig.util.default_config, lsp_defaults)
--- -- Add new LSP servers here
--- require("mason-lspconfig").setup_handlers({
--- 	-- The first entry (without a key) will be the default handler
--- 	-- and will be called for each installed server that doesn't have
--- 	-- a dedicated handler.
--- 	function(server_name) -- default handler (optional)
--- 		lspconfig[server_name].setup({})
--- 	end,
--- 	-- Next, you can provide targeted overrides for specific servers.
--- 	["pyright"] = function()
--- 		lspconfig.pyright.setup({
--- 			settings = {
--- 				python = {
--- 					analysis = {
--- 						typeCheckingMode = "off",
--- 					},
--- 				},
--- 			},
--- 		})
--- 	end,
--- 	["clangd"] = function()
--- 		local capabilities_clangd = vim.lsp.protocol.make_client_capabilities()
--- 		capabilities_clangd.offsetEncoding = { "utf-16" }
--- 		lspconfig.clangd.setup({
--- 			capabilities = capabilities_clangd,
--- 			-- cmd = { "clangd", "--completion-style=detailed" },
--- 		})
--- 	end,
--- 	["sumneko_lua"] = function()
--- 		lspconfig.sumneko_lua.setup({
--- 			settings = {
--- 				Lua = {
--- 					diagnostics = {
--- 						globals = { "vim" },
--- 					},
--- 					workspace = {
--- 						library = {
--- 							[vim.fn.expand("$VIMRUNTIME/lua")] = true,
--- 							[vim.fn.stdpath("config") .. "/lua"] = true,
--- 						},
--- 					},
--- 					telemetry = {
--- 						enable = false,
--- 					},
--- 				},
--- 			},
--- 			single_file_support = true,
--- 			-- on_attach = function(client, bufnr)
--- 			-- 	lspconfig.util.default_config.on_attach(client, bufnr)
--- 			-- end,
--- 		})
--- 	end,
--- 	["sqls"] = function()
--- 		lspconfig.sqls.setup({
--- 			settings = {
--- 				sqls = {
--- 					connections = {
--- 						{
--- 							driver = "mysql",
--- 							dataSourceName = "dbuser:password@tcp(localhost:3306)/test",
--- 						},
--- 					},
--- 				},
--- 			},
--- 		})
--- 	end,
--- })
 
 -- null-ls
 local null_ls = require("null-ls")
