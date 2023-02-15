@@ -469,7 +469,7 @@ telescope.load_extension("projects")
 -- TreeSitter
 local configs = require("nvim-treesitter.configs")
 configs.setup({
-	ensure_installed = "all", -- one of "all" or a list of languages
+	ensure_installed = "lua", -- one of "all" or a list of languages
 	ignore_install = { "" }, -- List of parsers to ignore installing
 	highlight = {
 		enable = true, -- false will disable the whole extension
