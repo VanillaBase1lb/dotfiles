@@ -235,6 +235,7 @@ packer.startup(function(use)
 	use({ "VonHeikemen/lsp-zero.nvim" }) -- enable LSP
 	-- use({ "RRethy/vim-illuminate" })
 	use({ "jose-elias-alvarez/null-ls.nvim" })
+	use({ "jay-babu/mason-null-ls.nvim" })
 	use({ "hrsh7th/cmp-nvim-lsp-signature-help" })
 	-- Telescope
 	use({ "nvim-telescope/telescope.nvim" })
@@ -291,7 +292,6 @@ vim.keymap.set({ "n" }, "<leader>dB", function()
 	require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
 end, opts)
 
-
 -- General tweaks --
 -- Set wrap and spell in markdown and gitcommit
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -309,12 +309,12 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
 		-- vim.cmd("GuessIndent")
 	end,
 })
--- Highlight Yanked Text
-vim.api.nvim_create_autocmd({ "TextYankPost" }, {
-	callback = function()
-		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
-	end,
-})
+-- Highlight Yanked Text ( commented due to bug when used with virtualedit=all)
+-- vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+-- 	callback = function()
+-- 		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+-- 	end,
+-- })
 
 -- session manager
 local Path = require("plenary.path")
@@ -334,23 +334,19 @@ require("session_manager").setup({
 vim.cmd("colorscheme tokyonight-moon")
 
 -- LSP zero config
-local lsp = require("lsp-zero")
-lsp.preset("recommended")
-
--- -- EFM
--- lsp.configure("efm", {
--- 	init_options = { documentFormatting = true },
--- 	settings = {
--- 		languages = {
--- 			lua = {
--- 				{ formatCommand = "stylua" .. " -", formatStdin = true },
--- 			},
--- 		},
--- 	},
--- })
-
-lsp.set_preferences({
+local lsp = require("lsp-zero").preset({
+	name = "recommended",
+	manage_nvim_cmp = true,
+	suggest_lsp_servers = true,
 	set_lsp_keymaps = { omit = { "K, <F4>" } },
+})
+lsp.setup_nvim_cmp({
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "path" },
+		{ name = "luasnip", keyword_length = 2 },
+		{ name = "buffer", keyword_length = 3 },
+	},
 })
 lsp.nvim_workspace()
 lsp.setup()
@@ -365,42 +361,28 @@ vim.diagnostic.config({
 
 -- null-ls
 local null_ls = require("null-ls")
-null_ls.setup({
-	debug = true,
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		-- null_ls.builtins.formatting.black,
-		-- null_ls.builtins.formatting.fixjson,
-		null_ls.builtins.formatting.prettier,
-		-- null_ls.builtins.formatting.shfmt,
-		-- null_ls.builtins.formatting.sql_formatter,
-		-- null_ls.builtins.formatting.sqlfluff.with({
-		-- 	extra_args = { "--dialect", "mysql" },
-		-- }),
-		-- null_ls.builtins.diagnostics.sqlfluff.with({
-		-- 	extra_args = { "--dialect", "mysql" },
-		-- }),
-		-- null_ls.builtins.formatting.markdownlint,
-		-- null_ls.builtins.formatting.goimports,
-		-- null_ls.builtins.code_actions.shellcheck,
-		-- null_ls.builtins.diagnostics.pylint.with({
-		-- 	prefer_local = ".venv/bin",
-		-- 	diagnostics_postprocess = function(diagnostic)
-		-- 		diagnostic.code = diagnostic.message_id
-		-- 	end,
-		-- }),
-		-- null_ls.builtins.diagnostics.golangci_lint,
-		-- null_ls.builtins.diagnostics.markdownlint,
-		-- null_ls.builtins.diagnostics.cpplint,
-		-- null_ls.builtins.diagnostics.cppcheck.with({
-		-- 	command = vim.fn.stdpath("data") .. "/mason/packages/cppcheck/cppcheck",
-		-- }),
-		null_ls.builtins.diagnostics.luacheck.with({
+local null_opts = lsp.build_options("null-ls", {})
+require("mason-null-ls").setup({
+	ensure_installed = {},
+	automatic_installation = false,
+	automatic_setup = true,
+})
+require("mason-null-ls").setup_handlers({
+	function(source_name, methods)
+		require("mason-null-ls.automatic_setup")(source_name, methods)
+	end,
+	luacheck = function(_, _)
+		null_ls.register(null_ls.builtins.diagnostics.luacheck.with({
 			extra_args = { "--globals", "vim" },
-		}),
-		null_ls.builtins.completion.spell.with({
-			filetypes = { "text", "markdown" },
-		}),
+		}))
+	end,
+})
+null_ls.setup({
+	on_attach = function(client, bufnr)
+		null_opts.on_attach(client, bufnr)
+	end,
+	sources = {
+		-- You can add tools not supported by mason.nvim
 	},
 })
 
@@ -499,8 +481,6 @@ require("cmp").event:on("confirm_done", cmp_autopairs.on_confirm_done({}))
 
 -- nvim-tree
 local nvim_tree = require("nvim-tree")
-local nvim_tree_config = require("nvim-tree.config")
-local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup({
 	git = {
 		ignore = false,
@@ -548,18 +528,6 @@ nvim_tree.setup({
 			info = "",
 			warning = "",
 			error = "",
-		},
-	},
-	view = {
-		width = 30,
-		-- height = 30,
-		side = "left",
-		mappings = {
-			list = {
-				{ key = { "l", "<CR>", "o" }, cb = tree_cb("edit") },
-				{ key = "h", cb = tree_cb("close_node") },
-				{ key = "v", cb = tree_cb("vsplit") },
-			},
 		},
 	},
 })
@@ -877,7 +845,7 @@ lualine.setup({
 -- })
 
 -- which-key.nvim
-require("which-key").setup()
+-- require("which-key").setup()
 
 -- nvim-bqf
 require("bqf").setup({
