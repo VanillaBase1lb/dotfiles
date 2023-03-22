@@ -100,8 +100,9 @@ vim.keymap.set({ "n", "v", "x" }, "[[", "[m", opts)
 -- Press jk fast to enter
 vim.keymap.set({ "i", "c" }, "kj", "<ESC>", opts)
 vim.keymap.set({ "t" }, "kj", "<C-\\><C-n>", opts)
--- Press <C-BS> ctrl-backspace to delete previous word similar to <C-w>
+-- Press <C-BS> ctrl-backspace and <A-BS> alt-backspace to delete previous word similar to <C-w>
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-w>", opts)
+vim.keymap.set({ "i", "c" }, "<A-BS>", "<C-w>", opts)
 -- Visual --
 vim.keymap.set({ "n", "v", "x" }, "<leader>tc", function()
 	local qf_exists = false
@@ -331,7 +332,7 @@ require("session_manager").setup({
 	autosave_only_in_session = false, -- Always autosaves session. If true, only autosaves after a session is active.
 	max_path_length = 80, -- Shorten the display path if length exceeds this threshold. Use 0 if don't want to shorten the path at all.
 })
-vim.cmd("colorscheme tokyonight-moon")
+vim.cmd("colorscheme vscode")
 
 -- LSP zero config
 local lsp = require("lsp-zero").preset({
@@ -899,7 +900,7 @@ require("gitsigns").setup({
 })
 
 -- Copilot
-vim.g.copilot_node_command = "~/.nvm/versions/node/v17.9.1/bin/node"
+-- vim.g.copilot_node_command = "~/.nvm/versions/node/v17.9.1/bin/node"
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
