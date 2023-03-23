@@ -256,7 +256,7 @@ packer.startup(function(use)
 end)
 
 -- Plugin specific keymappings
-vim.keymap.set({ "n", "v", "x" }, "s", require("hop").hint_char1, opts)
+vim.keymap.set({ "n", "x" }, "s", require("hop").hint_char1, opts)
 -- Nvim-tree
 vim.keymap.set({ "n", "v", "x" }, "<leader>e", ":NvimTreeToggle<CR>", opts)
 -- Plugins --
@@ -345,7 +345,7 @@ lsp.setup_nvim_cmp({
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "path" },
-		{ name = "luasnip", keyword_length = 2 },
+		{ name = "luasnip" },
 		{ name = "buffer", keyword_length = 3 },
 	},
 })
@@ -392,6 +392,10 @@ local telescope = require("telescope")
 local telescope_actions = require("telescope.actions")
 telescope.setup({
 	defaults = {
+		layout_config = {
+			prompt_position = "top",
+		},
+		sorting_strategy = "ascending",
 		prompt_prefix = " ",
 		selection_caret = " ",
 		path_display = { "smart" },
