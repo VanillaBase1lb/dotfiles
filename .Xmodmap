@@ -15,9 +15,9 @@ add Control = Control_R
 
 ! swap Alt_L and shift
 !
-remove mod1 = Alt_L
-remove shift = Shift_L
-keysym Shift_L = Alt_L
-keysym Alt_L = Shift_L
-add shift = Shift_L
-add mod1 = Alt_L
+!remove mod1 = Alt_L
+!remove shift = Shift_L
+!keysym Shift_L = Alt_L
+!keysym Alt_L = Shift_L
+!add shift = Shift_L
+!add mod1 = Alt_L
