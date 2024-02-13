@@ -683,6 +683,8 @@ vim.opt.guicursor = "n:blinkon1"
 
 vim.keymap.set({ "n", "v", "x" }, "L", "<C-d>")
 vim.keymap.set({ "n", "v", "x" }, "H", "<C-u>")
+vim.keymap.set({ "n", "v", "x" }, "<C-h>", ":bprev<CR>")
+vim.keymap.set({ "n", "v", "x" }, "<C-l>", ":bnext<CR>")
 vim.keymap.set({ "n", "v", "x" }, "gp", '"0p')
 vim.keymap.set({ "n", "v", "x" }, "gP", '"0P')
 vim.keymap.set({ "i", "c" }, "kj", "<ESC>")
