@@ -104,11 +104,13 @@ vim.opt.virtualedit = 'all'
 vim.opt.whichwrap:append '[,]'
 vim.opt.iskeyword:append '-'
 vim.opt.pumheight = 10
+vim.opt.wrap = false
 
 vim.keymap.set({ 'n', 'v', 'x' }, 'L', '<C-d>')
 vim.keymap.set({ 'n', 'v', 'x' }, 'H', '<C-u>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<C-h>', ':bprev<CR>')
 vim.keymap.set({ 'n', 'v', 'x' }, '<C-l>', ':bnext<CR>')
+vim.keymap.set({ 'v', 'x' }, 'p', '"_dP')
 vim.keymap.set({ 'n', 'v', 'x' }, 'gp', '"0p')
 vim.keymap.set({ 'n', 'v', 'x' }, 'gP', '"0P')
 vim.keymap.set({ 'i' }, 'kj', '<ESC>')
@@ -117,8 +119,13 @@ vim.keymap.set({ 'i', 'c' }, '<C-h>', '<C-w>')
 vim.keymap.set({ 'i', 'c' }, '<A-BS>', '<C-w>')
 vim.keymap.set({ 'n' }, '<leader>q', ':q<CR>', { desc = '[Q]uit window' })
 vim.keymap.set({ 'n' }, '<leader>w', ':w<CR>', { desc = '[W]rite buffer' })
-vim.keymap.set({ 'n' }, '<leader>c', ':bd<CR>', { desc = 'delete buffer' })
-vim.keymap.set({ 'n' }, '<leader>C', ':bd!<CR>', { desc = 'delete buffer' })
+vim.keymap.set({ 'n' }, 'Q', ':bd<CR>', { desc = 'delete buffer' })
+vim.keymap.set({ 'n' }, '<C-Up>', ':resize -2<CR>', { desc = 'resize window' })
+vim.keymap.set({ 'n' }, '<C-Down>', ':resize +2<CR>', { desc = 'resize window' })
+vim.keymap.set({ 'n' }, '<C-Left>', ':vertical resize -2<CR>', { desc = 'resize window' })
+vim.keymap.set({ 'n' }, '<C-Right>', ':vertical resize +2<CR>', { desc = 'resize window' })
+vim.keymap.set({ 'v' }, '<', '<gv')
+vim.keymap.set({ 'v' }, '>', '>gv')
 
 -- [[ Basic Autocommands ]]
 --  See :help lua-guide-autocommands
