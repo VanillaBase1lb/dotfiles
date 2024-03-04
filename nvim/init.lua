@@ -697,8 +697,8 @@ require('lazy').setup {
 
       require('mini.pairs').setup()
       require('mini.map').setup()
-      vim.keymap.set('n', '<leader>mt', MiniMap.toggle, { desc = 'MiniMap Toggle' })
-      vim.keymap.set('n', '<leader>mw', MiniMap.toggle_focus, { desc = 'MiniMap Focus Toggle' })
+      vim.keymap.set('n', '<leader>mt', require('mini.map').toggle, { desc = 'MiniMap Toggle' })
+      vim.keymap.set('n', '<leader>mw', require('mini.map').toggle_focus, { desc = 'MiniMap Focus Toggle' })
     end,
   },
 
@@ -863,6 +863,20 @@ require('lazy').setup {
     end,
   },
   'tpope/vim-surround', -- Detect tabstop and shiftwidth automatically
+  {
+    'jiaoshijie/undotree',
+    event = 'VeryLazy',
+    dependencies = 'nvim-lua/plenary.nvim',
+    config = true,
+    keys = { -- load the plugin only when using it's keybinding:
+      {
+        '<leader>u',
+        function()
+          require('undotree').toggle()
+        end,
+      },
+    },
+  },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
