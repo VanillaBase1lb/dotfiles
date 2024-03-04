@@ -91,11 +91,11 @@ vim.opt.iskeyword:append '-'
 vim.opt.pumheight = 10
 vim.opt.wrap = false
 
-vim.keymap.set({ 'n', 'v', 'x' }, 'L', '<C-d>')
-vim.keymap.set({ 'n', 'v', 'x' }, 'H', '<C-u>')
-vim.keymap.set({ 'n', 'v', 'x' }, '<C-h>', ':bprev<CR>')
-vim.keymap.set({ 'n', 'v', 'x' }, '<C-l>', ':bnext<CR>')
-vim.keymap.set({ 'v', 'x' }, 'p', '"_dP')
+vim.keymap.set({ 'n', 'x' }, 'L', '<C-d>')
+vim.keymap.set({ 'n', 'x' }, 'H', '<C-u>')
+vim.keymap.set({ 'n', 'x' }, '<C-h>', ':bprev<CR>')
+vim.keymap.set({ 'n', 'x' }, '<C-l>', ':bnext<CR>')
+vim.keymap.set({ 'x' }, 'p', '"_dP')
 vim.keymap.set({ 'n', 'v', 'x' }, 'gp', '"0p')
 vim.keymap.set({ 'n', 'v', 'x' }, 'gP', '"0P')
 vim.keymap.set({ 'i' }, 'kj', '<ESC>')
@@ -324,7 +324,11 @@ require('lazy').setup {
       vim.keymap.set('n', '<leader>sn', function()
         builtin.find_files { cwd = vim.fn.stdpath 'config' }
       end, { desc = '[S]earch [N]eovim files' })
-      vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, { desc = 'Fuzzily search in current buffer' })
+      vim.keymap.set('n', '<leader>/', function()
+        builtin.current_buffer_fuzzy_find {
+          previewer = false,
+        }
+      end, { desc = 'Fuzzily search in current buffer' })
     end,
   },
 
@@ -519,15 +523,11 @@ require('lazy').setup {
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
-            require('lspconfig')[server_name].setup {
-              cmd = server.cmd,
-              settings = server.settings,
-              filetypes = server.filetypes,
-              -- This handles overriding only values explicitly passed
-              -- by the server configuration above. Useful when disabling
-              -- certain features of an LSP (for example, turning off formatting for tsserver)
-              capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {}),
-            }
+            -- This handles overriding only values explicitly passed
+            -- by the server configuration above. Useful when disabling
+            -- certain features of an LSP (for example, turning off formatting for tsserver)
+            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+            require('lspconfig')[server_name].setup(server)
           end,
         },
       }
@@ -536,6 +536,7 @@ require('lazy').setup {
 
   { -- Autoformat
     'stevearc/conform.nvim',
+    event = 'VeryLazy',
     keys = {
       {
         '<leader>lf',
@@ -571,6 +572,7 @@ require('lazy').setup {
       -- Snippet Engine & its associated nvim-cmp source
       {
         'L3MON4D3/LuaSnip',
+        dependencies = { 'rafamadriz/friendly-snippets' },
         build = (function()
           -- Build Step is needed for regex support in snippets
           -- This step is not supported in many windows environments
@@ -600,6 +602,7 @@ require('lazy').setup {
       local cmp = require 'cmp'
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
+      require('luasnip.loaders.from_vscode').lazy_load()
 
       cmp.setup {
         snippet = {
@@ -635,14 +638,14 @@ require('lazy').setup {
           --    $body
           --  end
           --
-          -- <c-l> will move you to the right of each of the expansion locations.
-          -- <c-h> is similar, except moving you backwards.
-          ['<C-l>'] = cmp.mapping(function()
+          -- <c-j> will move you to the right of each of the expansion locations.
+          -- <c-k> is similar, except moving you backwards.
+          ['<C-j>'] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
           end, { 'i', 's' }),
-          ['<C-h>'] = cmp.mapping(function()
+          ['<C-k>'] = cmp.mapping(function()
             if luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
             end
@@ -754,6 +757,7 @@ require('lazy').setup {
     -- NOTE: Yes, you can install new plugins here!
     'mfussenegger/nvim-dap',
     -- NOTE: And you can specify dependencies as well
+    event = 'VeryLazy',
     dependencies = {
       -- Creates a beautiful debugger UI
       'rcarriga/nvim-dap-ui',
