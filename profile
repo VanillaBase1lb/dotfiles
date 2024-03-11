@@ -52,6 +52,7 @@ unset MANPATH
 # set xdg variables, which should be set by default
 export EDITOR=vim
 export VISUAL=vim
+export PAGER=less
 export LANG=en_US.UTF-8
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
