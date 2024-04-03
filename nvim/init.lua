@@ -1,5 +1,4 @@
--- Set <space> as the leader key
--- See `:help mapleader`
+-- Set <space> as the leader key See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -857,6 +856,12 @@ require("lazy").setup({
 		},
 		init = function()
 			vim.g.barbar_auto_setup = false
+			vim.api.nvim_create_autocmd({ "BufRead", "BufDelete" }, {
+				desc = "barbar.nvim customization - Reorder buffers by buffer number",
+				callback = function()
+					vim.cmd("BufferOrderByBufferNumber")
+				end,
+			})
 		end,
 		opts = {
 			-- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
